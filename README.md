@@ -1,0 +1,1 @@
+# LexieLingua---Ultra-Fast-AI-Companion-Document-Synthesizer
