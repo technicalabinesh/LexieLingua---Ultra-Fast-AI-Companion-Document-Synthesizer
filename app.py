@@ -86,7 +86,7 @@ def save_summary_to_db(summary_data: dict):
 
 PREMIUM_EFFECTS_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
     --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #D946EF 100%);
@@ -95,15 +95,46 @@ PREMIUM_EFFECTS_CSS = """
     --glass-shadow: 0 14px 34px -10px rgba(99, 102, 241, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
 }
 
-html, body, p, h1, h2, h3, h4, h5, h6, label {
-    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-    color: #0F172A !important;
+/* Global Typography & High Contrast Fixes */
+html, body, p, h1, h2, h3, h4, h5, h6, span, label, div {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    color: #0F172A;
+}
+
+/* Bullet Points & Lists Visibility Fix */
+ul, ol {
+    margin-left: 20px !important;
+    padding-left: 10px !important;
+}
+
+li {
+    color: #1E293B !important;
+    font-size: 0.96rem !important;
+    line-height: 1.65 !important;
+    margin-bottom: 6px !important;
+}
+
+li::marker {
+    color: #4F46E5 !important;
+    font-weight: bold !important;
+}
+
+/* Inline Code Badges */
+code:not(pre code) {
+    background: #EEF2FF !important;
+    color: #4338CA !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.88em !important;
+    padding: 3px 7px !important;
+    border-radius: 6px !important;
+    border: 1px solid #E0E7FF !important;
+    font-weight: 600 !important;
 }
 
 .stApp {
     background: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(217, 70, 239, 0.09) 0%, transparent 40%),
+        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(217, 70, 239, 0.08) 0%, transparent 40%),
         linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%) !important;
     background-attachment: fixed;
 }
@@ -216,29 +247,28 @@ div[data-testid="stChatInput"] > div {
 .chat-user {
     background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
     color: #FFFFFF !important;
-    padding: 12px 18px;
+    padding: 14px 20px;
     border-radius: 18px 18px 4px 18px;
-    margin: 10px 0 10px auto;
+    margin: 12px 0 12px auto;
     max-width: 82%;
     box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.96rem;
+    line-height: 1.55;
 }
 .chat-user * { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
 
 .chat-ai {
     background: #FFFFFF !important;
     color: #0F172A !important;
-    padding: 16px 20px;
+    padding: 18px 24px;
     border-radius: 18px 18px 18px 4px;
-    margin: 10px 0;
-    max-width: 88%;
+    margin: 12px 0;
+    max-width: 90%;
     border: 1px solid var(--border);
     box-shadow: var(--glass-shadow);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.96rem;
+    line-height: 1.65;
 }
-.chat-ai * { color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; }
 
 .metric-box {
     background: #FFFFFF !important;
@@ -308,7 +338,9 @@ with nav_cols[2]:
 
 st.write("")
 
+# ============================================================
 # VIEW 1: CONVERSATIONAL AI
+# ============================================================
 if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
@@ -330,15 +362,21 @@ if st.session_state.page == "chat":
                 )
 
             for turn in st.session_state.chat_history:
-                css_class = "chat-user" if turn["role"] == "user" else "chat-ai"
-                sender = "👤 You" if turn["role"] == "user" else "✨ LexieLingua AI"
-                st.markdown(
-                    f'<div class="{css_class}">'
-                    f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">{sender}</div>'
-                    f'<div>{turn["content"]}</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
+                if turn["role"] == "user":
+                    st.markdown(
+                        f'<div class="chat-user">'
+                        f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>'
+                        f'<div>{turn["content"]}</div>'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    with st.container():
+                        st.markdown(
+                            '<div style="font-size:0.78rem; color:#4F46E5; font-weight:800; margin:8px 0 2px;">✨ LexieLingua AI</div>',
+                            unsafe_allow_html=True,
+                        )
+                        st.markdown(turn["content"])
 
         user_input = st.chat_input("Ask anything...")
         if st.session_state.pending_prompt:
@@ -355,7 +393,7 @@ if st.session_state.page == "chat":
             )
             save_chat_message(st.session_state.session_id, "user", user_input)
 
-            st.markdown('<div style="font-size:0.75rem; color:#4F46E5; margin:10px 0 2px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
+            st.markdown('<div style="font-size:0.78rem; color:#4F46E5; margin:12px 0 4px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
             stream_gen = stream_answer(user_input, st.session_state.chat_history)
             full_ai_response = st.write_stream(stream_gen)
 
@@ -391,7 +429,9 @@ if st.session_state.page == "chat":
                 st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
+# ============================================================
 # VIEW 2: DOCUMENT SUMMARIZER
+# ============================================================
 elif st.session_state.page == "summarizer":
     st.markdown(
         '<div class="hero-card">'
@@ -442,7 +482,9 @@ elif st.session_state.page == "summarizer":
                 }
                 save_summary_to_db(summary_payload)
 
+# ============================================================
 # VIEW 3: ARCHITECTURE
+# ============================================================
 else:
     st.markdown(
         '<div class="hero-card">'
