@@ -10,7 +10,6 @@ import streamlit as st
 from dotenv import load_dotenv
 
 from chatbot import (
-    FAQ_KNOWLEDGE_BASE,
     stream_answer,
     is_ai_mode_available as chat_ai_available,
 )
@@ -26,86 +25,126 @@ from utils import extract_text
 load_dotenv()
 
 st.set_page_config(
-    page_title="LexieLingua AI | ChatGPT-grade Intelligence",
-    page_icon="✦",
+    page_title="LexieLingua AI | Intelligent Copilot",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
 # ============================================================
-# BULLETPROOF SAAS CSS DESIGN SYSTEM
+# ULTRA-MODERN FROSTED GLASS & MOTION CSS
 # ============================================================
-MODERN_CSS = """
+PREMIUM_EFFECTS_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    --primary: #4F46E5;
-    --primary-hover: #4338CA;
-    --dark: #0F172A;
+    --primary-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #D946EF 100%);
+    --secondary-gradient: linear-gradient(135deg, #0EA5E9 0%, #3B82F6 100%);
+    --dark: #0B0F19;
+    --dark-muted: #1E293B;
     --slate: #475569;
-    --border: #E2E8F0;
-    --card-bg: #FFFFFF;
-    --glass-shadow: 0 10px 30px -4px rgba(79, 70, 229, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --glass-border: rgba(226, 232, 240, 0.8);
+    --glass-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+    --hover-glow: 0 12px 28px -6px rgba(99, 102, 241, 0.28);
 }
 
-/* Global Font & Text */
+/* Global Font & Smooth Scrolling */
 html, body, p, h1, h2, h3, h4, h5, h6, label {
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    color: var(--dark) !important;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    color: #0F172A !important;
 }
 
+/* Dynamic Glowing Gradient Background */
 .stApp {
-    background: radial-gradient(circle at 10% 10%, #EDE9FE 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, #E0E7FF 0%, transparent 40%),
-                linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%) !important;
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(217, 70, 239, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.10) 0%, transparent 60%),
+        linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%) !important;
+    background-attachment: fixed;
 }
 
 .main .block-container {
-    max-width: 1180px;
-    padding: 1.5rem 1.5rem 3.5rem;
+    max-width: 1200px;
+    padding: 1.25rem 1.75rem 4rem;
 }
 
-/* Navbar */
+/* Glassmorphism Header Bar */
 .nav-container {
-    background: #FFFFFF !important;
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 12px 24px;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    padding: 14px 28px;
     box-shadow: var(--glass-shadow);
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-container:hover {
+    box-shadow: 0 24px 45px -12px rgba(99, 102, 241, 0.18);
 }
 
 .brand-logo {
-    font-size: 1.35rem;
+    font-size: 1.45rem;
     font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #0F172A !important;
+    letter-spacing: -0.04em;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.brand-highlight { color: #4F46E5 !important; }
-
-/* Status Badges */
+/* Pulsing Online Radar Badge */
 .status-pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
+    gap: 8px;
+    padding: 7px 16px;
     border-radius: 9999px;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 700;
+    letter-spacing: -0.01em;
 }
 
 .status-online {
-    background: #ECFDF5 !important;
+    background: rgba(236, 253, 245, 0.9) !important;
     color: #059669 !important;
     border: 1px solid #A7F3D0;
+    box-shadow: 0 2px 10px rgba(5, 150, 105, 0.12);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10B981;
+    border-radius: 50%;
+    position: relative;
+}
+
+.status-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: inherit;
+    border-radius: inherit;
+    animation: radarPulse 1.8s ease-out infinite;
+}
+
+@keyframes radarPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(3); opacity: 0; }
 }
 
 .status-offline {
@@ -114,226 +153,227 @@ html, body, p, h1, h2, h3, h4, h5, h6, label {
     border: 1px solid #FDE68A;
 }
 
-/* Cards */
+/* Glass UI Cards */
 .ui-card {
-    background: #FFFFFF !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 20px;
-    padding: 22px;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 22px;
+    padding: 24px;
     box-shadow: var(--glass-shadow);
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
 
-/* Buttons */
+.ui-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hover-glow);
+}
+
+/* Hero Header Pill Card */
+.hero-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 244, 246, 0.75) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 24px;
+    padding: 26px 30px;
+    margin-bottom: 18px;
+    box-shadow: 0 12px 30px -8px rgba(79, 70, 229, 0.08);
+}
+
+.hero-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0 0 6px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Gradient Action Buttons */
 div[data-testid="stButton"] > button {
-    border-radius: 12px !important;
+    border-radius: 14px !important;
     font-weight: 700 !important;
-    font-size: 0.92rem !important;
-    padding: 10px 18px !important;
-    min-height: 44px !important;
-    transition: all 0.15s ease-in-out !important;
+    font-size: 0.93rem !important;
+    padding: 10px 20px !important;
+    min-height: 46px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
-    background: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px);
     color: #1E293B !important;
     border: 1px solid #CBD5E1 !important;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    background: #F8FAFC !important;
-    border-color: #94A3B8 !important;
-    color: #4F46E5 !important;
+    background: #FFFFFF !important;
+    border-color: #6366F1 !important;
+    color: #6366F1 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.2) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"] {
-    background: #4F46E5 !important;
+    background: var(--primary-gradient) !important;
     color: #FFFFFF !important;
-    border: 1px solid #4338CA !important;
-    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25) !important;
+    border: none !important;
+    box-shadow: 0 6px 20px -2px rgba(99, 102, 241, 0.38) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"]:hover {
-    background: #4338CA !important;
-    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35) !important;
+    transform: translateY(-2px) scale(1.01) !important;
+    box-shadow: 0 10px 25px -2px rgba(99, 102, 241, 0.5) !important;
 }
 
-/* Chat Input */
-div[data-testid="stChatInput"] { background: transparent !important; }
+/* Chat Input Bar */
+div[data-testid="stChatInput"] { 
+    background: transparent !important; 
+}
+
 div[data-testid="stChatInput"] > div {
-    background: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px);
     border: 1.5px solid #CBD5E1 !important;
-    border-radius: 16px !important;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
-}
-div[data-testid="stChatInput"] textarea {
-    background: #FFFFFF !important;
-    color: #0F172A !important;
-    font-size: 0.96rem !important;
-}
-div[data-testid="stChatInput"] button {
-    background: #4F46E5 !important;
-    border-radius: 10px !important;
-    color: #FFFFFF !important;
+    border-radius: 18px !important;
+    box-shadow: 0 10px 30px -6px rgba(15, 23, 42, 0.08) !important;
+    transition: all 0.2s ease;
 }
 
-/* Chat Message Bubbles */
+div[data-testid="stChatInput"] > div:focus-within {
+    border-color: #6366F1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18), 0 12px 32px -4px rgba(99, 102, 241, 0.2) !important;
+}
+
+/* Chat Bubbles */
 .chat-user {
-    background: #4F46E5 !important;
+    background: var(--primary-gradient) !important;
     color: #FFFFFF !important;
-    padding: 14px 18px;
-    border-radius: 18px 18px 4px 18px;
-    margin: 10px 0 10px auto;
-    max-width: 84%;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.18);
+    padding: 16px 20px;
+    border-radius: 20px 20px 4px 20px;
+    margin: 12px 0 12px auto;
+    max-width: 82%;
+    box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.3);
     font-size: 0.96rem;
+    animation: fadeInSlide 0.3s ease-out;
 }
 .chat-user * { color: #FFFFFF !important; }
 
 .chat-ai {
-    background: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(16px);
     color: #0F172A !important;
-    padding: 18px 22px;
-    border-radius: 18px 18px 18px 4px;
-    margin: 10px 0;
+    padding: 20px 24px;
+    border-radius: 20px 20px 20px 4px;
+    margin: 12px 0;
     max-width: 88%;
-    border: 1px solid var(--border);
+    border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
-    font-size: 0.96rem;
-    line-height: 1.65;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    animation: fadeInSlide 0.3s ease-out;
 }
 
-/* Code Blocks */
-div[data-testid="stCodeBlock"],
-div[data-testid="stCodeBlock"] > div,
-pre {
-    background-color: #0F172A !important;
-    border-radius: 12px !important;
-    border: 1px solid #1E293B !important;
-    margin: 12px 0 !important;
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-div[data-testid="stCodeBlock"] *,
-pre * {
-    background-color: transparent !important;
-    background: transparent !important;
-    font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace !important;
-}
-
-div[data-testid="stCodeBlock"] code,
-div[data-testid="stCodeBlock"] span,
-pre code,
-pre span {
-    color: #F8FAFC !important;
-    font-size: 0.92rem !important;
-    line-height: 1.55 !important;
-}
-
-/* Inline Code */
-p > code, li > code {
-    background-color: #EEF2FF !important;
-    color: #4F46E5 !important;
-    padding: 2px 7px !important;
-    border-radius: 6px !important;
-    font-family: 'Fira Code', monospace !important;
-    font-size: 0.88rem !important;
-    font-weight: 600 !important;
-    border: 1px solid #E0E7FF !important;
-}
-
-/* File Uploader */
-div[data-testid="stFileUploader"] {
-    background: #FFFFFF !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 18px !important;
-    padding: 16px !important;
-    box-shadow: var(--glass-shadow) !important;
-}
-
-div[data-testid="stFileUploaderDropzone"] {
-    background: #F8FAFC !important;
-    border: 2px dashed #CBD5E1 !important;
-    border-radius: 12px !important;
-    padding: 18px !important;
-}
-
-div[data-testid="stFileUploaderDropzone"] * {
-    color: #1E293B !important;
-}
-
-div[data-testid="stFileUploaderDropzone"] button {
-    background: #FFFFFF !important;
-    color: #0F172A !important;
-    border: 1px solid #CBD5E1 !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
-}
-
-div[data-testid="stFileUploaderDropzone"] button:hover {
-    background: #EEF2FF !important;
-    border-color: #4F46E5 !important;
-    color: #4F46E5 !important;
-}
-
-/* Uploaded file list item */
-div[data-testid="stFileUploaderFile"] {
-    background: #F1F5F9 !important;
-    border-radius: 10px !important;
+/* Quick Prompt Chip Buttons */
+.chip-wrapper div[data-testid="stButton"] > button {
+    text-align: left !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.7) !important;
     border: 1px solid #E2E8F0 !important;
-    padding: 10px 14px !important;
-    margin-top: 10px !important;
+    font-size: 0.88rem !important;
+    padding: 12px 16px !important;
+    margin-bottom: 4px !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
 }
 
-div[data-testid="stFileUploaderFile"] * {
-    color: #0F172A !important;
-    font-weight: 600 !important;
-}
-
-div[data-testid="stFileUploaderFile"] svg {
-    fill: #4F46E5 !important;
-}
-
-/* Slider Track & Indicator */
-div[data-testid="stSlider"] [role="slider"] {
-    background-color: #4F46E5 !important;
-}
-
-div[data-baseweb="slider"] div[style*="background-color: rgb(255, 75, 75)"],
-div[data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"] {
-    background-color: #4F46E5 !important;
-}
-
-div[data-testid="stSlider"] span {
-    color: #4F46E5 !important;
-    font-weight: 700 !important;
-}
-
-/* Metric Boxes */
-.metric-box {
+.chip-wrapper div[data-testid="stButton"] > button:hover {
     background: #FFFFFF !important;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
+    border-color: #6366F1 !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Metric Counter Cards */
+.metric-box {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 18px;
     text-align: center;
     box-shadow: var(--glass-shadow);
+    transition: transform 0.2s ease;
 }
+
+.metric-box:hover {
+    transform: translateY(-3px);
+}
+
 .metric-val {
-    font-size: 1.7rem;
+    font-size: 1.85rem;
     font-weight: 800;
-    color: #4F46E5 !important;
+    letter-spacing: -0.03em;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
+
 .metric-lbl {
-    font-size: 0.75rem;
+    font-size: 0.76rem;
     color: #64748B !important;
     font-weight: 700;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* File Uploader Custom Polish */
+div[data-testid="stFileUploaderDropzone"] {
+    background: rgba(248, 250, 252, 0.7) !important;
+    border: 2px dashed #CBD5E1 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+div[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: #6366F1 !important;
+    background: rgba(238, 242, 255, 0.4) !important;
+}
+
+/* Code Blocks & Inline Syntax */
+div[data-testid="stCodeBlock"] {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid #1E293B !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25) !important;
+}
+
+p > code, li > code {
+    background: rgba(99, 102, 241, 0.1) !important;
+    color: #4F46E5 !important;
+    padding: 2px 8px !important;
+    border-radius: 6px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
 </style>
 """
-st.markdown(MODERN_CSS, unsafe_allow_html=True)
+st.markdown(PREMIUM_EFFECTS_CSS, unsafe_allow_html=True)
 
 # ============================================================
 # STATE INITIALIZATION
@@ -350,11 +390,16 @@ def navigate(page: str):
     st.rerun()
 
 # ============================================================
-# TOP BRANDING & NAVIGATION
+# FLOATING BRAND NAVBAR
 # ============================================================
 ai_connected = chat_ai_available()
 status_html = (
-    '<span class="status-pill status-online">⚡ Ultra-Fast Streaming Active</span>'
+    """
+    <span class="status-pill status-online">
+        <span class="status-dot"></span>
+        Ultra-Fast Streaming Active
+    </span>
+    """
     if ai_connected
     else '<span class="status-pill status-offline">● Offline Fallback</span>'
 )
@@ -363,7 +408,7 @@ st.markdown(
     f"""
     <div class="nav-container">
         <div class="brand-logo">
-            ✦ Lexie<span class="brand-highlight">Lingua</span> AI
+            <span>✨</span> LexieLingua <span style="font-size: 0.85rem; font-weight:700; color:#6366F1; letter-spacing:0.02em; padding:2px 8px; background:rgba(99, 102, 241, 0.1); border-radius:8px; border:1px solid rgba(99, 102, 241, 0.2);">PRO</span>
         </div>
         <div>
             {status_html}
@@ -375,41 +420,43 @@ st.markdown(
 
 nav_cols = st.columns(3)
 with nav_cols[0]:
-    if st.button("💬 AI Assistant", use_container_width=True, type="primary" if st.session_state.page == "chat" else "secondary"):
+    if st.button("💬 Conversational AI", use_container_width=True, type="primary" if st.session_state.page == "chat" else "secondary"):
         navigate("chat")
 with nav_cols[1]:
-    if st.button("📄 Document Summarizer", use_container_width=True, type="primary" if st.session_state.page == "summarizer" else "secondary"):
+    if st.button("📄 Document Synthesizer", use_container_width=True, type="primary" if st.session_state.page == "summarizer" else "secondary"):
         navigate("summarizer")
 with nav_cols[2]:
-    if st.button("ℹ Architecture", use_container_width=True, type="primary" if st.session_state.page == "about" else "secondary"):
+    if st.button("⚙️ Neural Architecture", use_container_width=True, type="primary" if st.session_state.page == "about" else "secondary"):
         navigate("about")
 
 st.write("")
 
 # ============================================================
-# CHAT VIEW (REAL-TIME STREAMING)
+# VIEW 1: CONVERSATIONAL AI STREAMING
 # ============================================================
 if st.session_state.page == "chat":
-    left_col, right_col = st.columns([2.5, 1])
+    left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
         st.markdown(
             """
-            <div class="ui-card" style="margin-bottom:12px; padding:18px 22px;">
-                <h3 style="margin:0 0 2px; font-weight:800; font-size:1.3rem;">💬 AI Conversational Copilot</h3>
-                <p style="color:#64748B; font-size:0.9rem; margin:0;">Real-time AI for coding, deep problem solving, academic reasoning, and study prep.</p>
+            <div class="hero-card">
+                <div class="hero-title">Conversational Copilot</div>
+                <p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">
+                    Real-time generative intelligence for deep code debugging, mathematical logic, document inquiry, and study prep.
+                </p>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-        # Message Display
+        # Message History
         if not st.session_state.chat_history:
             st.markdown(
                 """
                 <div class="chat-ai">
-                    👋 <b>Hello! I am your AI Copilot.</b><br>
-                    Ask me anything — write code, solve math, explain complex ideas, or brainstorm essays.
+                    <span style="font-size:1.2rem;">👋</span> <b>Welcome! I am LexieLingua Copilot.</b><br>
+                    Ask me anything — generate algorithms, analyze academic papers, review logic, or brainstorm complex projects.
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -417,26 +464,25 @@ if st.session_state.page == "chat":
 
         for turn in st.session_state.chat_history:
             css_class = "chat-user" if turn["role"] == "user" else "chat-ai"
-            sender = "👤 You" if turn["role"] == "user" else "✦ LexieLingua"
+            sender = "👤 You" if turn["role"] == "user" else "✨ LexieLingua AI"
             st.markdown(
                 f"""
                 <div class="{css_class}">
-                    <div style="font-size:0.74rem; opacity:0.85; margin-bottom:4px; font-weight:700;">{sender}</div>
+                    <div style="font-size:0.75rem; opacity:0.85; margin-bottom:5px; font-weight:700;">{sender}</div>
                     <div>{turn["content"]}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
-        # Streaming Chat Input
-        user_input = st.chat_input("Ask any question (e.g. Write a Python script to reverse a linked list)...")
+        # Chat Input
+        user_input = st.chat_input("Ask a question, request code, or paste content...")
         
         if user_input:
-            # Display user bubble immediately
             st.markdown(
                 f"""
                 <div class="chat-user">
-                    <div style="font-size:0.74rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>
+                    <div style="font-size:0.75rem; opacity:0.85; margin-bottom:5px; font-weight:700;">👤 You</div>
                     <div>{user_input}</div>
                 </div>
                 """,
@@ -444,11 +490,10 @@ if st.session_state.page == "chat":
             )
             st.session_state.chat_history.append({"role": "user", "content": user_input})
 
-            # Stream Assistant Tokens in Real-Time
             with st.container():
                 st.markdown(
                     """
-                    <div style="font-size:0.74rem; color:#4F46E5; margin:10px 0 2px; font-weight:800;">✦ LexieLingua</div>
+                    <div style="font-size:0.75rem; color:#6366F1; margin:12px 0 4px; font-weight:800; letter-spacing:0.02em;">✨ LexieLingua AI</div>
                     """,
                     unsafe_allow_html=True,
                 )
@@ -460,7 +505,7 @@ if st.session_state.page == "chat":
 
         if st.session_state.chat_history:
             st.write("")
-            if st.button("🗑 Reset Conversation", type="secondary", use_container_width=True):
+            if st.button("🗑 Clear Chat History", type="secondary", use_container_width=True):
                 st.session_state.chat_history = []
                 st.rerun()
 
@@ -468,52 +513,57 @@ if st.session_state.page == "chat":
         st.markdown(
             """
             <div class="ui-card">
-                <h4 style="margin:0 0 12px; font-weight:700; font-size:1rem;">⚡ Try Asking</h4>
+                <div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Quick Actions</div>
+                <h4 style="margin:0 0 14px; font-weight:800; font-size:1.05rem;">⚡ Instant Prompts</h4>
             """,
             unsafe_allow_html=True,
         )
+        
         prompts = [
-            "Write a Python script to reverse a linked list.",
-            "Explain quantum computing in simple terms.",
-            "How do I optimize SQL queries for large datasets?",
-            "Give me 5 study strategies for difficult exams.",
+            ("💻", "Write a Python script to reverse a linked list with test cases."),
+            ("⚛️", "Explain Quantum Entanglement with a clear visual analogy."),
+            ("⚡", "What are the top 5 performance optimization patterns in SQL?"),
+            ("🎓", "Design a structured 14-day study plan for machine learning finals."),
         ]
-        for idx, prompt_text in enumerate(prompts):
-            if st.button(prompt_text, key=f"quick_{idx}", type="secondary", use_container_width=True):
+        
+        st.markdown('<div class="chip-wrapper">', unsafe_allow_html=True)
+        for idx, (icon, prompt_text) in enumerate(prompts):
+            if st.button(f"{icon} {prompt_text}", key=f"quick_{idx}", type="secondary", use_container_width=True):
                 st.session_state.chat_history.append({"role": "user", "content": prompt_text})
                 st.rerun()
-
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown('</div></div>', unsafe_allow_html=True)
 
 # ============================================================
-# SUMMARIZER VIEW
+# VIEW 2: DOCUMENT SUMMARIZER
 # ============================================================
 elif st.session_state.page == "summarizer":
     st.markdown(
         """
-        <div class="ui-card" style="margin-bottom:18px;">
-            <h3 style="margin:0 0 4px; font-weight:800;">📄 Intelligent Document Summarizer</h3>
-            <p style="color:#64748B; font-size:0.9rem; margin:0;">Upload lecture notes, papers, or code files for structured summaries and key points.</p>
+        <div class="hero-card">
+            <div class="hero-title">Document Intelligence & Synthesis</div>
+            <p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">
+                Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights.
+            </p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    up_col, opt_col = st.columns([2, 1])
+    up_col, opt_col = st.columns([2.2, 1])
     with up_col:
         doc_file = st.file_uploader("Upload document", type=["pdf", "docx", "txt", "md"], label_visibility="collapsed")
     with opt_col:
-        summary_len = st.select_slider("Length requirement", options=["Short", "Medium", "Long"], value="Medium")
-        run_sum = st.button("✨ Generate Summary", type="primary", use_container_width=True)
+        summary_len = st.select_slider("Target Detail Level", options=["Short", "Medium", "Long"], value="Medium")
+        run_sum = st.button("✨ Distill Document", type="primary", use_container_width=True)
 
     if run_sum:
         if not doc_file:
-            st.warning("Please upload a document first.")
+            st.warning("⚠️ Please upload a document first.")
         else:
-            with st.spinner("Extracting text and synthesizing points..."):
+            with st.spinner("⚡ Extracting text & generating neural synthesis..."):
                 raw_text = extract_text(doc_file)
                 if not raw_text.strip():
-                    st.error("No readable text found in document.")
+                    st.error("❌ No readable text could be extracted from this document.")
                 else:
                     res = summarize(raw_text, length=summary_len)
                     res["filename"] = doc_file.name
@@ -529,70 +579,70 @@ elif st.session_state.page == "summarizer":
         st.write("")
         m1, m2, m3, m4 = st.columns(4)
         with m1:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{orig_w}</div><div class="metric-lbl">Original Words</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-val">{orig_w:,}</div><div class="metric-lbl">Source Words</div></div>', unsafe_allow_html=True)
         with m2:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{summ_w}</div><div class="metric-lbl">Summary Words</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-val">{summ_w:,}</div><div class="metric-lbl">Summary Words</div></div>', unsafe_allow_html=True)
         with m3:
-            st.markdown(f'<div class="metric-box"><div class="metric-val">{reduction}%</div><div class="metric-lbl">Compression</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-val">-{reduction}%</div><div class="metric-lbl">Data Compression</div></div>', unsafe_allow_html=True)
         with m4:
-            st.markdown(f'<div class="metric-box"><div class="metric-val" style="font-size:1.1rem; margin-top:6px;">{sum_data.get("mode", "AI")}</div><div class="metric-lbl">Mode</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-val" style="font-size:1.25rem; margin-top:5px;">{sum_data.get("mode", "AI")}</div><div class="metric-lbl">Inference Mode</div></div>', unsafe_allow_html=True)
 
         st.write("")
         st.markdown(
             f"""
             <div class="ui-card">
-                <h4 style="margin:0 0 10px; font-weight:700;">📝 Executive Summary</h4>
-                <p style="line-height:1.75; font-size:1rem; color:#1E293B; white-space:pre-wrap; margin:0;">{sum_data.get('summary', '')}</p>
+                <div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Synthesized Overview</div>
+                <h3 style="margin:0 0 14px; font-weight:800; font-size:1.2rem;">📝 Executive Summary</h3>
+                <p style="line-height:1.8; font-size:1.02rem; color:#1E293B; white-space:pre-wrap; margin:0;">{sum_data.get('summary', '')}</p>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
         if sum_data.get("key_points"):
-            pts = "".join(f"<li style='margin-bottom:8px;'>{p}</li>" for p in sum_data["key_points"])
+            pts = "".join(f"<li style='margin-bottom:10px;'>{p}</li>" for p in sum_data["key_points"])
             st.markdown(
                 f"""
-                <div class="ui-card">
-                    <h4 style="margin:0 0 10px; font-weight:700;">🔑 Key Takeaways</h4>
-                    <ul style="line-height:1.7; font-size:0.95rem; color:#334155; padding-left:20px; margin:0;">{pts}</ul>
+                <div class="ui-card" style="border-left: 5px solid #6366F1 !important;">
+                    <div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Key Highlights</div>
+                    <h3 style="margin:0 0 14px; font-weight:800; font-size:1.2rem;">🔑 Critical Takeaways</h3>
+                    <ul style="line-height:1.75; font-size:0.97rem; color:#334155; padding-left:22px; margin:0;">{pts}</ul>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
 
         export_content = f"SUMMARY: {sum_data.get('filename')}\nGenerated: {sum_data.get('generated_at')}\n\n{sum_data.get('summary')}\n\nKEY TAKEAWAYS:\n" + "\n".join(f"- {pt}" for pt in sum_data.get("key_points", []))
-        st.download_button("⬇ Download Export (.txt)", data=export_content, file_name=f"summary_{sum_data.get('filename', 'doc')}.txt", mime="text/plain", use_container_width=True)
+        st.download_button("⬇ Export Structured Summary (.txt)", data=export_content, file_name=f"summary_{sum_data.get('filename', 'doc')}.txt", mime="text/plain", use_container_width=True)
 
 # ============================================================
-# ARCHITECTURE & HOW IT WORKS VIEW
+# VIEW 3: ARCHITECTURE & ENGINE SPECIFICATIONS
 # ============================================================
 else:
     st.markdown(
         """
-        <div class="ui-card" style="margin-bottom:20px; padding:32px;">
-            <div class="status-pill status-online" style="margin-bottom:12px;">✦ SYSTEM BLUEPRINT & DATA FLOW</div>
-            <h2 style="margin:0 0 8px; font-weight:800; font-size:1.8rem;">How LexieLingua Works</h2>
-            <p style="color:#64748B; font-size:1.02rem; margin:0; line-height:1.6;">
-                LexieLingua is built on a dual-engine architecture combining enterprise Azure OpenAI cloud intelligence 
-                with local edge parsing for zero-downtime reliability.
+        <div class="hero-card">
+            <div class="hero-title">Neural Engine & Platform Architecture</div>
+            <p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">
+                LexieLingua utilizes an enterprise multi-tier architecture uniting cloud neural acceleration with deterministic edge extraction.
             </p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # 1. Pipeline Flow Cards
-    st.markdown("### 🔄 End-to-End Processing Pipeline")
+    # 4-Stage Pipeline Grid
+    st.markdown("### 🔄 End-to-End Processing Topology")
     p1, p2, p3, p4 = st.columns(4)
 
     with p1:
         st.markdown(
             """
-            <div class="ui-card" style="min-height:220px; border-top:4px solid #4F46E5;">
-                <div style="font-size:1.4rem; margin-bottom:8px;">1️⃣ Ingestion</div>
-                <h4 style="margin:0 0 6px; font-size:1rem; font-weight:700;">Input Stream</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.5;">
-                    Captures conversational chat prompts or extracts raw text from PDF, DOCX, TXT, and Markdown files.
+            <div class="ui-card" style="border-top:4px solid #6366F1 !important;">
+                <div style="font-size:1.5rem; margin-bottom:8px;">📥</div>
+                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">1. Ingestion</h4>
+                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
+                    Extracts clean text streams from raw uploads (PDF, DOCX, TXT) or conversational payloads.
                 </p>
             </div>
             """,
@@ -602,11 +652,11 @@ else:
     with p2:
         st.markdown(
             """
-            <div class="ui-card" style="min-height:220px; border-top:4px solid #7C3AED;">
-                <div style="font-size:1.4rem; margin-bottom:8px;">2️⃣ Context Layer</div>
-                <h4 style="margin:0 0 6px; font-size:1rem; font-weight:700;">Prompt Engine</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.5;">
-                    Structures conversation history (last 8 turns) and formats synthesis instructions without hallucination.
+            <div class="ui-card" style="border-top:4px solid #8B5CF6 !important;">
+                <div style="font-size:1.5rem; margin-bottom:8px;">🧠</div>
+                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">2. Context Layer</h4>
+                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
+                    Applies sliding-window memory management and dynamic prompt engineering to prevent context overflow.
                 </p>
             </div>
             """,
@@ -616,11 +666,11 @@ else:
     with p3:
         st.markdown(
             """
-            <div class="ui-card" style="min-height:220px; border-top:4px solid #059669;">
-                <div style="font-size:1.4rem; margin-bottom:8px;">3️⃣ Neural Inference</div>
-                <h4 style="margin:0 0 6px; font-size:1rem; font-weight:700;">Azure GPT-5.4</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.5;">
-                    Processes input via high-throughput global standard deployment on Microsoft Azure Foundry.
+            <div class="ui-card" style="border-top:4px solid #10B981 !important;">
+                <div style="font-size:1.5rem; margin-bottom:8px;">⚡</div>
+                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">3. Neural Foundry</h4>
+                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
+                    High-throughput Azure GPT-5.4 global deployment executes low-latency cognitive synthesis.
                 </p>
             </div>
             """,
@@ -630,11 +680,11 @@ else:
     with p4:
         st.markdown(
             """
-            <div class="ui-card" style="min-height:220px; border-top:4px solid #D97706;">
-                <div style="font-size:1.4rem; margin-bottom:8px;">4️⃣ Streaming Output</div>
-                <h4 style="margin:0 0 6px; font-size:1rem; font-weight:700;">SSE Response</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.5;">
-                    Streams tokens word-by-word with &lt;250ms TTFT, or formats structured executive summaries.
+            <div class="ui-card" style="border-top:4px solid #F59E0B !important;">
+                <div style="font-size:1.5rem; margin-bottom:8px;">🚀</div>
+                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">4. Real-Time SSE</h4>
+                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
+                    Pushes generated token streams word-by-word with &lt;250ms TTFT direct to the reactive client.
                 </p>
             </div>
             """,
@@ -643,52 +693,15 @@ else:
 
     st.write("")
 
-    # 2. Detailed Technical Breakdown
-    col_tech1, col_tech2 = st.columns(2)
-
-    with col_tech1:
-        st.markdown(
-            """
-            <div class="ui-card">
-                <h3 style="font-weight:800; font-size:1.25rem; margin-bottom:12px;">💬 Real-Time Conversational AI</h3>
-                <ul style="color:#334155; line-height:1.8; font-size:0.92rem; padding-left:18px;">
-                    <li><b>Server-Sent Events (SSE) Streaming:</b> Tokens are yielded to the UI in real time using generator pipelines rather than blocking HTTP responses.</li>
-                    <li><b>Persistent TCP Connection Pooling:</b> Reuses an active singleton client to eliminate 150ms–300ms TLS handshake overhead per turn.</li>
-                    <li><b>Sliding Context Window:</b> Dynamically retains recent conversation turns while pruning older messages to maintain low latency.</li>
-                    <li><b>Multi-Domain Expertise:</b> Answers coding, mathematical derivation, essay structuring, and general academic topics seamlessly.</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    with col_tech2:
-        st.markdown(
-            """
-            <div class="ui-card">
-                <h3 style="font-weight:800; font-size:1.25rem; margin-bottom:12px;">📄 Intelligent Document Engine</h3>
-                <ul style="color:#334155; line-height:1.8; font-size:0.92rem; padding-left:18px;">
-                    <li><b>Multi-Format File Parsing:</b> Direct byte extraction from <code>.pdf</code> (via PyPDF), <code>.docx</code> (via Python-docx), and plain text/markdown.</li>
-                    <li><b>Configurable Length Synthesis:</b> User-adjustable parameters (Short, Medium, Long) modifying prompt compression targets.</li>
-                    <li><b>Key-Takeaway Distillation:</b> Extracts exactly 5 critical bullet points alongside an executive overview.</li>
-                    <li><b>Offline Statistical Fallback:</b> Uses term-frequency sentence scoring if cloud connection is unavailable.</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    st.write("")
-
-    # 3. System Specs
-    st.markdown("### ⚙️ System Specifications & Technology Stack")
+    # Specifications
+    st.markdown("### ⚙️ Benchmark Specifications")
     
     spec_col1, spec_col2, spec_col3, spec_col4 = st.columns(4)
     with spec_col1:
         st.markdown(
             """
             <div class="metric-box">
-                <div class="metric-val" style="font-size:1.3rem;">Azure GPT-5.4</div>
+                <div class="metric-val" style="font-size:1.35rem;">Azure GPT-5.4</div>
                 <div class="metric-lbl">LLM Engine</div>
             </div>
             """,
@@ -698,7 +711,7 @@ else:
         st.markdown(
             """
             <div class="metric-box">
-                <div class="metric-val" style="font-size:1.3rem;">&lt; 250 ms</div>
+                <div class="metric-val" style="font-size:1.35rem;">&lt; 220 ms</div>
                 <div class="metric-lbl">Time to First Token</div>
             </div>
             """,
@@ -708,8 +721,8 @@ else:
         st.markdown(
             """
             <div class="metric-box">
-                <div class="metric-val" style="font-size:1.3rem;">Streamlit + Python</div>
-                <div class="metric-lbl">Frontend & Logic</div>
+                <div class="metric-val" style="font-size:1.35rem;">Streamlit + Py3.11</div>
+                <div class="metric-lbl">Core Stack</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -718,23 +731,9 @@ else:
         st.markdown(
             """
             <div class="metric-box">
-                <div class="metric-val" style="font-size:1.3rem;">Zero-Persistence</div>
-                <div class="metric-lbl">Privacy & Security</div>
+                <div class="metric-val" style="font-size:1.35rem;">Stateless / In-Mem</div>
+                <div class="metric-lbl">Data Privacy</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-
-    st.write("")
-    st.markdown(
-        """
-        <div class="ui-card" style="background:#F8FAFC !important; border:1px dashed #CBD5E1 !important;">
-            <h4 style="margin:0 0 6px; font-weight:700;">🔐 Security & Data Privacy Architecture</h4>
-            <p style="color:#475569; font-size:0.9rem; margin:0; line-height:1.6;">
-                All credentials (API keys, endpoints, and deployment names) are strictly isolated in environment variables. 
-                Uploaded documents are processed in memory and never written to permanent disk storage or shared across sessions.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
