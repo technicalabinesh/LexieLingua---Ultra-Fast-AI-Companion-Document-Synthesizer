@@ -61,7 +61,7 @@ def _offline_faq_answer(question: str) -> str:
     return "⚡ **Offline Mode Active:** Azure OpenAI credentials are not configured in `.env`."
 
 def stream_answer(question: str, history: list):
-    """Streams tokens in real-time with sub-second TTFT."""
+    """Streams tokens in real-time with resilient parameter handling."""
     if not is_ai_mode_available():
         yield _offline_faq_answer(question)
         return
@@ -82,20 +82,40 @@ def stream_answer(question: str, history: list):
             
     messages.append({"role": "user", "content": question})
 
+    response_stream = None
     try:
+        # First attempt: modern max_completion_tokens parameter
         response_stream = client.chat.completions.create(
             model=deployment,
             messages=messages,
-            max_tokens=2048,
+            max_completion_tokens=2048,
             stream=True,
         )
+    except Exception as e1:
+        if "max_completion_tokens" in str(e1) or "unsupported_parameter" in str(e1).lower():
+            try:
+                # Fallback for older model versions
+                response_stream = client.chat.completions.create(
+                    model=deployment,
+                    messages=messages,
+                    max_tokens=2048,
+                    stream=True,
+                )
+            except Exception as e2:
+                yield f"⚠️ **Azure API Error:** `{e2}`"
+                return
+        else:
+            yield f"⚠️ **Azure API Error:** `{e1}`"
+            return
 
+    try:
         for chunk in response_stream:
-            if chunk.choices and chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
-
+            if chunk.choices and len(chunk.choices) > 0:
+                delta = chunk.choices[0].delta
+                if delta and delta.content:
+                    yield delta.content
     except Exception as exc:
-        yield f"⚠️ **Azure API Error:** `{exc}`"
+        yield f"⚠️ **Stream Interruption:** `{exc}`"
 
 def get_answer(question: str, history: list) -> str:
     full_text = ""
