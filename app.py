@@ -9,7 +9,7 @@ from datetime import datetime
 import streamlit as st
 from dotenv import load_dotenv
 
-# Safe imports with fallback guards
+# Safe module imports
 try:
     from chatbot import stream_answer, is_ai_mode_available as chat_ai_available
 except ImportError:
@@ -32,9 +32,6 @@ except ImportError:
 
 from utils import extract_text
 
-# ============================================================
-# INITIAL CONFIGURATION & THREADED I/O
-# ============================================================
 load_dotenv()
 
 st.set_page_config(
@@ -87,9 +84,6 @@ def _async_save_summary(summary_data: dict):
 def save_summary_to_db(summary_data: dict):
     _DB_EXECUTOR.submit(_async_save_summary, summary_data)
 
-# ============================================================
-# STYLES & INTERFACE
-# ============================================================
 PREMIUM_EFFECTS_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -186,10 +180,30 @@ html, body, p, h1, h2, h3, h4, h5, h6, label {
     -webkit-text-fill-color: transparent;
 }
 
+/* Crisp Clean Buttons */
 div[data-testid="stButton"] > button {
     border-radius: 12px !important;
     font-weight: 700 !important;
     min-height: 42px !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="stButton"] > button[kind="secondary"] {
+    background: #FFFFFF !important;
+    color: #1E293B !important;
+    border: 1px solid #CBD5E1 !important;
+}
+
+div[data-testid="stButton"] > button[kind="secondary"]:hover {
+    background: #EEF2FF !important;
+    border-color: #4F46E5 !important;
+    color: #4F46E5 !important;
+}
+
+div[data-testid="stButton"] > button[kind="primary"] {
+    background: var(--primary-gradient) !important;
+    color: #FFFFFF !important;
+    border: none !important;
 }
 
 div[data-testid="stChatInput"] > div {
@@ -253,7 +267,6 @@ div[data-testid="stChatInput"] > div {
 """
 st.markdown(PREMIUM_EFFECTS_CSS, unsafe_allow_html=True)
 
-# State
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 if "page" not in st.session_state:
@@ -267,7 +280,6 @@ def navigate(page: str):
     st.session_state.page = page
     st.rerun()
 
-# Top Navbar
 ai_connected = chat_ai_available()
 status_html = (
     '<span class="status-pill status-online"><span class="status-dot"></span>Low-Latency Engine Active</span>'
@@ -296,9 +308,7 @@ with nav_cols[2]:
 
 st.write("")
 
-# ============================================================
 # VIEW 1: CONVERSATIONAL AI
-# ============================================================
 if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
@@ -381,9 +391,7 @@ if st.session_state.page == "chat":
                 st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
-# ============================================================
-# VIEW 2: STREAMING DOCUMENT SUMMARIZER
-# ============================================================
+# VIEW 2: DOCUMENT SUMMARIZER
 elif st.session_state.page == "summarizer":
     st.markdown(
         '<div class="hero-card">'
@@ -434,9 +442,7 @@ elif st.session_state.page == "summarizer":
                 }
                 save_summary_to_db(summary_payload)
 
-# ============================================================
 # VIEW 3: ARCHITECTURE
-# ============================================================
 else:
     st.markdown(
         '<div class="hero-card">'
