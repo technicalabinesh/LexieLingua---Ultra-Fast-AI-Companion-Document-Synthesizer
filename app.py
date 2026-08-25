@@ -32,7 +32,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Initialize Supabase client if credentials exist in .env
+# Optional Supabase connection setup (Zero-crash fallback)
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase_client = None
@@ -44,8 +44,8 @@ try:
 except Exception:
     supabase_client = None
 
-def db_save_chat_message(session_id: str, role: str, content: str):
-    """Persists a message turn to Supabase PostgreSQL."""
+def save_chat_message(session_id: str, role: str, content: str):
+    """Saves a message turn to Supabase PostgreSQL."""
     if supabase_client:
         try:
             supabase_client.table("chat_history").insert({
@@ -56,8 +56,8 @@ def db_save_chat_message(session_id: str, role: str, content: str):
         except Exception:
             pass
 
-def db_load_chat_history(session_id: str):
-    """Fetches chat records for the active session from Supabase."""
+def load_chat_history(session_id: str):
+    """Loads chat records for the active session from Supabase."""
     if supabase_client:
         try:
             res = supabase_client.table("chat_history")\
@@ -70,8 +70,8 @@ def db_load_chat_history(session_id: str):
             pass
     return []
 
-def db_save_summary(summary_data: dict):
-    """Persists structured document summaries to Supabase."""
+def save_summary_to_db(summary_data: dict):
+    """Saves generated document summaries to Supabase."""
     if supabase_client:
         try:
             supabase_client.table("document_summaries").insert({
@@ -85,47 +85,50 @@ def db_save_summary(summary_data: dict):
             pass
 
 # ============================================================
-# PRODUCTION SAAS CSS (LINEAR & VERCEL THEME)
+# HUMAN-CRAFTED MINIMALIST SAAS DESIGN (LINEAR / VERCEL STYLE)
 # ============================================================
-CLEAN_SAAS_CSS = """
+PRODUCTION_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-    --bg: #F8FAFC;
+    --bg-main: #F8FAFC;
     --surface: #FFFFFF;
     --border: #E2E8F0;
     --border-hover: #CBD5E1;
-    --text: #0F172A;
-    --text-muted: #64748B;
-    --primary: #4338CA;
-    --primary-hover: #3730A3;
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --accent: #4338CA;
+    --accent-hover: #3730A3;
+    --accent-light: #EEF2FF;
+    --accent-border: #C7D2FE;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
 }
 
-/* Base resets */
+/* Base Reset & Typography */
 html, body, [class*="css"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: var(--text) !important;
+    color: var(--text-primary) !important;
 }
 
 .stApp {
-    background-color: var(--bg) !important;
+    background-color: var(--bg-main) !important;
 }
 
 .main .block-container {
     max-width: 1140px;
-    padding: 1.25rem 1.5rem 4rem;
+    padding: 1.5rem 1.5rem 4rem;
 }
 
-/* Top App Bar */
+/* Top App Header */
 .app-header {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px 22px;
-    margin-bottom: 18px;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -133,85 +136,88 @@ html, body, [class*="css"] {
 }
 
 .app-brand {
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: -0.02em;
+    color: var(--text-primary);
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 
-.app-badge {
-    font-size: 0.72rem;
+.app-brand-badge {
+    font-size: 0.7rem;
     font-weight: 600;
     padding: 2px 7px;
     border-radius: 6px;
     background: #F1F5F9;
     color: #475569;
-    border: 1px solid var(--border);
+    border: 1px solid #E2E8F0;
+    letter-spacing: 0.03em;
 }
 
-/* Status Badges */
-.status-pill {
+.app-status {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.76rem;
-    font-weight: 600;
+    font-size: 0.78rem;
+    font-weight: 500;
     padding: 4px 10px;
-    border-radius: 9999px;
+    border-radius: 20px;
 }
 
-.status-online {
+.status-live {
     background: #F0FDF4;
-    color: #15803D;
+    color: #166534;
     border: 1px solid #BBF7D0;
 }
 
-.status-dot-on {
+.status-dot-live {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background-color: #22C55E;
 }
 
-.status-offline {
+.status-fallback {
     background: #FFFBEB;
-    color: #B45309;
+    color: #92400E;
     border: 1px solid #FDE68A;
 }
 
-.status-dot-off {
+.status-dot-fallback {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background-color: #F59E0B;
 }
 
-/* Tab Navigation Buttons */
+/* Tab Segment Controls */
 div[data-testid="stHorizontalBlock"]:has(button) {
+    background: transparent;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 
 div[data-testid="stButton"] > button {
     border-radius: 8px !important;
     font-size: 0.88rem !important;
-    font-weight: 600 !important;
-    min-height: 40px !important;
+    font-weight: 500 !important;
+    min-height: 38px !important;
     padding: 6px 14px !important;
     transition: all 0.15s ease !important;
+    border: 1px solid transparent !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
     background: var(--surface) !important;
-    color: var(--text-muted) !important;
-    border: 1px solid var(--border) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border) !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    color: var(--text) !important;
+    color: var(--text-primary) !important;
     border-color: var(--border-hover) !important;
     background: #F8FAFC !important;
 }
@@ -219,7 +225,7 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 div[data-testid="stButton"] > button[kind="primary"] {
     background: #0F172A !important;
     color: #FFFFFF !important;
-    border: 1px solid #0F172A !important;
+    border-color: #0F172A !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
@@ -233,7 +239,7 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 20px 22px;
+    padding: 20px;
     margin-bottom: 16px;
     box-shadow: var(--shadow-sm);
 }
@@ -246,46 +252,46 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
 
 .panel-title {
     font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text);
+    font-weight: 600;
+    color: var(--text-primary);
     margin: 0 0 2px;
 }
 
 .panel-subtitle {
     font-size: 0.82rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin: 0;
 }
 
-/* Chat Message Styles */
+/* Chat Messages */
 .msg-user {
     background: #F1F5F9;
-    color: var(--text);
-    padding: 14px 18px;
-    border-radius: 14px 14px 2px 14px;
+    color: #0F172A;
+    padding: 12px 16px;
+    border-radius: 12px 12px 2px 12px;
     margin: 10px 0 10px auto;
-    max-width: 82%;
-    font-size: 0.93rem;
-    line-height: 1.55;
-    border: 1px solid var(--border);
+    max-width: 80%;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    border: 1px solid #E2E8F0;
 }
 
 .msg-ai {
     background: var(--surface);
-    color: var(--text);
-    padding: 18px 20px;
-    border-radius: 14px;
+    color: #0F172A;
+    padding: 16px 18px;
+    border-radius: 12px;
     margin: 10px 0;
     max-width: 90%;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
-    font-size: 0.93rem;
+    font-size: 0.92rem;
     line-height: 1.65;
 }
 
 .msg-meta {
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -309,7 +315,7 @@ div[data-testid="stChatInput"] > div:focus-within {
     box-shadow: 0 0 0 1px #6366F1 !important;
 }
 
-/* Clean Light File Uploader (Fixes Black Box Glitch) */
+/* Native File Uploader Alignment & Light Fix */
 div[data-testid="stFileUploader"] {
     background: var(--surface) !important;
     border: 1px solid var(--border) !important;
@@ -319,19 +325,19 @@ div[data-testid="stFileUploader"] {
 
 div[data-testid="stFileUploaderDropzone"] {
     background: #F8FAFC !important;
-    border: 1.5px dashed #CBD5E1 !important;
+    border: 1px dashed var(--border-hover) !important;
     border-radius: 8px !important;
-    padding: 22px !important;
+    padding: 20px !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] * {
-    color: var(--text-muted) !important;
+    color: var(--text-secondary) !important;
 }
 
 div[data-testid="stFileUploaderFile"] {
     background: #F1F5F9 !important;
     border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
 }
 
 /* Slider Track */
@@ -346,7 +352,7 @@ div[data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"] {
     background-color: #0F172A !important;
 }
 
-/* Metric Display Counters */
+/* Metric Display Cards */
 .stat-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -356,8 +362,8 @@ div[data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"] {
 }
 
 .stat-label {
-    font-size: 0.74rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 500;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -365,15 +371,16 @@ div[data-baseweb="slider"] div[style*="background: rgb(255, 75, 75)"] {
 }
 
 .stat-value {
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: var(--text);
+    color: var(--text-primary);
+    font-feature-settings: "tnum";
 }
 
-/* Code Highlights */
+/* Code & Highlights */
 p > code, li > code {
     background: #F1F5F9 !important;
-    color: var(--text) !important;
+    color: #0F172A !important;
     padding: 2px 6px !important;
     border-radius: 4px !important;
     font-family: 'JetBrains Mono', monospace !important;
@@ -384,7 +391,7 @@ p > code, li > code {
 #MainMenu, footer, header { visibility: hidden; }
 </style>
 """
-st.markdown(CLEAN_SAAS_CSS, unsafe_allow_html=True)
+st.markdown(PRODUCTION_CSS, unsafe_allow_html=True)
 
 # ============================================================
 # STATE INITIALIZATION
@@ -396,7 +403,8 @@ if "page" not in st.session_state:
     st.session_state.page = "chat"
 
 if "chat_history" not in st.session_state:
-    db_history = db_load_chat_history(st.session_state.session_id)
+    # Auto-load existing history from Supabase if available
+    db_history = load_chat_history(st.session_state.session_id)
     st.session_state.chat_history = db_history if db_history else []
 
 if "last_summary" not in st.session_state:
@@ -411,15 +419,15 @@ def navigate(page: str):
 # ============================================================
 ai_connected = chat_ai_available()
 ai_status_html = (
-    '<span class="status-pill status-online"><span class="status-dot-on"></span>Azure Cloud AI</span>'
+    '<span class="app-status status-live"><span class="status-dot-live"></span>Azure Cloud AI</span>'
     if ai_connected
-    else '<span class="status-pill status-offline"><span class="status-dot-off"></span>Offline Fallback</span>'
+    else '<span class="app-status status-fallback"><span class="status-dot-fallback"></span>Local Fallback</span>'
 )
 
 db_status_html = (
-    '<span class="status-pill status-online" style="margin-left:6px;"><span class="status-dot-on"></span>Supabase Sync</span>'
+    '<span class="app-status status-live" style="margin-left:6px;"><span class="status-dot-live"></span>Supabase Active</span>'
     if supabase_client
-    else '<span class="status-pill status-offline" style="margin-left:6px;"><span class="status-dot-off"></span>Session Memory</span>'
+    else '<span class="app-status status-fallback" style="margin-left:6px;"><span class="status-dot-fallback"></span>Session Memory</span>'
 )
 
 st.markdown(
@@ -428,7 +436,7 @@ st.markdown(
         <div class="app-brand">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:#4338CA;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
             LexieLingua
-            <span class="app-badge">Workspace</span>
+            <span class="app-brand-badge">Workspace</span>
         </div>
         <div>
             {ai_status_html}
@@ -439,7 +447,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Navigation Controls
+# Clean Segmented Navigation Tab Controls
 nav1, nav2, nav3 = st.columns(3)
 with nav1:
     if st.button("💬 Conversational Assistant", use_container_width=True, type="primary" if st.session_state.page == "chat" else "secondary"):
@@ -464,8 +472,8 @@ if st.session_state.page == "chat":
             """
             <div class="panel">
                 <div class="panel-header">
-                    <div class="panel-title">AI Conversational Copilot</div>
-                    <div class="panel-subtitle">Real-time inference for code debugging, study reasoning, and technical synthesis.</div>
+                    <div class="panel-title">AI Conversational Session</div>
+                    <div class="panel-subtitle">Streaming answers for code execution, academic research, and document inquiries.</div>
                 </div>
             """,
             unsafe_allow_html=True,
@@ -474,8 +482,8 @@ if st.session_state.page == "chat":
         if not st.session_state.chat_history:
             st.markdown(
                 """
-                <div style="padding: 14px 0; color: #64748B; font-size: 0.9rem;">
-                    Ready for your query. Ask any technical question, request code generation, or choose a quick prompt on the right.
+                <div style="padding: 16px 0; color: #64748B; font-size: 0.9rem;">
+                    Ready for your query. Ask a technical question, paste a function to debug, or select a prompt on the right.
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -497,7 +505,7 @@ if st.session_state.page == "chat":
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-        user_input = st.chat_input("Ask a question, enter code, or paste content...")
+        user_input = st.chat_input("Send a message or code snippet...")
         
         if user_input:
             st.markdown(
@@ -510,7 +518,7 @@ if st.session_state.page == "chat":
                 unsafe_allow_html=True,
             )
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            db_save_chat_message(st.session_state.session_id, "user", user_input)
+            save_chat_message(st.session_state.session_id, "user", user_input)
 
             with st.container():
                 st.markdown(
@@ -523,7 +531,7 @@ if st.session_state.page == "chat":
                 full_ai_response = st.write_stream(stream_gen)
 
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
-            db_save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
+            save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
             st.rerun()
 
         if st.session_state.chat_history:
@@ -545,16 +553,16 @@ if st.session_state.page == "chat":
         )
         
         quick_prompts = [
-            "Write a Python script to reverse a linked list with test cases.",
-            "Explain quantum computing in simple terms.",
-            "How do I optimize SQL queries for large datasets?",
-            "Give me 5 study strategies for difficult exams.",
+            "Write a Python function to reverse a singly linked list with O(n) time.",
+            "Explain quantum computing principles with a concrete computing analogy.",
+            "List 4 index optimization strategies for high-write SQL tables.",
+            "Draft a 7-day revision schedule for machine learning theory exams.",
         ]
         
         for idx, prompt_text in enumerate(quick_prompts):
             if st.button(prompt_text, key=f"qp_{idx}", type="secondary", use_container_width=True):
                 st.session_state.chat_history.append({"role": "user", "content": prompt_text})
-                db_save_chat_message(st.session_state.session_id, "user", prompt_text)
+                save_chat_message(st.session_state.session_id, "user", prompt_text)
                 st.rerun()
 
         st.markdown("</div>", unsafe_allow_html=True)
@@ -567,8 +575,8 @@ elif st.session_state.page == "summarizer":
         """
         <div class="panel">
             <div class="panel-header">
-                <div class="panel-title">Document Intelligence & Synthesis</div>
-                <div class="panel-subtitle">Upload PDF, DOCX, TXT, or Markdown documents for executive synthesis and key takeaways.</div>
+                <div class="panel-title">Document Intelligence</div>
+                <div class="panel-subtitle">Extract key takeaways and generate executive summaries from multi-page documents.</div>
             </div>
         """,
         unsafe_allow_html=True,
@@ -578,25 +586,26 @@ elif st.session_state.page == "summarizer":
     with up_col:
         doc_file = st.file_uploader("Upload target document", type=["pdf", "docx", "txt", "md"], label_visibility="collapsed")
     with opt_col:
-        summary_len = st.select_slider("Target Length", options=["Short", "Medium", "Long"], value="Medium")
+        summary_len = st.select_slider("Target length", options=["Short", "Medium", "Long"], value="Medium")
         run_sum = st.button("Generate Summary", type="primary", use_container_width=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
     if run_sum:
         if not doc_file:
-            st.warning("Please upload a document first.")
+            st.warning("Please select a file to summarize.")
         else:
-            with st.spinner("Extracting text and synthesizing points..."):
+            with st.spinner("Processing document..."):
                 raw_text = extract_text(doc_file)
                 if not raw_text.strip():
-                    st.error("No readable text found in document.")
+                    st.error("Unable to parse text from the uploaded document.")
                 else:
                     res = summarize(raw_text, length=summary_len)
                     res["filename"] = doc_file.name
                     res["generated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
                     st.session_state.last_summary = res
-                    db_save_summary(res)
+                    # Save summary to Supabase database
+                    save_summary_to_db(res)
 
     if st.session_state.last_summary:
         sum_data = st.session_state.last_summary
@@ -610,7 +619,7 @@ elif st.session_state.page == "summarizer":
         with m2:
             st.markdown(f'<div class="stat-card"><div class="stat-label">Summary Words</div><div class="stat-value">{summ_w:,}</div></div>', unsafe_allow_html=True)
         with m3:
-            st.markdown(f'<div class="stat-card"><div class="stat-label">Compression</div><div class="stat-value">-{reduction}%</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-card"><div class="stat-label">Compression</div><div class="stat-value">{reduction}%</div></div>', unsafe_allow_html=True)
         with m4:
             st.markdown(f'<div class="stat-card"><div class="stat-label">Engine Mode</div><div class="stat-value" style="font-size:1.1rem; padding-top:4px;">{sum_data.get("mode", "Cloud AI")}</div></div>', unsafe_allow_html=True)
 
@@ -658,10 +667,10 @@ else:
         <div class="panel">
             <div class="panel-header">
                 <div class="panel-title">System Architecture & Technical Blueprint</div>
-                <div class="panel-subtitle">Overview of the decoupled dual-engine processing pipeline.</div>
+                <div class="panel-subtitle">Overview of the processing pipeline, model integration, and data boundaries.</div>
             </div>
             <p style="color: #475569; font-size: 0.9rem; line-height: 1.6; margin: 0;">
-                LexieLingua combines enterprise Azure OpenAI cloud intelligence with local edge parsing and persistent PostgreSQL Supabase synchronization.
+                LexieLingua employs a decoupled architecture combining cloud-hosted neural inference with stateless local extraction engines.
             </p>
         </div>
         """,
@@ -670,17 +679,17 @@ else:
 
     p1, p2, p3, p4 = st.columns(4)
     steps = [
-        ("01", "Ingestion Layer", "Parses raw byte streams from PDF (PyPDF), DOCX (python-docx), and plain text."),
-        ("02", "Context Pipeline", "Prunes token history and formats structured zero-shot synthesis instructions."),
-        ("03", "Neural Inference", "Executes high-throughput completion via Azure OpenAI deployments with low latency."),
-        ("04", "Stream & Persist", "Yields token chunks via SSE while syncing records to Supabase PostgreSQL in the background."),
+        ("01", "Ingestion Layer", "Parses raw byte buffers from PDF (PyPDF), DOCX (Python-docx), and plain text."),
+        ("02", "Context Pipeline", "Prunes token history and constructs parameterized synthesis prompts."),
+        ("03", "Neural Inference", "Executes low-latency completion via Microsoft Azure OpenAI deployments."),
+        ("04", "Response Stream", "Yields chunked Server-Sent Events (SSE) directly to the Streamlit UI buffer."),
     ]
 
     for col, (num, title, desc) in zip([p1, p2, p3, p4], steps):
         with col:
             st.markdown(
                 f"""
-                <div class="panel" style="min-height: 175px;">
+                <div class="panel" style="min-height: 180px;">
                     <div style="font-size: 0.75rem; font-weight: 700; color: #4338CA; margin-bottom: 6px;">STEP {num}</div>
                     <div style="font-size: 0.92rem; font-weight: 600; color: #0F172A; margin-bottom: 6px;">{title}</div>
                     <div style="font-size: 0.82rem; color: #64748B; line-height: 1.5;">{desc}</div>
@@ -693,11 +702,11 @@ else:
         """
         <div class="panel">
             <div class="panel-header">
-                <div class="panel-title">Data Privacy & Persistence Governance</div>
+                <div class="panel-title">Data Privacy & Lifecycle</div>
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 0.88rem; color: #475569; line-height: 1.6;">
                 <div>
-                    <strong style="color: #0F172A;">Ephemeral Processing:</strong> In-flight document buffers are processed directly in memory (RAM) and are not retained in temporary local disk storage.
+                    <strong style="color: #0F172A;">Ephemeral Memory Model:</strong> All document uploads and text buffers reside exclusively in session memory (RAM) and are discarded once the active browser session terminates.
                 </div>
                 <div>
                     <strong style="color: #0F172A;">PostgreSQL Sync:</strong> If configured via Supabase, chat sessions and summary histories are secured with row-level encryption and database-level isolation.
