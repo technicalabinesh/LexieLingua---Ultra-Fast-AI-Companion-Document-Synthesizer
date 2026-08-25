@@ -1,7 +1,5 @@
 """
-LexieLingua - Ultra-Low-Latency AI Student Support Platform
-Run:
-    streamlit run app.py
+LexieLingua - Next-Gen AI Student Support & Document Intelligence Platform
 """
 
 import os
@@ -11,15 +9,27 @@ from datetime import datetime
 import streamlit as st
 from dotenv import load_dotenv
 
-from chatbot import (
-    stream_answer,
-    is_ai_mode_available as chat_ai_available,
-)
-from summarizer import (
-    stream_summarize,
-    summarize_offline,
-    is_ai_mode_available as summ_ai_available,
-)
+# Safe imports with fallback guards
+try:
+    from chatbot import stream_answer, is_ai_mode_available as chat_ai_available
+except ImportError:
+    def stream_answer(q, h): yield "Chatbot module unavailable."
+    def chat_ai_available(): return False
+
+try:
+    from summarizer import (
+        stream_summarize,
+        summarize_offline,
+        is_ai_mode_available as summ_ai_available,
+    )
+except ImportError:
+    from summarizer import summarize, is_ai_mode_available as summ_ai_available
+    def stream_summarize(t, length="Medium"):
+        res = summarize(t, length)
+        yield res.get("summary", "")
+    def summarize_offline(t, length="Medium"):
+        return {"summary": t[:500] + "...", "key_points": []}
+
 from utils import extract_text
 
 # ============================================================
@@ -34,7 +44,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Background executor for non-blocking database writes
 _DB_EXECUTOR = ThreadPoolExecutor(max_workers=3)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -49,7 +58,6 @@ except Exception:
     supabase_client = None
 
 def _async_save_chat_message(session_id: str, role: str, content: str):
-    """Background worker for chat logging."""
     if supabase_client:
         try:
             supabase_client.table("chat_history").insert({
@@ -61,11 +69,9 @@ def _async_save_chat_message(session_id: str, role: str, content: str):
             pass
 
 def save_chat_message(session_id: str, role: str, content: str):
-    """Dispatches DB save to background without blocking the UI thread."""
     _DB_EXECUTOR.submit(_async_save_chat_message, session_id, role, content)
 
 def _async_save_summary(summary_data: dict):
-    """Background worker for summary logging."""
     if supabase_client:
         try:
             supabase_client.table("document_summaries").insert({
@@ -291,7 +297,7 @@ with nav_cols[2]:
 st.write("")
 
 # ============================================================
-# VIEW 1: CONVERSATIONAL AI (INSTANT STREAMING)
+# VIEW 1: CONVERSATIONAL AI
 # ============================================================
 if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
@@ -300,7 +306,7 @@ if st.session_state.page == "chat":
         st.markdown(
             '<div class="hero-card">'
             '<div class="hero-title">Instant Response Copilot</div>'
-            '<p style="color:#64748B; font-size:0.92rem; margin:0;">Zero-delay streaming for code debugging, study questions, and instant queries.</p>'
+            '<p style="color:#64748B; font-size:0.92rem; margin:0;">Zero-delay streaming for code debugging, study questions, and problem-solving.</p>'
             '</div>',
             unsafe_allow_html=True,
         )
@@ -324,14 +330,12 @@ if st.session_state.page == "chat":
                     unsafe_allow_html=True,
                 )
 
-        # Check for input via chat_input or quick chip
         user_input = st.chat_input("Ask anything...")
         if st.session_state.pending_prompt:
             user_input = st.session_state.pending_prompt
             st.session_state.pending_prompt = None
 
         if user_input:
-            # Display user message instantly
             st.markdown(
                 f'<div class="chat-user">'
                 f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>'
@@ -341,12 +345,10 @@ if st.session_state.page == "chat":
             )
             save_chat_message(st.session_state.session_id, "user", user_input)
 
-            # Stream assistant tokens immediately
             st.markdown('<div style="font-size:0.75rem; color:#4F46E5; margin:10px 0 2px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
             stream_gen = stream_answer(user_input, st.session_state.chat_history)
             full_ai_response = st.write_stream(stream_gen)
 
-            # Update session state in-place without triggering a blocking rerun
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
             save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
@@ -449,4 +451,4 @@ else:
     with c2:
         st.markdown('<div class="metric-box"><div class="metric-val">Non-Blocking</div><div class="metric-lbl">Async DB Threading</div></div>', unsafe_allow_html=True)
     with c3:
-        st.markdown('<div class="metric-box"><div class="metric-val">Persistent</div><div class="metric-lbl">HTTP Connection Pool</div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric-box"><div class="metric-val">Persistent</div><div class="metric-lbl">Connection Pooling</div></div>', unsafe_allow_html=True)
