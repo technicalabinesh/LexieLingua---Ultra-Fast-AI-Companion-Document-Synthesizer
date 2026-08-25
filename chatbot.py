@@ -1,10 +1,9 @@
 """
-LexieLingua - Optimized conversational engine with direct HTTP connection pooling and instant token streaming.
+LexieLingua - Ultra-fast conversational engine with instant token streaming.
 """
 
 import os
 import re
-import httpx
 from openai import AzureOpenAI
 
 def _clean_base_url(url: str) -> str:
@@ -23,24 +22,16 @@ def is_ai_mode_available() -> bool:
 _CLIENT = None
 
 def get_client():
-    """Initializes and returns a pooled, low-latency AzureOpenAI client instance."""
     global _CLIENT
     if _CLIENT is None and is_ai_mode_available():
         base_endpoint = _clean_base_url(os.environ["AZURE_OPENAI_ENDPOINT"])
         api_key = os.environ["AZURE_OPENAI_API_KEY"].strip()
         api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-12-01-preview").strip()
         
-        # Dedicated HTTP connection pooling for sub-100ms connection reuse
-        http_client = httpx.Client(
-            timeout=httpx.Timeout(connect=5.0, read=20.0, write=5.0, pool=30.0),
-            limits=httpx.Limits(max_keepalive_connections=20, max_connections=50),
-        )
-        
         _CLIENT = AzureOpenAI(
             api_version=api_version,
             azure_endpoint=base_endpoint,
             api_key=api_key,
-            http_client=http_client,
         )
     return _CLIENT
 
@@ -67,10 +58,10 @@ def _offline_faq_answer(question: str) -> str:
     for entry in FAQ_KNOWLEDGE_BASE:
         if any(kw in q_lower for kw in entry["keywords"]):
             return f"**[Offline Knowledge Base - {entry['topic']}]**\n\n{entry['answer']}"
-    return "⚡ **Offline Mode Active:** Configure Azure OpenAI credentials in `.env` for AI capabilities."
+    return "⚡ **Offline Mode Active:** Azure OpenAI credentials are not configured in `.env`."
 
 def stream_answer(question: str, history: list):
-    """Streams tokens directly with minimized context overhead for maximum speed."""
+    """Streams tokens in real-time with sub-second TTFT."""
     if not is_ai_mode_available():
         yield _offline_faq_answer(question)
         return
@@ -79,12 +70,12 @@ def stream_answer(question: str, history: list):
     deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4o").strip()
 
     system_prompt = (
-        "You are LexieLingua, a fast and helpful assistant. Provide direct, accurate, and concise answers."
+        "You are LexieLingua Copilot, a fast, accurate AI assistant. "
+        "Provide direct, clear, structured responses with working code examples when applicable."
     )
 
     messages = [{"role": "system", "content": system_prompt}]
     
-    # Keep only the last 4 turns (fast TTFT + minimal token transfer)
     for msg in history[-4:]:
         if isinstance(msg, dict) and "role" in msg and "content" in msg:
             messages.append({"role": msg["role"], "content": msg["content"]})
@@ -105,3 +96,9 @@ def stream_answer(question: str, history: list):
 
     except Exception as exc:
         yield f"⚠️ **Azure API Error:** `{exc}`"
+
+def get_answer(question: str, history: list) -> str:
+    full_text = ""
+    for token in stream_answer(question, history):
+        full_text += token
+    return full_text
