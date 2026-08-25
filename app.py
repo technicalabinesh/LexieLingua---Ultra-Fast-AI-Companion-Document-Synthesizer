@@ -278,7 +278,7 @@ div[data-testid="stButton"] > button[kind="primary"] {
 }
 
 div[data-testid="stButton"] > button[kind="primary"]:hover {
-    transform: translateY(-2px) scale(1.01) !important;
+    transform: translateY(-2px scale(1.01) !important;
     box-shadow: 0 10px 25px -2px rgba(99, 102, 241, 0.5) !important;
 }
 
@@ -311,7 +311,6 @@ div[data-testid="stChatInput"] > div:focus-within {
     max-width: 82%;
     box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.3);
     font-size: 0.96rem;
-    animation: fadeInSlide 0.3s ease-out;
 }
 .chat-user * { color: #FFFFFF !important; }
 
@@ -327,12 +326,6 @@ div[data-testid="stChatInput"] > div:focus-within {
     box-shadow: var(--glass-shadow);
     font-size: 0.97rem;
     line-height: 1.7;
-    animation: fadeInSlide 0.3s ease-out;
-}
-
-@keyframes fadeInSlide {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Quick Prompt Chip Buttons */
@@ -438,7 +431,6 @@ if "page" not in st.session_state:
     st.session_state.page = "chat"
 
 if "chat_history" not in st.session_state:
-    # Auto-load existing history from Supabase if available
     db_history = load_chat_history(st.session_state.session_id)
     st.session_state.chat_history = db_history if db_history else []
 
@@ -450,31 +442,20 @@ def navigate(page: str):
     st.rerun()
 
 # ============================================================
-# FLOATING BRAND NAVBAR
+# FLOATING BRAND NAVBAR (NO INDENTATION GLITCH)
 # ============================================================
 ai_connected = chat_ai_available()
 status_html = (
-    """
-    <span class="status-pill status-online">
-        <span class="status-dot"></span>
-        Ultra-Fast Streaming Active
-    </span>
-    """
+    '<span class="status-pill status-online"><span class="status-dot"></span>Ultra-Fast Streaming Active</span>'
     if ai_connected
     else '<span class="status-pill status-offline">● Offline Fallback</span>'
 )
 
 st.markdown(
-    f"""
-    <div class="nav-container">
-        <div class="brand-logo">
-            <span>✨</span> LexieLingua <span style="font-size: 0.85rem; font-weight:700; color:#6366F1; letter-spacing:0.02em; padding:2px 8px; background:rgba(99, 102, 241, 0.1); border-radius:8px; border:1px solid rgba(99, 102, 241, 0.2);">PRO</span>
-        </div>
-        <div>
-            {status_html}
-        </div>
-    </div>
-    """,
+    f'<div class="nav-container">'
+    f'<div class="brand-logo"><span>✨</span> LexieLingua <span style="font-size: 0.85rem; font-weight:700; color:#6366F1; letter-spacing:0.02em; padding:2px 8px; background:rgba(99, 102, 241, 0.1); border-radius:8px; border:1px solid rgba(99, 102, 241, 0.2);">PRO</span></div>'
+    f'<div>{status_html}</div>'
+    f'</div>',
     unsafe_allow_html=True,
 )
 
@@ -499,26 +480,16 @@ if st.session_state.page == "chat":
 
     with left_col:
         st.markdown(
-            """
-            <div class="hero-card">
-                <div class="hero-title">Conversational Copilot</div>
-                <p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">
-                    Real-time generative intelligence for deep code debugging, mathematical logic, document inquiry, and study prep.
-                </p>
-            </div>
-            """,
+            '<div class="hero-card">'
+            '<div class="hero-title">Conversational Copilot</div>'
+            '<p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">Real-time generative intelligence for deep code debugging, mathematical logic, document inquiry, and study prep.</p>'
+            '</div>',
             unsafe_allow_html=True,
         )
 
-        # Message History
         if not st.session_state.chat_history:
             st.markdown(
-                """
-                <div class="chat-ai">
-                    <span style="font-size:1.2rem;">👋</span> <b>Welcome! I am LexieLingua Copilot.</b><br>
-                    Ask me anything — generate algorithms, analyze academic papers, review logic, or brainstorm complex projects.
-                </div>
-                """,
+                '<div class="chat-ai"><span style="font-size:1.2rem;">👋</span> <b>Welcome! I am LexieLingua Copilot.</b><br>Ask me anything — generate algorithms, analyze academic papers, review logic, or brainstorm complex projects.</div>',
                 unsafe_allow_html=True,
             )
 
@@ -526,38 +497,31 @@ if st.session_state.page == "chat":
             css_class = "chat-user" if turn["role"] == "user" else "chat-ai"
             sender = "👤 You" if turn["role"] == "user" else "✨ LexieLingua AI"
             st.markdown(
-                f"""
-                <div class="{css_class}">
-                    <div style="font-size:0.75rem; opacity:0.85; margin-bottom:5px; font-weight:700;">{sender}</div>
-                    <div>{turn["content"]}</div>
-                </div>
-                """,
+                f'<div class="{css_class}">'
+                f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:5px; font-weight:700;">{sender}</div>'
+                f'<div>{turn["content"]}</div>'
+                f'</div>',
                 unsafe_allow_html=True,
             )
 
-        # Chat Input
         user_input = st.chat_input("Ask a question, request code, or paste content...")
         
         if user_input:
-            st.markdown(
-                f"""
-                <div class="chat-user">
-                    <div style="font-size:0.75rem; opacity:0.85; margin-bottom:5px; font-weight:700;">👤 You</div>
-                    <div>{user_input}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             save_chat_message(st.session_state.session_id, "user", user_input)
 
+            # Display user turn
+            st.markdown(
+                f'<div class="chat-user">'
+                f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:5px; font-weight:700;">👤 You</div>'
+                f'<div>{user_input}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+            # Stream AI response
             with st.container():
-                st.markdown(
-                    """
-                    <div style="font-size:0.75rem; color:#6366F1; margin:12px 0 4px; font-weight:800; letter-spacing:0.02em;">✨ LexieLingua AI</div>
-                    """,
-                    unsafe_allow_html=True,
-                )
+                st.markdown('<div style="font-size:0.75rem; color:#6366F1; margin:12px 0 4px; font-weight:800; letter-spacing:0.02em;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
                 stream_gen = stream_answer(user_input, st.session_state.chat_history[:-1])
                 full_ai_response = st.write_stream(stream_gen)
 
@@ -574,11 +538,9 @@ if st.session_state.page == "chat":
 
     with right_col:
         st.markdown(
-            """
-            <div class="ui-card">
-                <div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Quick Actions</div>
-                <h4 style="margin:0 0 14px; font-weight:800; font-size:1.05rem;">⚡ Instant Prompts</h4>
-            """,
+            '<div class="ui-card">'
+            '<div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Quick Actions</div>'
+            '<h4 style="margin:0 0 14px; font-weight:800; font-size:1.05rem;">⚡ Instant Prompts</h4>',
             unsafe_allow_html=True,
         )
         
@@ -602,14 +564,10 @@ if st.session_state.page == "chat":
 # ============================================================
 elif st.session_state.page == "summarizer":
     st.markdown(
-        """
-        <div class="hero-card">
-            <div class="hero-title">Document Intelligence & Synthesis</div>
-            <p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">
-                Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights.
-            </p>
-        </div>
-        """,
+        '<div class="hero-card">'
+        '<div class="hero-title">Document Intelligence & Synthesis</div>'
+        '<p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights.</p>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
@@ -633,7 +591,6 @@ elif st.session_state.page == "summarizer":
                     res["filename"] = doc_file.name
                     res["generated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
                     st.session_state.last_summary = res
-                    # Save summary to Supabase database
                     save_summary_to_db(res)
 
     if st.session_state.last_summary:
@@ -655,26 +612,22 @@ elif st.session_state.page == "summarizer":
 
         st.write("")
         st.markdown(
-            f"""
-            <div class="ui-card">
-                <div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Synthesized Overview</div>
-                <h3 style="margin:0 0 14px; font-weight:800; font-size:1.2rem;">📝 Executive Summary</h3>
-                <p style="line-height:1.8; font-size:1.02rem; color:#1E293B; white-space:pre-wrap; margin:0;">{sum_data.get('summary', '')}</p>
-            </div>
-            """,
+            f'<div class="ui-card">'
+            f'<div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Synthesized Overview</div>'
+            f'<h3 style="margin:0 0 14px; font-weight:800; font-size:1.2rem;">📝 Executive Summary</h3>'
+            f'<p style="line-height:1.8; font-size:1.02rem; color:#1E293B; white-space:pre-wrap; margin:0;">{sum_data.get("summary", "")}</p>'
+            f'</div>',
             unsafe_allow_html=True,
         )
 
         if sum_data.get("key_points"):
             pts = "".join(f"<li style='margin-bottom:10px;'>{p}</li>" for p in sum_data["key_points"])
             st.markdown(
-                f"""
-                <div class="ui-card" style="border-left: 5px solid #6366F1 !important;">
-                    <div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Key Highlights</div>
-                    <h3 style="margin:0 0 14px; font-weight:800; font-size:1.2rem;">🔑 Critical Takeaways</h3>
-                    <ul style="line-height:1.75; font-size:0.97rem; color:#334155; padding-left:22px; margin:0;">{pts}</ul>
-                </div>
-                """,
+                f'<div class="ui-card" style="border-left: 5px solid #6366F1 !important;">'
+                f'<div style="font-size:0.8rem; font-weight:800; color:#6366F1; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Key Highlights</div>'
+                f'<h3 style="margin:0 0 14px; font-weight:800; font-size:1.2rem;">🔑 Critical Takeaways</h3>'
+                f'<ul style="line-height:1.75; font-size:0.97rem; color:#334155; padding-left:22px; margin:0;">{pts}</ul>'
+                f'</div>',
                 unsafe_allow_html=True,
             )
 
@@ -686,14 +639,10 @@ elif st.session_state.page == "summarizer":
 # ============================================================
 else:
     st.markdown(
-        """
-        <div class="hero-card">
-            <div class="hero-title">Neural Engine & Platform Architecture</div>
-            <p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">
-                LexieLingua utilizes an enterprise multi-tier architecture uniting cloud neural acceleration with deterministic edge extraction.
-            </p>
-        </div>
-        """,
+        '<div class="hero-card">'
+        '<div class="hero-title">Neural Engine & Platform Architecture</div>'
+        '<p style="color:#64748B; font-size:0.95rem; margin:0; line-height:1.5;">LexieLingua utilizes an enterprise multi-tier architecture uniting cloud neural acceleration with deterministic edge extraction.</p>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
@@ -703,57 +652,41 @@ else:
 
     with p1:
         st.markdown(
-            """
-            <div class="ui-card" style="border-top:4px solid #6366F1 !important;">
-                <div style="font-size:1.5rem; margin-bottom:8px;">📥</div>
-                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">1. Ingestion</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
-                    Extracts clean text streams from raw uploads (PDF, DOCX, TXT) or conversational payloads.
-                </p>
-            </div>
-            """,
+            '<div class="ui-card" style="border-top:4px solid #6366F1 !important;">'
+            '<div style="font-size:1.5rem; margin-bottom:8px;">📥</div>'
+            '<h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">1. Ingestion</h4>'
+            '<p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">Extracts clean text streams from raw uploads (PDF, DOCX, TXT) or conversational payloads.</p>'
+            '</div>',
             unsafe_allow_html=True,
         )
 
     with p2:
         st.markdown(
-            """
-            <div class="ui-card" style="border-top:4px solid #8B5CF6 !important;">
-                <div style="font-size:1.5rem; margin-bottom:8px;">🧠</div>
-                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">2. Context Layer</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
-                    Applies sliding-window memory management and dynamic prompt engineering to prevent context overflow.
-                </p>
-            </div>
-            """,
+            '<div class="ui-card" style="border-top:4px solid #8B5CF6 !important;">'
+            '<div style="font-size:1.5rem; margin-bottom:8px;">🧠</div>'
+            '<h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">2. Context Layer</h4>'
+            '<p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">Applies sliding-window memory management and dynamic prompt engineering to prevent context overflow.</p>'
+            '</div>',
             unsafe_allow_html=True,
         )
 
     with p3:
         st.markdown(
-            """
-            <div class="ui-card" style="border-top:4px solid #10B981 !important;">
-                <div style="font-size:1.5rem; margin-bottom:8px;">⚡</div>
-                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">3. Neural Foundry</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
-                    High-throughput Azure GPT-5.4 global deployment executes low-latency cognitive synthesis.
-                </p>
-            </div>
-            """,
+            '<div class="ui-card" style="border-top:4px solid #10B981 !important;">'
+            '<div style="font-size:1.5rem; margin-bottom:8px;">⚡</div>'
+            '<h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">3. Neural Foundry</h4>'
+            '<p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">High-throughput Azure GPT-5.4 global deployment executes low-latency cognitive synthesis.</p>'
+            '</div>',
             unsafe_allow_html=True,
         )
 
     with p4:
         st.markdown(
-            """
-            <div class="ui-card" style="border-top:4px solid #F59E0B !important;">
-                <div style="font-size:1.5rem; margin-bottom:8px;">🚀</div>
-                <h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">4. Real-Time SSE</h4>
-                <p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">
-                    Pushes generated token streams word-by-word with &lt;250ms TTFT direct to the reactive client.
-                </p>
-            </div>
-            """,
+            '<div class="ui-card" style="border-top:4px solid #F59E0B !important;">'
+            '<div style="font-size:1.5rem; margin-bottom:8px;">🚀</div>'
+            '<h4 style="margin:0 0 6px; font-size:1.05rem; font-weight:800;">4. Real-Time SSE</h4>'
+            '<p style="font-size:0.88rem; color:#475569; line-height:1.55; margin:0;">Pushes generated token streams word-by-word with &lt;250ms TTFT direct to the reactive client.</p>'
+            '</div>',
             unsafe_allow_html=True,
         )
 
@@ -764,42 +697,10 @@ else:
     
     spec_col1, spec_col2, spec_col3, spec_col4 = st.columns(4)
     with spec_col1:
-        st.markdown(
-            """
-            <div class="metric-box">
-                <div class="metric-val" style="font-size:1.35rem;">Azure GPT-5.4</div>
-                <div class="metric-lbl">LLM Engine</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="metric-box"><div class="metric-val" style="font-size:1.35rem;">Azure GPT-5.4</div><div class="metric-lbl">LLM Engine</div></div>', unsafe_allow_html=True)
     with spec_col2:
-        st.markdown(
-            """
-            <div class="metric-box">
-                <div class="metric-val" style="font-size:1.35rem;">&lt; 220 ms</div>
-                <div class="metric-lbl">Time to First Token</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="metric-box"><div class="metric-val" style="font-size:1.35rem;">&lt; 220 ms</div><div class="metric-lbl">Time to First Token</div></div>', unsafe_allow_html=True)
     with spec_col3:
-        st.markdown(
-            """
-            <div class="metric-box">
-                <div class="metric-val" style="font-size:1.35rem;">Streamlit + Py3.11</div>
-                <div class="metric-lbl">Core Stack</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="metric-box"><div class="metric-val" style="font-size:1.35rem;">Streamlit + Py3.11</div><div class="metric-lbl">Core Stack</div></div>', unsafe_allow_html=True)
     with spec_col4:
-        st.markdown(
-            """
-            <div class="metric-box">
-                <div class="metric-val" style="font-size:1.35rem;">Stateless / In-Mem</div>
-                <div class="metric-lbl">Data Privacy</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="metric-box"><div class="metric-val" style="font-size:1.35rem;">Stateless / In-Mem</div><div class="metric-lbl">Data Privacy</div></div>', unsafe_allow_html=True)
