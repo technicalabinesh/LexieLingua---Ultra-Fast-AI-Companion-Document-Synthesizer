@@ -37,7 +37,6 @@ def get_client():
     return _CLIENT
 
 def summarize_offline(text: str, length: str = "Medium") -> dict:
-    """Deterministic local extractive fallback."""
     counts = {"Short": 3, "Medium": 6, "Long": 10}
     n = counts.get(length, 6)
     summary = extractive_summary(text, num_sentences=n)
@@ -52,7 +51,7 @@ def summarize_offline(text: str, length: str = "Medium") -> dict:
     }
 
 def stream_summarize(text: str, length: str = "Medium"):
-    """Streams summary tokens in real-time to avoid UI freezing."""
+    """Streams summary tokens with parameter resilience."""
     if not is_ai_mode_available():
         offline_res = summarize_offline(text, length)
         yield offline_res["summary"]
@@ -67,31 +66,45 @@ def stream_summarize(text: str, length: str = "Medium"):
         "Long": "2-3 comprehensive paragraphs",
     }.get(length, "1 structured paragraph")
 
-    # Fast-window slice for instant TTFT
-    truncated_text = text[:15000]
-
     prompt = (
         f"Synthesize the following document into {length_instruction}.\n\n"
-        f"DOCUMENT:\n{truncated_text}"
+        f"DOCUMENT:\n{text[:15000]}"
     )
 
+    response_stream = None
     try:
         response_stream = client.chat.completions.create(
             model=deployment,
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=1024,
+            max_completion_tokens=1024,
             stream=True,
         )
+    except Exception as e1:
+        if "max_completion_tokens" in str(e1) or "unsupported_parameter" in str(e1).lower():
+            try:
+                response_stream = client.chat.completions.create(
+                    model=deployment,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=1024,
+                    stream=True,
+                )
+            except Exception as e2:
+                yield f"⚠️ Summary Error: {e2}"
+                return
+        else:
+            yield f"⚠️ Summary Error: {e1}"
+            return
 
+    try:
         for chunk in response_stream:
-            if chunk.choices and chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
-
+            if chunk.choices and len(chunk.choices) > 0:
+                delta = chunk.choices[0].delta
+                if delta and delta.content:
+                    yield delta.content
     except Exception as exc:
-        yield f"⚠️ Summary Generation Error: {exc}"
+        yield f"⚠️ Summary Error: {exc}"
 
 def summarize(text: str, length: str = "Medium") -> dict:
-    """Synchronous fallback for backwards compatibility."""
     full_text = ""
     for chunk in stream_summarize(text, length):
         full_text += chunk
