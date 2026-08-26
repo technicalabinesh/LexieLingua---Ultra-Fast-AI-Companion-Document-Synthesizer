@@ -35,8 +35,8 @@ from utils import extract_text
 load_dotenv()
 
 st.set_page_config(
-    page_title="LexieLingua AI | Intelligence That Makes Learning Alive",
-    page_icon="🌿",
+    page_title="LexieLingua AI | Intelligent Copilot",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -105,52 +105,46 @@ def save_summary_to_db(session_id: str, filename: str, file_type: str, raw_text:
     _DB_EXECUTOR.submit(_async_save_doc_summary, session_id, filename, file_type, raw_text, summary)
 
 # ============================================================
-# HIGH CONTRAST NATURE & LIQUID GLASS CSS
+# HIGH CONTRAST SOLID & GLASS DESIGN CSS
 # ============================================================
 EDITORIAL_NATURE_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
 :root {
-    --glass-bg: rgba(255, 255, 255, 0.88);
-    --glass-card: rgba(255, 255, 255, 0.94);
-    --glass-border: rgba(255, 255, 255, 0.95);
-    --text-main: #0F172A;
-    --text-muted: #334155;
-    --shadow-ambient: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    --text-dark: #0F172A;
+    --text-muted: #475569;
 }
 
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
 }
 
-/* Background */
+/* Background with High-Contrast Dark Gradient Shield */
 .stApp {
     background: 
-        linear-gradient(180deg, rgba(15, 23, 42, 0.20) 0%, rgba(240, 253, 244, 0.45) 50%, rgba(236, 253, 245, 0.75) 100%),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.45) 45%, rgba(15, 23, 42, 0.75) 100%),
         url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop") no-repeat center center fixed !important;
     background-size: cover !important;
     background-attachment: fixed !important;
 }
 
 .main .block-container {
-    max-width: 1280px;
+    max-width: 1260px;
     padding: 1.2rem 2rem 4.5rem;
 }
 
-/* Top Header Bar */
+/* Header Navbar */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
+    background: #FFFFFF !important;
     border: 1px solid rgba(255, 255, 255, 0.95);
     border-radius: 9999px;
     padding: 12px 28px;
     margin-bottom: 20px;
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .top-brand {
@@ -183,30 +177,31 @@ html, body, [class*="css"] {
 
 /* Hero Section */
 .hero-editorial {
-    padding: 14px 0 24px;
+    padding: 10px 0 20px;
 }
 
-.author-chip {
+.badge-tag {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.95);
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 9999px;
-    padding: 8px 18px;
-    margin-bottom: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #0F172A !important;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .headline-text {
     font-family: 'Space Grotesk', -apple-system, sans-serif;
-    font-size: 3.4rem;
+    font-size: 3.2rem;
     font-weight: 900;
-    line-height: 1.06;
+    line-height: 1.08;
     letter-spacing: -0.04em;
     color: #FFFFFF !important;
-    text-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     text-transform: uppercase;
     margin-bottom: 8px;
 }
@@ -217,7 +212,7 @@ html, body, [class*="css"] {
     border-radius: 10px;
     font-weight: 800;
     font-size: 0.9rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     vertical-align: middle;
     margin: 0 6px;
 }
@@ -225,23 +220,21 @@ html, body, [class*="css"] {
 .sticker-pink { background: #DB2777; color: #FFFFFF !important; transform: rotate(2deg); }
 
 .sub-editorial {
-    font-size: 1.1rem;
-    color: #FFFFFF !important;
+    font-size: 1.05rem;
+    color: #F1F5F9 !important;
     font-weight: 600;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-    max-width: 650px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    max-width: 680px;
     line-height: 1.5;
 }
 
-/* Glassmorphic Cards & Windows */
-.glass-container {
-    background: var(--glass-card) !important;
-    backdrop-filter: blur(32px) !important;
-    -webkit-backdrop-filter: blur(32px) !important;
-    border: 1.5px solid var(--glass-border) !important;
-    border-radius: 28px !important;
+/* High-Contrast Solid White Cards */
+.solid-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 26px !important;
     padding: 24px 28px !important;
-    box-shadow: var(--shadow-ambient) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
     margin-bottom: 18px;
 }
 
@@ -249,7 +242,7 @@ html, body, [class*="css"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #E2E8F0;
+    border-bottom: 1px solid #F1F5F9;
     padding-bottom: 12px;
     margin-bottom: 16px;
 }
@@ -260,7 +253,7 @@ html, body, [class*="css"] {
 .dot-yellow { background: #FFBD2E; }
 .dot-green { background: #27C93F; }
 
-/* Buttons & Chips - High Contrast Fix */
+/* Buttons & Segmented Control */
 div[data-testid="stButton"] > button {
     border-radius: 9999px !important;
     font-weight: 800 !important;
@@ -272,12 +265,12 @@ div[data-testid="stButton"] > button {
 div[data-testid="stButton"] > button[kind="secondary"] {
     background: #FFFFFF !important;
     color: #0F172A !important;
-    border: 1.5px solid #CBD5E1 !important;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+    border: 1.5px solid #E2E8F0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    background: #F0FDF4 !important;
+    background: #F8FAFC !important;
     border-color: #0284C7 !important;
     color: #0284C7 !important;
     transform: translateY(-2px);
@@ -288,20 +281,15 @@ div[data-testid="stButton"] > button[kind="primary"] {
     background: #0F172A !important;
     color: #FFFFFF !important;
     border: none !important;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.25) !important;
-}
-
-div[data-testid="stButton"] > button[kind="primary"]:hover {
-    transform: translateY(-2px);
-    background: #1E293B !important;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.4) !important;
 }
 
 /* Chat Input Bar */
 div[data-testid="stChatInput"] > div {
     background: #FFFFFF !important;
-    border: 1.5px solid #94A3B8 !important;
+    border: 2px solid #CBD5E1 !important;
     border-radius: 9999px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
     padding: 6px 12px !important;
 }
 
@@ -309,7 +297,7 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
     color: #0F172A !important;
 }
 
-/* High-Contrast Chat Bubbles */
+/* Chat Bubbles */
 .chat-user {
     background: #0F172A !important;
     color: #FFFFFF !important;
@@ -317,30 +305,29 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
     border-radius: 24px 24px 4px 24px;
     margin: 12px 0 12px auto;
     max-width: 82%;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.2);
     font-size: 0.96rem;
     line-height: 1.55;
 }
 .chat-user * { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
 
 .chat-ai {
-    background: #FFFFFF !important;
+    background: #F8FAFC !important;
     color: #0F172A !important;
     padding: 18px 24px;
     border-radius: 24px 24px 24px 4px;
     margin: 12px 0;
     max-width: 90%;
     border: 1px solid #E2E8F0;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
     font-size: 0.96rem;
     line-height: 1.65;
 }
 .chat-ai * { color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; }
 
-/* File Uploader */
+/* File Uploader Clean Light Style */
 div[data-testid="stFileUploader"] {
     background: #FFFFFF !important;
-    border: 1px solid #CBD5E1 !important;
+    border: 1px solid #E2E8F0 !important;
     border-radius: 24px !important;
     padding: 18px !important;
 }
@@ -356,14 +343,14 @@ div[data-testid="stFileUploaderDropzone"] * {
     color: #0F172A !important;
 }
 
-/* Architecture Specs & Metric Boxes */
+/* Metric Boxes */
 .metric-box {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0;
     border-radius: 22px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 .metric-val {
     font-family: 'Space Grotesk', sans-serif;
@@ -385,7 +372,7 @@ div[data-testid="stFileUploaderDropzone"] * {
     border-radius: 24px;
     padding: 24px;
     margin-bottom: 18px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 .arch-title {
     font-family: 'Space Grotesk', sans-serif;
@@ -402,6 +389,14 @@ div[data-testid="stFileUploaderDropzone"] * {
     color: #334155;
     line-height: 1.6;
     margin: 0;
+}
+
+/* Streamlit Expander Contrast Fix */
+div[data-testid="stExpander"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px !important;
+    margin-bottom: 10px !important;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
@@ -464,10 +459,7 @@ st.write("")
 if st.session_state.page == "chat":
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="author-chip">'
-        '<span style="font-size:1.1rem;">🌿</span>'
-        '<span style="font-size:0.85rem; font-weight:800; color:#0F172A;">AVAILABLE 24/7 • STUDENT COPILOT</span>'
-        '</div>'
+        '<div class="badge-tag">⚡ NEXT-GENERATION AI COPILOT</div>'
         '<div class="headline-text">'
         'INTELLIGENCE THAT <span class="sticker sticker-blue">MAKES</span>'
         '<br>STUDENTS <span class="sticker sticker-pink">EXCEL</span> FASTER'
@@ -481,10 +473,10 @@ if st.session_state.page == "chat":
 
     with left_col:
         st.markdown(
-            '<div class="glass-container">'
+            '<div class="solid-card">'
             '<div class="window-header">'
             '<div class="window-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
-            '<div style="font-size:0.82rem; font-weight:800; color:#0F172A;">copilot.lexielingua.ai • Live Session</div>'
+            '<div style="font-size:0.84rem; font-weight:800; color:#0F172A;">⚡ LexieLingua Neural Engine • Active Workspace</div>'
             '<div style="width:40px;"></div>'
             '</div>',
             unsafe_allow_html=True,
@@ -494,7 +486,7 @@ if st.session_state.page == "chat":
         with chat_container:
             if not st.session_state.chat_history:
                 st.markdown(
-                    '<div class="chat-ai">👋 <b>Welcome! I am LexieLingua AI.</b><br>Ask me any coding algorithm, math derivation, or study question for an instant answer.</div>',
+                    '<div class="chat-ai">👋 <b>Welcome to LexieLingua AI.</b><br>Ask me any coding question, algorithm derivation, or exam problem for an instant streamed response.</div>',
                     unsafe_allow_html=True,
                 )
 
@@ -502,7 +494,7 @@ if st.session_state.page == "chat":
                 if turn["role"] == "user":
                     st.markdown(
                         f'<div class="chat-user">'
-                        f'<div style="font-size:0.75rem; opacity:0.8; margin-bottom:4px; font-weight:700;">👤 You</div>'
+                        f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>'
                         f'<div>{turn["content"]}</div>'
                         f'</div>',
                         unsafe_allow_html=True,
@@ -523,7 +515,7 @@ if st.session_state.page == "chat":
         if user_input:
             st.markdown(
                 f'<div class="chat-user">'
-                f'<div style="font-size:0.75rem; opacity:0.8; margin-bottom:4px; font-weight:700;">👤 You</div>'
+                f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>'
                 f'<div>{user_input}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
@@ -548,7 +540,7 @@ if st.session_state.page == "chat":
 
     with right_col:
         st.markdown(
-            '<div class="glass-container">'
+            '<div class="solid-card">'
             '<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:4px;">Quick Actions</div>'
             '<h4 style="margin:0 0 14px; font-weight:800; font-size:1.1rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">⚡ Instant Prompts</h4>',
             unsafe_allow_html=True,
@@ -573,6 +565,7 @@ if st.session_state.page == "chat":
 elif st.session_state.page == "summarizer":
     st.markdown(
         '<div class="hero-editorial">'
+        '<div class="badge-tag">📄 DOCUMENT SYNTHESIS</div>'
         '<div class="headline-text">'
         'SYNTHESIZE <span class="sticker sticker-blue">KNOWLEDGE</span>'
         '<br>IN SECONDS'
@@ -582,12 +575,12 @@ elif st.session_state.page == "summarizer":
         unsafe_allow_html=True,
     )
 
-    st.markdown('<div class="glass-container">', unsafe_allow_html=True)
+    st.markdown('<div class="solid-card">', unsafe_allow_html=True)
     up_col, opt_col = st.columns([2.2, 1])
     with up_col:
         doc_file = st.file_uploader("Upload document", type=["pdf", "docx", "txt", "md"], label_visibility="collapsed")
     with opt_col:
-        summary_len = st.select_slider("Target Detail", options=["Short", "Medium", "Long"], value="Medium")
+        summary_len = st.select_slider("Target Detail Level", options=["Short", "Medium", "Long"], value="Medium")
         run_sum = st.button("✨ Distill Document", type="primary", use_container_width=True)
 
     if run_sum:
@@ -599,7 +592,7 @@ elif st.session_state.page == "summarizer":
                 st.error("❌ No readable text found in document.")
             else:
                 st.markdown(
-                    f'<div class="ui-card" style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:20px; padding:20px; margin-top:16px;">'
+                    f'<div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:20px; padding:22px; margin-top:18px;">'
                     f'<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
                     f'<h3 style="margin:0 0 12px; font-weight:800; font-size:1.2rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
                     unsafe_allow_html=True,
@@ -640,11 +633,12 @@ elif st.session_state.page == "summarizer":
 elif st.session_state.page == "history":
     st.markdown(
         '<div class="hero-editorial">'
+        '<div class="badge-tag">📊 AUDIT & LOGS</div>'
         '<div class="headline-text">'
         'ACTIVITY & <span class="sticker sticker-pink">HISTORY</span>'
         '<br>RECORDS'
         '</div>'
-        '<div class="sub-editorial">— Inspect questions asked, AI answers delivered, and uploaded document summaries.</div>'
+        '<div class="sub-editorial">— Inspect past questions asked, AI answers delivered, and uploaded document summaries.</div>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -653,7 +647,7 @@ elif st.session_state.page == "history":
 
     with h_col1:
         st.markdown(
-            '<div class="glass-container">'
+            '<div class="solid-card">'
             '<h3 style="margin:0 0 14px; font-weight:800; font-size:1.15rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">💬 Questions & Chat History</h3>',
             unsafe_allow_html=True,
         )
@@ -687,7 +681,7 @@ elif st.session_state.page == "history":
 
     with h_col2:
         st.markdown(
-            '<div class="glass-container">'
+            '<div class="solid-card">'
             '<h3 style="margin:0 0 14px; font-weight:800; font-size:1.15rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📁 Uploaded Documents & Summaries</h3>',
             unsafe_allow_html=True,
         )
@@ -718,24 +712,24 @@ elif st.session_state.page == "history":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# VIEW 4: COMPREHENSIVE ARCHITECTURE & PLATFORM EXPLANATION
+# VIEW 4: ARCHITECTURE & SPECS
 # ============================================================
 else:
     st.markdown(
         '<div class="hero-editorial">'
+        '<div class="badge-tag">⚙️ SYSTEM FOUNDRY</div>'
         '<div class="headline-text">'
-        'NEURAL ENGINE & <span class="sticker sticker-blue">PLATFORM</span>'
-        '<br>ARCHITECTURE'
+        'HIGH-THROUGHPUT <span class="sticker sticker-blue">NEURAL</span>'
+        '<br>FOUNDRY'
         '</div>'
-        '<div class="sub-editorial">— A comprehensive technical overview of LexieLingua AI\'s multi-tier low-latency cognitive infrastructure.</div>'
+        '<div class="sub-editorial">— Technical specifications of LexieLingua AI\'s multi-tier low-latency infrastructure.</div>'
         '</div>',
         unsafe_allow_html=True,
     )
 
-    # 3 High-Level Metric Boxes
     m1, m2, m3 = st.columns(3)
     with m1:
-        st.markdown('<div class="metric-box"><div class="metric-val">&lt; 150 ms</div><div class="metric-lbl">Time to First Token (TTFT)</div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric-box"><div class="metric-val">&lt; 150 ms</div><div class="metric-lbl">Time to First Token</div></div>', unsafe_allow_html=True)
     with m2:
         st.markdown('<div class="metric-box"><div class="metric-val">Asynchronous</div><div class="metric-lbl">Non-Blocking Daemon I/O</div></div>', unsafe_allow_html=True)
     with m3:
@@ -743,7 +737,6 @@ else:
 
     st.write("")
 
-    # Detailed 4-Tier Architecture Cards
     a1, a2 = st.columns(2)
 
     with a1:
@@ -751,9 +744,7 @@ else:
             '<div class="arch-card">'
             '<div class="arch-title">📥 1. Ingestion & Document Processing</div>'
             '<p class="arch-desc">'
-            'LexieLingua ingests complex multi-format payloads including <b>PDF, DOCX, TXT, and Markdown</b>. '
-            'It extracts structured textual representations completely in-memory using optimized binary parsers without creating disk I/O bottlenecks. '
-            'Extracted documents are sanitized and prepared for sliding-window token synthesis.'
+            'LexieLingua extracts text streams from raw uploads (PDF, DOCX, TXT, MD) completely in-memory using optimized binary parsers without creating disk I/O bottlenecks.'
             '</p>'
             '</div>',
             unsafe_allow_html=True,
@@ -761,11 +752,9 @@ else:
 
         st.markdown(
             '<div class="arch-card">'
-            '<div class="arch-title">🧠 2. Cognitive Context & Memory Window</div>'
+            '<div class="arch-title">🧠 2. Context Orchestration</div>'
             '<p class="arch-desc">'
-            'To maintain ultra-fast inference speeds and eliminate token latency, the context orchestrator uses an optimized '
-            '<b>sliding-window conversation memory</b>. It feeds recent query context and system instructions directly into the LLM, '
-            'preventing prompt bloat while preserving conversation history.'
+            'Employs sliding-window memory management to keep token overhead minimal and sub-second Time To First Token (TTFT) consistent.'
             '</p>'
             '</div>',
             unsafe_allow_html=True,
@@ -774,11 +763,9 @@ else:
     with a2:
         st.markdown(
             '<div class="arch-card">'
-            '<div class="arch-title">⚡ 3. Azure OpenAI Neural Foundry</div>'
+            '<div class="arch-title">⚡ 3. Azure Neural Acceleration</div>'
             '<p class="arch-desc">'
-            'The intelligence layer is powered by enterprise-grade <b>Azure OpenAI models</b>. '
-            'Responses are streamed token-by-token using <b>Server-Sent Events (SSE)</b> through a persistent HTTP connection pool, '
-            'giving users instant visual feedback with sub-150ms Time To First Token (TTFT).'
+            'Powered by Azure OpenAI deployments streaming tokens word-by-word with live Server-Sent Events (SSE).'
             '</p>'
             '</div>',
             unsafe_allow_html=True,
@@ -786,26 +773,10 @@ else:
 
         st.markdown(
             '<div class="arch-card">'
-            '<div class="arch-title">🔒 4. Asynchronous Audit & Persistence Layer</div>'
+            '<div class="arch-title">🔒 4. Asynchronous Audit Logging</div>'
             '<p class="arch-desc">'
-            'All student chat questions, AI completions, and synthesized document summaries are automatically captured into '
-            '<b>Supabase PostgreSQL</b>. Logging is dispatched to background <code>ThreadPoolExecutor</code> workers, ensuring that database saves '
-            'never block the UI or delay token streaming.'
+            'Chat queries and document summaries are automatically saved to Supabase PostgreSQL using background thread pool workers with zero UI latency.'
             '</p>'
             '</div>',
             unsafe_allow_html=True,
         )
-
-    # Technical Specifications Summary
-    st.markdown(
-        '<div class="arch-card" style="margin-top:10px;">'
-        '<div class="arch-title">🛠️ System Specifications & Technology Stack</div>'
-        '<p class="arch-desc">'
-        '• <b>Frontend Runtime:</b> Streamlit with custom CSS & glassmorphic layout.<br>'
-        '• <b>LLM Inference:</b> Azure OpenAI (GPT-4o / GPT-5 deployment) with auto-parameter fallback (<code>max_completion_tokens</code> / <code>max_tokens</code>).<br>'
-        '• <b>Database:</b> Supabase PostgreSQL with asynchronous daemon workers.<br>'
-        '• <b>Fallback Architecture:</b> Offline extractive summarizer & FAQ matcher when cloud API keys are absent.'
-        '</p>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
