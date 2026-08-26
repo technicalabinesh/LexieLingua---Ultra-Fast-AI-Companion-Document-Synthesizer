@@ -105,9 +105,9 @@ def save_summary_to_db(session_id: str, filename: str, file_type: str, raw_text:
     _DB_EXECUTOR.submit(_async_save_doc_summary, session_id, filename, file_type, raw_text, summary)
 
 # ============================================================
-# DARK FROSTED GLASS & MACOS DOTS CSS (ZERO SOLID WHITE)
+# EDITORIAL SEAMLESS FLOATING TYPOGRAPHY CSS
 # ============================================================
-DARK_MACOS_GLASS_CSS = """
+EDITORIAL_FLOATING_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
@@ -115,10 +115,10 @@ html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
 }
 
-/* Background with Deep Contrast Shield */
+/* Background with Cinematic Deep Sunset Nature Tint */
 .stApp {
     background: 
-        linear-gradient(180deg, rgba(8, 14, 26, 0.75) 0%, rgba(8, 14, 26, 0.55) 45%, rgba(8, 14, 26, 0.88) 100%),
+        linear-gradient(180deg, rgba(8, 14, 26, 0.70) 0%, rgba(8, 14, 26, 0.45) 45%, rgba(8, 14, 26, 0.85) 100%),
         url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop") no-repeat center center fixed !important;
     background-size: cover !important;
     background-attachment: fixed !important;
@@ -129,19 +129,19 @@ html, body, [class*="css"] {
     padding: 1.2rem 2rem 4.5rem;
 }
 
-/* Top Navbar - Dark Frosted Glass */
+/* Top Navbar - Minimalist Floating Capsule */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(15, 23, 42, 0.85) !important;
+    background: rgba(15, 23, 42, 0.75) !important;
     backdrop-filter: blur(28px) !important;
     -webkit-backdrop-filter: blur(28px) !important;
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 9999px;
     padding: 12px 28px;
-    margin-bottom: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    margin-bottom: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
 }
 
 .top-brand {
@@ -193,7 +193,7 @@ html, body, [class*="css"] {
 
 /* Hero Section */
 .hero-editorial {
-    padding: 10px 0 18px;
+    padding: 8px 0 24px;
 }
 
 .headline-text {
@@ -230,43 +230,128 @@ html, body, [class*="css"] {
     line-height: 1.5;
 }
 
-/* Dark Frosted Glass macOS Containers */
-.one-line-box {
-    background: rgba(15, 23, 42, 0.85) !important;
-    backdrop-filter: blur(28px) !important;
-    -webkit-backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
-    border-radius: 20px !important;
-    padding: 16px 22px !important;
-    margin-bottom: 16px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
-    display: flex;
-    align-items: center;
+/* Seamless Floating Editorial Response (Like Image 2) */
+.editorial-content {
+    color: #FFFFFF !important;
+    font-size: 1.05rem !important;
+    line-height: 1.75 !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6) !important;
+    padding: 10px 0 24px !important;
 }
-.one-line-box * { color: #F8FAFC !important; }
 
-.macos-window-card {
-    background: rgba(15, 23, 42, 0.88) !important;
-    backdrop-filter: blur(32px) !important;
-    -webkit-backdrop-filter: blur(32px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    border-radius: 26px !important;
-    padding: 24px 28px !important;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45) !important;
+.editorial-content h1, 
+.editorial-content h2, 
+.editorial-content h3, 
+.editorial-content h4 {
+    font-family: 'Space Grotesk', sans-serif !important;
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+    text-shadow: 0 3px 18px rgba(0, 0, 0, 0.7) !important;
+    margin-top: 24px !important;
+    margin-bottom: 12px !important;
+}
+
+.editorial-content h1 { font-size: 2.2rem !important; }
+.editorial-content h2 { font-size: 1.75rem !important; }
+.editorial-content h3 { font-size: 1.35rem !important; }
+
+.editorial-content p {
+    color: #F1F5F9 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.7 !important;
+    margin-bottom: 14px !important;
+}
+
+.editorial-content ul, .editorial-content ol {
+    margin-left: 24px !important;
     margin-bottom: 18px !important;
 }
-.macos-window-card * { color: #F8FAFC !important; }
 
-.window-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    padding-bottom: 12px;
-    margin-bottom: 18px;
+.editorial-content li {
+    color: #F8FAFC !important;
+    font-size: 1.02rem !important;
+    line-height: 1.7 !important;
+    margin-bottom: 6px !important;
 }
 
-/* Nav & Action Buttons */
+.editorial-content li::marker {
+    color: #38BDF8 !important;
+}
+
+/* User Message Pill */
+.user-pill {
+    display: inline-block;
+    background: rgba(15, 23, 42, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 9999px !important;
+    padding: 10px 22px !important;
+    color: #F8FAFC !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Code Blocks Floating in Dark Glass */
+pre {
+    background: rgba(2, 6, 23, 0.85) !important;
+    backdrop-filter: blur(24px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 18px !important;
+    padding: 20px !important;
+    margin: 18px 0 !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+}
+
+pre code, pre code * {
+    color: #F8FAFC !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.95rem !important;
+    background: transparent !important;
+}
+
+/* Inline Code */
+code:not(pre code) {
+    background: rgba(56, 189, 248, 0.18) !important;
+    color: #38BDF8 !important;
+    -webkit-text-fill-color: #38BDF8 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    font-size: 0.9em !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+/* Chat Input Bar */
+div[data-testid="stChatInput"] {
+    padding-top: 14px !important;
+}
+
+div[data-testid="stChatInput"] > div {
+    background: rgba(15, 23, 42, 0.85) !important;
+    backdrop-filter: blur(28px) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45) !important;
+    padding: 6px 16px !important;
+}
+
+div[data-testid="stChatInput"] textarea {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    font-size: 0.98rem !important;
+    font-weight: 600 !important;
+}
+
+div[data-testid="stChatInput"] textarea::placeholder {
+    color: #94A3B8 !important;
+    -webkit-text-fill-color: #94A3B8 !important;
+}
+
+/* Buttons */
 div[data-testid="stButton"] > button {
     border-radius: 9999px !important;
     font-weight: 800 !important;
@@ -276,7 +361,7 @@ div[data-testid="stButton"] > button {
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
-    background: rgba(15, 23, 42, 0.70) !important;
+    background: rgba(15, 23, 42, 0.65) !important;
     backdrop-filter: blur(20px) !important;
     color: #F8FAFC !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
@@ -298,133 +383,46 @@ div[data-testid="stButton"] > button[kind="primary"] {
     box-shadow: 0 8px 25px rgba(2, 132, 199, 0.45) !important;
 }
 
-/* Chat Input Bar */
-div[data-testid="stChatInput"] {
-    padding-top: 10px !important;
-}
-
-div[data-testid="stChatInput"] > div {
-    background: rgba(15, 23, 42, 0.92) !important;
-    backdrop-filter: blur(28px) !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
-    border-radius: 9999px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45) !important;
-    padding: 6px 14px !important;
-}
-
-div[data-testid="stChatInput"] textarea {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    font-size: 0.96rem !important;
-    font-weight: 600 !important;
-}
-
-div[data-testid="stChatInput"] textarea::placeholder {
-    color: #94A3B8 !important;
-    -webkit-text-fill-color: #94A3B8 !important;
-}
-
-/* Chat Bubbles */
-div[data-testid="stChatMessage"] {
-    background: rgba(2, 6, 23, 0.6) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-radius: 20px !important;
-    padding: 18px 22px !important;
-    margin-bottom: 14px !important;
-}
-div[data-testid="stChatMessage"] * { color: #F8FAFC !important; }
-
-div[data-testid="stChatMessage"] pre {
-    background: #020617 !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    border-radius: 14px !important;
-    padding: 16px !important;
-    margin: 12px 0 !important;
-}
-
-div[data-testid="stChatMessage"] pre code,
-div[data-testid="stChatMessage"] pre code * {
-    color: #F8FAFC !important;
-    background: transparent !important;
-}
-
-/* Inline Code Badges */
-code:not(pre code) {
-    background: rgba(56, 189, 248, 0.18) !important;
-    color: #38BDF8 !important;
-    -webkit-text-fill-color: #38BDF8 !important;
-    font-family: 'JetBrains Mono', monospace !important;
-    font-weight: 700 !important;
-    font-size: 0.9em !important;
-    padding: 3px 8px !important;
-    border-radius: 6px !important;
-    border: 1px solid rgba(56, 189, 248, 0.3) !important;
-}
-
 /* File Uploader */
 div[data-testid="stFileUploader"] {
-    background: rgba(15, 23, 42, 0.85) !important;
+    background: rgba(15, 23, 42, 0.75) !important;
     backdrop-filter: blur(24px) !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
     border-radius: 24px !important;
     padding: 18px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35) !important;
 }
-
 div[data-testid="stFileUploaderDropzone"] {
     background: rgba(2, 6, 23, 0.55) !important;
     border: 2px dashed rgba(255, 255, 255, 0.25) !important;
     border-radius: 18px !important;
-    padding: 24px 16px !important;
 }
 div[data-testid="stFileUploaderDropzone"] * { color: #F8FAFC !important; }
 
 /* Expanders */
 div[data-testid="stExpander"], details[data-testid="stExpander"] {
-    background: rgba(15, 23, 42, 0.82) !important;
+    background: rgba(15, 23, 42, 0.75) !important;
     backdrop-filter: blur(24px) !important;
     border: 1px solid rgba(255, 255, 255, 0.16) !important;
     border-radius: 18px !important;
     margin-bottom: 12px !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
 }
-
-div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
-    background: transparent !important;
-    border-radius: 18px !important;
-    padding: 14px 20px !important;
-}
-
 div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
     font-weight: 800 !important;
-    font-size: 0.95rem !important;
 }
-
-div[data-testid="stExpander"] summary svg, details[data-testid="stExpander"] summary svg {
-    fill: #38BDF8 !important;
-    stroke: #38BDF8 !important;
-}
-
 div[data-testid="stExpanderDetails"], details[data-testid="stExpander"] > div {
     background: rgba(2, 6, 23, 0.5) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-    padding: 16px 20px !important;
-    border-bottom-left-radius: 18px !important;
-    border-bottom-right-radius: 18px !important;
 }
 div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div * {
     color: #E2E8F0 !important;
-    -webkit-text-fill-color: #E2E8F0 !important;
 }
 
-/* Architecture Uniform Dark Glass Cards */
+/* Architecture Uniform Cards */
 .arch-card {
-    background: rgba(15, 23, 42, 0.85) !important;
+    background: rgba(15, 23, 42, 0.78) !important;
     backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 24px;
     padding: 24px;
     height: 100%;
@@ -449,7 +447,6 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
     line-height: 1.6;
     margin: 0;
 }
-
 .tech-chip {
     display: inline-flex;
     align-items: center;
@@ -468,7 +465,7 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
 #MainMenu, footer, header { visibility: hidden; }
 </style>
 """
-st.markdown(DARK_MACOS_GLASS_CSS, unsafe_allow_html=True)
+st.markdown(EDITORIAL_FLOATING_CSS, unsafe_allow_html=True)
 
 # State initialization
 if "session_id" not in st.session_state:
@@ -523,7 +520,7 @@ with nav_cols[3]:
 st.write("")
 
 # ============================================================
-# VIEW 1: CONVERSATIONAL AI (MACOS DARK WINDOW CONTAINER)
+# VIEW 1: CONVERSATIONAL AI (FLOATING EDITORIAL STYLE)
 # ============================================================
 if st.session_state.page == "chat":
     st.markdown(
@@ -540,26 +537,20 @@ if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
-        # Dark macOS Workspace Window
-        st.markdown(
-            '<div class="macos-window-card">'
-            '<div class="window-bar">'
-            '<div class="window-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
-            '<div style="font-size:0.84rem; font-weight:800; color:#94A3B8;">LexieLingua AI Workspace</div>'
-            '<div style="width:40px;"></div>'
-            '</div>'
-            '<p style="margin:0 0 16px; font-weight:600; font-size:0.92rem; color:#CBD5E1; line-height:1.5;">'
-            'An ultra-fast conversational copilot designed for instant coding synthesis, academic problem-solving, and real-time student support.'
-            '</p>',
-            unsafe_allow_html=True,
-        )
-
+        # Render clean floating chat conversation (Image 2 style)
         chat_container = st.container()
         with chat_container:
             for turn in st.session_state.chat_history:
-                role = turn["role"]
-                with st.chat_message(role):
-                    st.markdown(turn["content"])
+                if turn["role"] == "user":
+                    st.markdown(
+                        f'<div class="user-pill">👤 {turn["content"]}</div>',
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.markdown(
+                        f'<div class="editorial-content">{turn["content"]}</div>',
+                        unsafe_allow_html=True,
+                    )
 
         user_input = st.chat_input("Type your question or request code here...")
         if st.session_state.pending_prompt:
@@ -567,19 +558,22 @@ if st.session_state.page == "chat":
             st.session_state.pending_prompt = None
 
         if user_input:
-            with st.chat_message("user"):
-                st.markdown(user_input)
+            st.markdown(
+                f'<div class="user-pill">👤 {user_input}</div>',
+                unsafe_allow_html=True,
+            )
             save_chat_message(st.session_state.session_id, "user", user_input)
 
-            with st.chat_message("assistant"):
+            # Stream directly as clean floating editorial text
+            with st.container():
+                st.markdown('<div class="editorial-content">', unsafe_allow_html=True)
                 stream_gen = stream_answer(user_input, st.session_state.chat_history)
                 full_ai_response = st.write_stream(stream_gen)
+                st.markdown('</div>', unsafe_allow_html=True)
 
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
             save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
-
-        st.markdown('</div>', unsafe_allow_html=True)
 
         if st.session_state.chat_history:
             st.write("")
@@ -590,7 +584,7 @@ if st.session_state.page == "chat":
 
     with right_col:
         st.markdown(
-            '<div class="macos-window-card">'
+            '<div style="background:rgba(15,23,42,0.75); backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,0.16); border-radius:24px; padding:22px; margin-bottom:16px;">'
             '<div style="font-size:0.8rem; font-weight:800; color:#38BDF8; text-transform:uppercase; margin-bottom:4px;">Quick Actions</div>'
             '<h4 style="margin:0 0 14px; font-weight:800; font-size:1.1rem; color:#FFFFFF; font-family:\'Space Grotesk\', sans-serif;">⚡ Instant Prompts</h4>',
             unsafe_allow_html=True,
@@ -624,16 +618,6 @@ elif st.session_state.page == "summarizer":
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        '<div class="one-line-box">'
-        '<div class="window-dots" style="margin-right:12px;"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
-        '<p style="margin:0; font-weight:600; font-size:0.95rem; line-height:1.5;">'
-        '<b>Document Synthesizer:</b> Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights in seconds.'
-        '</p>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
-
     up_col, opt_col = st.columns([2.2, 1])
     with up_col:
         doc_file = st.file_uploader("Upload document", type=["pdf", "docx", "txt", "md"], label_visibility="collapsed")
@@ -650,9 +634,8 @@ elif st.session_state.page == "summarizer":
                 st.error("❌ No readable text found in document.")
             else:
                 st.markdown(
-                    f'<div class="macos-window-card" style="margin-top:18px;">'
-                    f'<div style="font-size:0.8rem; font-weight:800; color:#38BDF8; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
-                    f'<h3 style="margin:0 0 12px; font-weight:800; font-size:1.2rem; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
+                    '<div class="editorial-content">'
+                    '<h2 style="margin-top:20px;">📝 Executive Summary</h2>',
                     unsafe_allow_html=True,
                 )
 
@@ -703,7 +686,7 @@ elif st.session_state.page == "history":
 
     with h_col1:
         st.markdown(
-            '<div class="macos-window-card">'
+            '<div style="background:rgba(15,23,42,0.75); backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,0.16); border-radius:24px; padding:22px; margin-bottom:16px;">'
             '<h3 style="margin:0 0 16px; font-weight:800; font-size:1.15rem; color:#FFFFFF; font-family:\'Space Grotesk\', sans-serif;">💬 Questions & Chat History</h3>',
             unsafe_allow_html=True,
         )
@@ -737,7 +720,7 @@ elif st.session_state.page == "history":
 
     with h_col2:
         st.markdown(
-            '<div class="macos-window-card">'
+            '<div style="background:rgba(15,23,42,0.75); backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,0.16); border-radius:24px; padding:22px; margin-bottom:16px;">'
             '<h3 style="margin:0 0 16px; font-weight:800; font-size:1.15rem; color:#FFFFFF; font-family:\'Space Grotesk\', sans-serif;">📁 Uploaded Documents & Summaries</h3>',
             unsafe_allow_html=True,
         )
