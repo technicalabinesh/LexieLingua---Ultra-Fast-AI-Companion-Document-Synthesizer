@@ -105,27 +105,29 @@ def save_summary_to_db(session_id: str, filename: str, file_type: str, raw_text:
     _DB_EXECUTOR.submit(_async_save_doc_summary, session_id, filename, file_type, raw_text, summary)
 
 # ============================================================
-# EDITORIAL NATURE & LIQUID GLASS CSS
+# HIGH CONTRAST NATURE & LIQUID GLASS CSS
 # ============================================================
 EDITORIAL_NATURE_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
 :root {
-    --glass-bg: rgba(255, 255, 255, 0.72);
-    --glass-card: rgba(255, 255, 255, 0.88);
-    --glass-border: rgba(255, 255, 255, 0.65);
-    --shadow-ambient: 0 30px 60px -12px rgba(15, 23, 42, 0.18), 0 18px 36px -18px rgba(0, 0, 0, 0.12);
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-card: rgba(255, 255, 255, 0.94);
+    --glass-border: rgba(255, 255, 255, 0.95);
+    --text-main: #0F172A;
+    --text-muted: #334155;
+    --shadow-ambient: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
 }
 
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
 }
 
-/* Scenic Landscape Backdrop with Soft Tint */
+/* Background */
 .stApp {
     background: 
-        linear-gradient(180deg, rgba(8, 20, 32, 0.15) 0%, rgba(240, 253, 244, 0.35) 60%, rgba(236, 253, 245, 0.65) 100%),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.20) 0%, rgba(240, 253, 244, 0.45) 50%, rgba(236, 253, 245, 0.75) 100%),
         url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop") no-repeat center center fixed !important;
     background-size: cover !important;
     background-attachment: fixed !important;
@@ -133,21 +135,21 @@ html, body, [class*="css"] {
 
 .main .block-container {
     max-width: 1280px;
-    padding: 1.4rem 2rem 4.5rem;
+    padding: 1.2rem 2rem 4.5rem;
 }
 
-/* Minimalist Frosted Top Header */
+/* Top Header Bar */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.95);
     border-radius: 9999px;
     padding: 12px 28px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
 }
 
@@ -155,9 +157,8 @@ html, body, [class*="css"] {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.3rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    color: #0F172A;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0F172A !important;
 }
 
 .top-pill {
@@ -166,12 +167,11 @@ html, body, [class*="css"] {
     gap: 8px;
     padding: 6px 16px;
     border-radius: 9999px;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 800;
-    background: rgba(255, 255, 255, 0.85);
-    color: #15803D;
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    background: #F0FDF4 !important;
+    color: #166534 !important;
+    border: 1px solid #BBF7D0;
 }
 .pulse-dot {
     width: 8px;
@@ -181,148 +181,135 @@ html, body, [class*="css"] {
     box-shadow: 0 0 10px #22C55E;
 }
 
-/* Giant Editorial Hero Section */
+/* Hero Section */
 .hero-editorial {
-    padding: 20px 0 34px;
-    position: relative;
+    padding: 14px 0 24px;
 }
 
 .author-chip {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    border-radius: 20px;
-    padding: 10px 18px;
-    margin-bottom: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-}
-
-.headline-container {
-    margin: 10px 0 16px;
-    position: relative;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 9999px;
+    padding: 8px 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
 }
 
 .headline-text {
     font-family: 'Space Grotesk', -apple-system, sans-serif;
-    font-size: 3.8rem;
+    font-size: 3.4rem;
     font-weight: 900;
-    line-height: 1.04;
+    line-height: 1.06;
     letter-spacing: -0.04em;
-    color: #FFFFFF;
-    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    color: #FFFFFF !important;
+    text-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
     text-transform: uppercase;
+    margin-bottom: 8px;
 }
 
-/* Playful Floating Sticker Badges */
 .sticker {
     display: inline-block;
-    padding: 6px 16px;
-    border-radius: 12px;
+    padding: 4px 14px;
+    border-radius: 10px;
     font-weight: 800;
-    font-size: 0.95rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    font-size: 0.9rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
     vertical-align: middle;
-    margin: 0 8px;
+    margin: 0 6px;
 }
-.sticker-blue {
-    background: #38BDF8;
-    color: #082F49;
-    transform: rotate(-3deg);
-}
-.sticker-pink {
-    background: #F472B6;
-    color: #831843;
-    transform: rotate(3deg);
-}
-.sticker-purple {
-    background: #C084FC;
-    color: #3B0764;
-    transform: rotate(-2deg);
-}
+.sticker-blue { background: #0284C7; color: #FFFFFF !important; transform: rotate(-2deg); }
+.sticker-pink { background: #DB2777; color: #FFFFFF !important; transform: rotate(2deg); }
 
 .sub-editorial {
-    font-size: 1.15rem;
-    color: #FFFFFF;
+    font-size: 1.1rem;
+    color: #FFFFFF !important;
     font-weight: 600;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
     max-width: 650px;
     line-height: 1.5;
-    margin-bottom: 12px;
 }
 
-/* Translucent Glass Card Wrapper */
+/* Glassmorphic Cards & Windows */
 .glass-container {
     background: var(--glass-card) !important;
     backdrop-filter: blur(32px) !important;
     -webkit-backdrop-filter: blur(32px) !important;
     border: 1.5px solid var(--glass-border) !important;
-    border-radius: 32px !important;
-    padding: 26px 30px !important;
+    border-radius: 28px !important;
+    padding: 24px 28px !important;
     box-shadow: var(--shadow-ambient) !important;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
-.ui-card {
-    background: rgba(255, 255, 255, 0.82) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    border-radius: 24px;
-    padding: 22px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+.window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E8F0;
+    padding-bottom: 12px;
     margin-bottom: 16px;
 }
 
-/* Nav & Action Buttons */
+.window-dots { display: flex; gap: 6px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot-red { background: #FF5F56; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #27C93F; }
+
+/* Buttons & Chips - High Contrast Fix */
 div[data-testid="stButton"] > button {
     border-radius: 9999px !important;
     font-weight: 800 !important;
     font-size: 0.9rem !important;
-    min-height: 46px !important;
-    transition: all 0.25s ease !important;
+    min-height: 44px !important;
+    transition: all 0.2s ease !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
-    background: rgba(255, 255, 255, 0.75) !important;
-    backdrop-filter: blur(16px) !important;
+    background: #FFFFFF !important;
     color: #0F172A !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+    border: 1.5px solid #CBD5E1 !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    background: #FFFFFF !important;
-    border-color: #38BDF8 !important;
+    background: #F0FDF4 !important;
+    border-color: #0284C7 !important;
     color: #0284C7 !important;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(56, 189, 248, 0.25) !important;
+    box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"] {
     background: #0F172A !important;
     color: #FFFFFF !important;
     border: none !important;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.25) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"]:hover {
     transform: translateY(-2px);
     background: #1E293B !important;
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.4) !important;
 }
 
 /* Chat Input Bar */
 div[data-testid="stChatInput"] > div {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid #94A3B8 !important;
     border-radius: 9999px !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
     padding: 6px 12px !important;
 }
 
+div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
+    color: #0F172A !important;
+}
+
+/* High-Contrast Chat Bubbles */
 .chat-user {
     background: #0F172A !important;
     color: #FFFFFF !important;
@@ -330,67 +317,91 @@ div[data-testid="stChatInput"] > div {
     border-radius: 24px 24px 4px 24px;
     margin: 12px 0 12px auto;
     max-width: 82%;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
     font-size: 0.96rem;
     line-height: 1.55;
 }
 .chat-user * { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
 
 .chat-ai {
-    background: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(16px) !important;
+    background: #FFFFFF !important;
     color: #0F172A !important;
     padding: 18px 24px;
     border-radius: 24px 24px 24px 4px;
     margin: 12px 0;
     max-width: 90%;
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
     font-size: 0.96rem;
     line-height: 1.65;
 }
+.chat-ai * { color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; }
 
-/* Clean Frosted File Uploader */
+/* File Uploader */
 div[data-testid="stFileUploader"] {
-    background: rgba(255, 255, 255, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
     border-radius: 24px !important;
     padding: 18px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] {
-    background: #FFFFFF !important;
+    background: #F8FAFC !important;
     border: 2px dashed #94A3B8 !important;
     border-radius: 18px !important;
     padding: 24px 16px !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] * {
-    color: #1E293B !important;
+    color: #0F172A !important;
 }
 
+/* Architecture Specs & Metric Boxes */
 .metric-box {
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    border-radius: 24px;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0;
+    border-radius: 22px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 .metric-val {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.9rem;
-    font-weight: 900;
-    color: #0F172A;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #0F172A !important;
 }
 .metric-lbl {
-    font-size: 0.75rem;
+    font-size: 0.76rem;
     color: #475569 !important;
     font-weight: 800;
     text-transform: uppercase;
-    margin-top: 2px;
+    margin-top: 4px;
+}
+
+.arch-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0;
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+.arch-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.arch-desc {
+    font-size: 0.92rem;
+    color: #334155;
+    line-height: 1.6;
+    margin: 0;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
@@ -419,7 +430,7 @@ ai_connected = chat_ai_available()
 status_html = (
     '<div class="top-pill"><span class="pulse-dot"></span>Sub-150ms Live Neural Engine</div>'
     if ai_connected
-    else '<div class="top-pill" style="color:#B45309;">● Offline Mode</div>'
+    else '<div class="top-pill" style="background:#FFFBEB; color:#B45309; border-color:#FDE68A;">● Offline Mode</div>'
 )
 
 st.markdown(
@@ -448,7 +459,7 @@ with nav_cols[3]:
 st.write("")
 
 # ============================================================
-# VIEW 1: CONVERSATIONAL AI (EDITORIAL NATURE)
+# VIEW 1: CONVERSATIONAL AI
 # ============================================================
 if st.session_state.page == "chat":
     st.markdown(
@@ -457,13 +468,11 @@ if st.session_state.page == "chat":
         '<span style="font-size:1.1rem;">🌿</span>'
         '<span style="font-size:0.85rem; font-weight:800; color:#0F172A;">AVAILABLE 24/7 • STUDENT COPILOT</span>'
         '</div>'
-        '<div class="headline-container">'
         '<div class="headline-text">'
         'INTELLIGENCE THAT <span class="sticker sticker-blue">MAKES</span>'
         '<br>STUDENTS <span class="sticker sticker-pink">EXCEL</span> FASTER'
         '</div>'
-        '</div>'
-        '<div class="sub-editorial">— Not just an assistant. An AI companion that makes studying feel alive, instant, and effortless.</div>'
+        '<div class="sub-editorial">— Instant, accurate AI copilot for programming, mathematics, and exam preparation.</div>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -471,13 +480,21 @@ if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
-        st.markdown('<div class="glass-container">', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="glass-container">'
+            '<div class="window-header">'
+            '<div class="window-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
+            '<div style="font-size:0.82rem; font-weight:800; color:#0F172A;">copilot.lexielingua.ai • Live Session</div>'
+            '<div style="width:40px;"></div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
         
         chat_container = st.container()
         with chat_container:
             if not st.session_state.chat_history:
                 st.markdown(
-                    '<div class="chat-ai">👋 <b>Welcome! I am LexieLingua AI.</b><br>Ask me any coding algorithm, math derivation, or exam question for an instant answer.</div>',
+                    '<div class="chat-ai">👋 <b>Welcome! I am LexieLingua AI.</b><br>Ask me any coding algorithm, math derivation, or study question for an instant answer.</div>',
                     unsafe_allow_html=True,
                 )
 
@@ -493,7 +510,7 @@ if st.session_state.page == "chat":
                 else:
                     with st.container():
                         st.markdown(
-                            '<div style="font-size:0.78rem; color:#0284C7; font-weight:800; margin:8px 0 2px;">✨ LexieLingua AI</div>',
+                            '<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin:10px 0 2px;">✨ LexieLingua AI</div>',
                             unsafe_allow_html=True,
                         )
                         st.markdown(turn["content"])
@@ -513,7 +530,7 @@ if st.session_state.page == "chat":
             )
             save_chat_message(st.session_state.session_id, "user", user_input)
 
-            st.markdown('<div style="font-size:0.78rem; color:#0284C7; margin:12px 0 4px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
+            st.markdown('<div style="font-size:0.8rem; color:#0284C7; margin:12px 0 4px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
             stream_gen = stream_answer(user_input, st.session_state.chat_history)
             full_ai_response = st.write_stream(stream_gen)
 
@@ -532,8 +549,8 @@ if st.session_state.page == "chat":
     with right_col:
         st.markdown(
             '<div class="glass-container">'
-            '<div style="font-size:0.78rem; font-weight:900; color:#0284C7; text-transform:uppercase; margin-bottom:4px;">Quick Actions</div>'
-            '<h4 style="margin:0 0 14px; font-weight:900; font-size:1.1rem; font-family:\'Space Grotesk\', sans-serif;">⚡ INSTANT PROMPTS</h4>',
+            '<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:4px;">Quick Actions</div>'
+            '<h4 style="margin:0 0 14px; font-weight:800; font-size:1.1rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">⚡ Instant Prompts</h4>',
             unsafe_allow_html=True,
         )
         
@@ -556,11 +573,9 @@ if st.session_state.page == "chat":
 elif st.session_state.page == "summarizer":
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="headline-container">'
         '<div class="headline-text">'
-        'SYNTHESIZE <span class="sticker sticker-purple">KNOWLEDGE</span>'
+        'SYNTHESIZE <span class="sticker sticker-blue">KNOWLEDGE</span>'
         '<br>IN SECONDS'
-        '</div>'
         '</div>'
         '<div class="sub-editorial">— Drop textbooks, lecture notes, or research papers for clean, structured takeaways.</div>'
         '</div>',
@@ -584,9 +599,9 @@ elif st.session_state.page == "summarizer":
                 st.error("❌ No readable text found in document.")
             else:
                 st.markdown(
-                    f'<div class="ui-card">'
-                    f'<div style="font-size:0.78rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
-                    f'<h3 style="margin:0 0 12px; font-weight:900; font-size:1.2rem; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
+                    f'<div class="ui-card" style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:20px; padding:20px; margin-top:16px;">'
+                    f'<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
+                    f'<h3 style="margin:0 0 12px; font-weight:800; font-size:1.2rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
                     unsafe_allow_html=True,
                 )
 
@@ -625,13 +640,11 @@ elif st.session_state.page == "summarizer":
 elif st.session_state.page == "history":
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="headline-container">'
         '<div class="headline-text">'
         'ACTIVITY & <span class="sticker sticker-pink">HISTORY</span>'
         '<br>RECORDS'
         '</div>'
-        '</div>'
-        '<div class="sub-editorial">— Inspect questions asked, AI answers delivered, and uploaded summaries.</div>'
+        '<div class="sub-editorial">— Inspect questions asked, AI answers delivered, and uploaded document summaries.</div>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -641,7 +654,7 @@ elif st.session_state.page == "history":
     with h_col1:
         st.markdown(
             '<div class="glass-container">'
-            '<h3 style="margin:0 0 14px; font-weight:900; font-size:1.15rem; font-family:\'Space Grotesk\', sans-serif;">💬 Questions & Chat History</h3>',
+            '<h3 style="margin:0 0 14px; font-weight:800; font-size:1.15rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">💬 Questions & Chat History</h3>',
             unsafe_allow_html=True,
         )
 
@@ -675,7 +688,7 @@ elif st.session_state.page == "history":
     with h_col2:
         st.markdown(
             '<div class="glass-container">'
-            '<h3 style="margin:0 0 14px; font-weight:900; font-size:1.15rem; font-family:\'Space Grotesk\', sans-serif;">📁 Uploaded Documents & Summaries</h3>',
+            '<h3 style="margin:0 0 14px; font-weight:800; font-size:1.15rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📁 Uploaded Documents & Summaries</h3>',
             unsafe_allow_html=True,
         )
 
@@ -705,25 +718,94 @@ elif st.session_state.page == "history":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# VIEW 4: ARCHITECTURE & SPECS
+# VIEW 4: COMPREHENSIVE ARCHITECTURE & PLATFORM EXPLANATION
 # ============================================================
 else:
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="headline-container">'
         '<div class="headline-text">'
-        'HIGH-THROUGHPUT <span class="sticker sticker-blue">NEURAL</span>'
-        '<br>FOUNDRY'
+        'NEURAL ENGINE & <span class="sticker sticker-blue">PLATFORM</span>'
+        '<br>ARCHITECTURE'
         '</div>'
-        '</div>'
-        '<div class="sub-editorial">— Persistent HTTP connection pooling and non-blocking asynchronous threads for instant token delivery.</div>'
+        '<div class="sub-editorial">— A comprehensive technical overview of LexieLingua AI\'s multi-tier low-latency cognitive infrastructure.</div>'
         '</div>',
         unsafe_allow_html=True,
     )
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown('<div class="metric-box"><div class="metric-val">&lt; 150 ms</div><div class="metric-lbl">Time to First Token</div></div>', unsafe_allow_html=True)
-    with c2:
-        st.markdown('<div class="metric-box"><div class="metric-val">Async</div><div class="metric-lbl">Non-Blocking I/O</div></div>', unsafe_allow_html=True)
-    with c3:
-        st.markdown('<div class="metric-box"><div class="metric-val">Pooled</div><div class="metric-lbl">Persistent Connection</div></div>', unsafe_allow_html=True)
+
+    # 3 High-Level Metric Boxes
+    m1, m2, m3 = st.columns(3)
+    with m1:
+        st.markdown('<div class="metric-box"><div class="metric-val">&lt; 150 ms</div><div class="metric-lbl">Time to First Token (TTFT)</div></div>', unsafe_allow_html=True)
+    with m2:
+        st.markdown('<div class="metric-box"><div class="metric-val">Asynchronous</div><div class="metric-lbl">Non-Blocking Daemon I/O</div></div>', unsafe_allow_html=True)
+    with m3:
+        st.markdown('<div class="metric-box"><div class="metric-val">Pooled HTTP</div><div class="metric-lbl">Persistent Connection Engine</div></div>', unsafe_allow_html=True)
+
+    st.write("")
+
+    # Detailed 4-Tier Architecture Cards
+    a1, a2 = st.columns(2)
+
+    with a1:
+        st.markdown(
+            '<div class="arch-card">'
+            '<div class="arch-title">📥 1. Ingestion & Document Processing</div>'
+            '<p class="arch-desc">'
+            'LexieLingua ingests complex multi-format payloads including <b>PDF, DOCX, TXT, and Markdown</b>. '
+            'It extracts structured textual representations completely in-memory using optimized binary parsers without creating disk I/O bottlenecks. '
+            'Extracted documents are sanitized and prepared for sliding-window token synthesis.'
+            '</p>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(
+            '<div class="arch-card">'
+            '<div class="arch-title">🧠 2. Cognitive Context & Memory Window</div>'
+            '<p class="arch-desc">'
+            'To maintain ultra-fast inference speeds and eliminate token latency, the context orchestrator uses an optimized '
+            '<b>sliding-window conversation memory</b>. It feeds recent query context and system instructions directly into the LLM, '
+            'preventing prompt bloat while preserving conversation history.'
+            '</p>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+    with a2:
+        st.markdown(
+            '<div class="arch-card">'
+            '<div class="arch-title">⚡ 3. Azure OpenAI Neural Foundry</div>'
+            '<p class="arch-desc">'
+            'The intelligence layer is powered by enterprise-grade <b>Azure OpenAI models</b>. '
+            'Responses are streamed token-by-token using <b>Server-Sent Events (SSE)</b> through a persistent HTTP connection pool, '
+            'giving users instant visual feedback with sub-150ms Time To First Token (TTFT).'
+            '</p>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(
+            '<div class="arch-card">'
+            '<div class="arch-title">🔒 4. Asynchronous Audit & Persistence Layer</div>'
+            '<p class="arch-desc">'
+            'All student chat questions, AI completions, and synthesized document summaries are automatically captured into '
+            '<b>Supabase PostgreSQL</b>. Logging is dispatched to background <code>ThreadPoolExecutor</code> workers, ensuring that database saves '
+            'never block the UI or delay token streaming.'
+            '</p>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+    # Technical Specifications Summary
+    st.markdown(
+        '<div class="arch-card" style="margin-top:10px;">'
+        '<div class="arch-title">🛠️ System Specifications & Technology Stack</div>'
+        '<p class="arch-desc">'
+        '• <b>Frontend Runtime:</b> Streamlit with custom CSS & glassmorphic layout.<br>'
+        '• <b>LLM Inference:</b> Azure OpenAI (GPT-4o / GPT-5 deployment) with auto-parameter fallback (<code>max_completion_tokens</code> / <code>max_tokens</code>).<br>'
+        '• <b>Database:</b> Supabase PostgreSQL with asynchronous daemon workers.<br>'
+        '• <b>Fallback Architecture:</b> Offline extractive summarizer & FAQ matcher when cloud API keys are absent.'
+        '</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
