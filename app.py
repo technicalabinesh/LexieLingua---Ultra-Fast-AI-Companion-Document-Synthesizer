@@ -271,35 +271,32 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
     color: #0F172A !important;
 }
 
-/* Chat Bubbles */
-.chat-user {
-    background: #0F172A !important;
-    color: #FFFFFF !important;
-    padding: 14px 22px;
-    border-radius: 22px 22px 4px 22px;
-    margin: 12px 0 12px auto;
-    max-width: 85%;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.2);
-    font-size: 0.96rem;
-    line-height: 1.55;
-}
-.chat-user * { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
-
-.chat-ai {
+/* Native Chat Messages Styled to High-Contrast Solid Cards */
+div[data-testid="stChatMessage"] {
     background: #FFFFFF !important;
-    color: #0F172A !important;
-    padding: 20px 24px;
-    border-radius: 22px 22px 22px 4px;
-    margin: 14px 0;
-    max-width: 95%;
-    border: 1px solid #E2E8F0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    font-size: 0.96rem;
-    line-height: 1.65;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 20px !important;
+    padding: 16px 20px !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
 }
-.chat-ai * { color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; }
 
-/* INLINE CODE FIX - No More Black Rectangles */
+div[data-testid="stChatMessage"] * {
+    color: #0F172A !important;
+}
+
+/* Code Syntax Blocks */
+div[data-testid="stChatMessage"] pre {
+    background: #0F172A !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+}
+
+div[data-testid="stChatMessage"] pre code * {
+    color: #F8FAFC !important;
+}
+
+/* INLINE CODE FIX - Clean Light Badge */
 code:not(pre code) {
     background: #EEF2FF !important;
     color: #3730A3 !important;
@@ -499,25 +496,11 @@ if st.session_state.page == "chat":
             unsafe_allow_html=True,
         )
         
-        chat_container = st.container()
-        with chat_container:
-            for turn in st.session_state.chat_history:
-                if turn["role"] == "user":
-                    st.markdown(
-                        f'<div class="chat-user">'
-                        f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>'
-                        f'<div>{turn["content"]}</div>'
-                        f'</div>',
-                        unsafe_allow_html=True,
-                    )
-                else:
-                    st.markdown(
-                        f'<div class="chat-ai">'
-                        f'<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin-bottom:8px;">✨ LexieLingua AI</div>'
-                        f'{turn["content"]}'
-                        f'</div>',
-                        unsafe_allow_html=True,
-                    )
+        # Render clean chat history
+        for turn in st.session_state.chat_history:
+            role = turn["role"]
+            with st.chat_message(role):
+                st.markdown(turn["content"])
 
         user_input = st.chat_input("Ask LexieLingua AI anything...")
         if st.session_state.pending_prompt:
@@ -525,25 +508,13 @@ if st.session_state.page == "chat":
             st.session_state.pending_prompt = None
 
         if user_input:
-            st.markdown(
-                f'<div class="chat-user">'
-                f'<div style="font-size:0.75rem; opacity:0.85; margin-bottom:4px; font-weight:700;">👤 You</div>'
-                f'<div>{user_input}</div>'
-                f'</div>',
-                unsafe_allow_html=True,
-            )
+            with st.chat_message("user"):
+                st.markdown(user_input)
             save_chat_message(st.session_state.session_id, "user", user_input)
 
-            # Stream into solid AI chat card
-            with st.container():
-                st.markdown(
-                    '<div class="chat-ai">'
-                    '<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin-bottom:8px;">✨ LexieLingua AI</div>',
-                    unsafe_allow_html=True,
-                )
+            with st.chat_message("assistant"):
                 stream_gen = stream_answer(user_input, st.session_state.chat_history)
                 full_ai_response = st.write_stream(stream_gen)
-                st.markdown('</div>', unsafe_allow_html=True)
 
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
@@ -750,7 +721,7 @@ else:
         unsafe_allow_html=True,
     )
 
-    # Row 1: Key Performance Metrics (Uniform Cards)
+    # Row 1: Key Performance Metrics
     m1, m2, m3 = st.columns(3)
     with m1:
         st.markdown(
