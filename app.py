@@ -171,21 +171,7 @@ html, body, [class*="css"] {
 
 /* Hero Section */
 .hero-editorial {
-    padding: 10px 0 20px;
-}
-
-.badge-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 9999px;
-    padding: 6px 16px;
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: #0F172A !important;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 10px 0 18px;
 }
 
 .headline-text {
@@ -222,32 +208,26 @@ html, body, [class*="css"] {
     line-height: 1.5;
 }
 
-/* High-Contrast Solid White Cards */
+/* Solid White Cards */
 .solid-card {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0 !important;
-    border-radius: 26px !important;
-    padding: 26px 30px !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
-    margin-bottom: 18px;
-}
-
-.window-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #F1F5F9;
-    padding-bottom: 12px;
+    border-radius: 22px !important;
+    padding: 20px 24px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
     margin-bottom: 16px;
 }
 
-.window-dots { display: flex; gap: 6px; }
-.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.dot-red { background: #FF5F56; }
-.dot-yellow { background: #FFBD2E; }
-.dot-green { background: #27C93F; }
+.one-line-box {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 18px !important;
+    padding: 16px 22px !important;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
 
-/* Buttons & Segmented Control */
+/* Buttons */
 div[data-testid="stButton"] > button {
     border-radius: 9999px !important;
     font-weight: 800 !important;
@@ -296,9 +276,9 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
     background: #0F172A !important;
     color: #FFFFFF !important;
     padding: 14px 22px;
-    border-radius: 24px 24px 4px 24px;
+    border-radius: 22px 22px 4px 22px;
     margin: 12px 0 12px auto;
-    max-width: 82%;
+    max-width: 85%;
     box-shadow: 0 6px 18px rgba(15, 23, 42, 0.2);
     font-size: 0.96rem;
     line-height: 1.55;
@@ -306,13 +286,14 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
 .chat-user * { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
 
 .chat-ai {
-    background: #F8FAFC !important;
+    background: #FFFFFF !important;
     color: #0F172A !important;
     padding: 18px 24px;
-    border-radius: 24px 24px 24px 4px;
+    border-radius: 22px 22px 22px 4px;
     margin: 12px 0;
-    max-width: 90%;
+    max-width: 92%;
     border: 1px solid #E2E8F0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     font-size: 0.96rem;
     line-height: 1.65;
 }
@@ -322,14 +303,14 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
 div[data-testid="stFileUploader"] {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0 !important;
-    border-radius: 24px !important;
+    border-radius: 22px !important;
     padding: 18px !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] {
     background: #F8FAFC !important;
     border: 2px dashed #94A3B8 !important;
-    border-radius: 18px !important;
+    border-radius: 16px !important;
     padding: 24px 16px !important;
 }
 
@@ -378,51 +359,32 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
     -webkit-text-fill-color: #0F172A !important;
 }
 
-/* Metric Boxes */
-.metric-box {
-    background: #FFFFFF !important;
-    border: 1px solid #E2E8F0;
-    border-radius: 22px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-.metric-val {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #0F172A !important;
-}
-.metric-lbl {
-    font-size: 0.76rem;
-    color: #475569 !important;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-top: 4px;
-}
-
+/* Architecture Uniform Box System */
 .arch-card {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0;
-    border-radius: 24px;
-    padding: 26px;
-    margin-bottom: 18px;
+    border-radius: 22px;
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 .arch-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.18rem;
     font-weight: 800;
     color: #0F172A;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 .arch-desc {
-    font-size: 0.94rem;
+    font-size: 0.92rem;
     color: #334155;
-    line-height: 1.65;
+    line-height: 1.6;
     margin: 0;
 }
 
@@ -435,38 +397,10 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
     border: 1px solid #C7D2FE;
     border-radius: 9999px;
     padding: 4px 12px;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 700;
     margin-right: 6px;
-    margin-top: 6px;
-}
-
-.flow-step {
-    background: #F8FAFC;
-    border: 1.5px solid #E2E8F0;
-    border-radius: 18px;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-}
-.flow-num {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 800;
-    color: #0284C7;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-.flow-name {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #0F172A;
-    margin: 2px 0 6px;
-}
-.flow-text {
-    font-size: 0.88rem;
-    color: #475569;
-    line-height: 1.5;
-    margin: 0;
+    margin-top: 8px;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
@@ -529,7 +463,6 @@ st.write("")
 if st.session_state.page == "chat":
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="badge-tag">⚡ NEXT-GENERATION AI COPILOT</div>'
         '<div class="headline-text">'
         'INTELLIGENCE THAT <span class="sticker sticker-blue">MAKES</span>'
         '<br>STUDENTS <span class="sticker sticker-pink">EXCEL</span> FASTER'
@@ -542,12 +475,12 @@ if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
+        # Clear one-line app description box
         st.markdown(
-            '<div class="solid-card">'
-            '<div class="window-header">'
-            '<div class="window-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
-            '<div style="font-size:0.84rem; font-weight:800; color:#0F172A;">⚡ LexieLingua Neural Engine • Active Workspace</div>'
-            '<div style="width:40px;"></div>'
+            '<div class="one-line-box">'
+            '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
+            '✨ <b>LexieLingua AI:</b> An ultra-fast conversational copilot designed for instant coding synthesis, academic problem-solving, and real-time student support.'
+            '</p>'
             '</div>',
             unsafe_allow_html=True,
         )
@@ -570,12 +503,13 @@ if st.session_state.page == "chat":
                         unsafe_allow_html=True,
                     )
                 else:
-                    with st.container():
-                        st.markdown(
-                            '<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin:10px 0 2px;">✨ LexieLingua AI</div>',
-                            unsafe_allow_html=True,
-                        )
-                        st.markdown(turn["content"])
+                    st.markdown(
+                        f'<div class="chat-ai">'
+                        f'<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin-bottom:8px;">✨ LexieLingua AI</div>'
+                        f'{turn["content"]}'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
 
         user_input = st.chat_input("Ask LexieLingua AI anything...")
         if st.session_state.pending_prompt:
@@ -592,17 +526,23 @@ if st.session_state.page == "chat":
             )
             save_chat_message(st.session_state.session_id, "user", user_input)
 
-            st.markdown('<div style="font-size:0.8rem; color:#0284C7; margin:12px 0 4px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
-            stream_gen = stream_answer(user_input, st.session_state.chat_history)
-            full_ai_response = st.write_stream(stream_gen)
+            # Stream into solid AI chat card
+            with st.container():
+                st.markdown(
+                    '<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:22px; padding:18px 24px; margin:12px 0; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">'
+                    '<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin-bottom:8px;">✨ LexieLingua AI</div>',
+                    unsafe_allow_html=True,
+                )
+                stream_gen = stream_answer(user_input, st.session_state.chat_history)
+                full_ai_response = st.write_stream(stream_gen)
+                st.markdown('</div>', unsafe_allow_html=True)
 
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
             save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
 
-        st.markdown('</div>', unsafe_allow_html=True)
-
         if st.session_state.chat_history:
+            st.write("")
             if st.button("🗑 Clear Chat History", type="secondary", use_container_width=True):
                 st.session_state.chat_history = []
                 st.session_state.session_id = str(uuid.uuid4())
@@ -635,12 +575,21 @@ if st.session_state.page == "chat":
 elif st.session_state.page == "summarizer":
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="badge-tag">📄 DOCUMENT SYNTHESIS</div>'
         '<div class="headline-text">'
         'SYNTHESIZE <span class="sticker sticker-blue">KNOWLEDGE</span>'
         '<br>IN SECONDS'
         '</div>'
         '<div class="sub-editorial">— Drop textbooks, lecture notes, or research papers for clean, structured takeaways.</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # One-line app description box for document synthesizer
+    st.markdown(
+        '<div class="one-line-box">'
+        '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
+        '📄 <b>Document Synthesizer:</b> Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights in seconds.'
+        '</p>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -703,7 +652,6 @@ elif st.session_state.page == "summarizer":
 elif st.session_state.page == "history":
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="badge-tag">📊 AUDIT & LOGS</div>'
         '<div class="headline-text">'
         'ACTIVITY & <span class="sticker sticker-pink">HISTORY</span>'
         '<br>RECORDS'
@@ -782,75 +730,63 @@ elif st.session_state.page == "history":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# VIEW 4: IN-DEPTH ARCHITECTURAL WHITE PAPER & SPECIFICATIONS
+# VIEW 4: ARCHITECTURE (UNIFORM STRUCTURED GRID)
 # ============================================================
 else:
     st.markdown(
         '<div class="hero-editorial">'
-        '<div class="badge-tag">⚙️ SYSTEM FOUNDRY</div>'
         '<div class="headline-text">'
         'HIGH-THROUGHPUT <span class="sticker sticker-blue">NEURAL</span>'
         '<br>FOUNDRY'
         '</div>'
-        '<div class="sub-editorial">— Comprehensive technical whitepaper on LexieLingua AI\'s multi-tier cognitive architecture and streaming infrastructure.</div>'
+        '<div class="sub-editorial">— Technical architecture and low-latency specifications of the LexieLingua AI platform.</div>'
         '</div>',
         unsafe_allow_html=True,
     )
 
-    # 3 High-Level Metric Boxes
+    # Row 1: Key Performance Metrics (Uniform Cards)
     m1, m2, m3 = st.columns(3)
     with m1:
-        st.markdown('<div class="metric-box"><div class="metric-val">&lt; 150 ms</div><div class="metric-lbl">Time to First Token (TTFT)</div></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="arch-card" style="text-align:center;">'
+            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#0F172A;">&lt; 150 ms</div>'
+            '<div style="font-size:0.78rem; color:#475569; font-weight:800; text-transform:uppercase; margin-top:4px;">Time To First Token (TTFT)</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
     with m2:
-        st.markdown('<div class="metric-box"><div class="metric-val">Non-Blocking</div><div class="metric-lbl">Async DB Daemon Threading</div></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="arch-card" style="text-align:center;">'
+            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#0F172A;">Non-Blocking</div>'
+            '<div style="font-size:0.78rem; color:#475569; font-weight:800; text-transform:uppercase; margin-top:4px;">Async Daemon Database I/O</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
     with m3:
-        st.markdown('<div class="metric-box"><div class="metric-val">Pooled HTTP/2</div><div class="metric-lbl">Persistent TCP Connection Pool</div></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="arch-card" style="text-align:center;">'
+            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#0F172A;">Pooled HTTP/2</div>'
+            '<div style="font-size:0.78rem; color:#475569; font-weight:800; text-transform:uppercase; margin-top:4px;">Persistent Socket Connection</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
 
     st.write("")
 
-    # Section 1: End-to-End System Execution Flow
-    st.markdown(
-        '<div class="solid-card">'
-        '<div class="arch-title">🔄 End-to-End Execution Pipeline</div>'
-        '<p class="arch-desc" style="margin-bottom:18px;">How a user request transforms from raw input to sub-150ms token stream and asynchronous persistence:</p>'
-        '<div class="flow-step">'
-        '<div class="flow-num">Stage 01 • Reactive Client Ingestion</div>'
-        '<div class="flow-name">Payload Extraction & In-Memory Sanitization</div>'
-        '<p class="flow-text">User prompts or binary document uploads (PDF, DOCX, TXT) are read directly into memory buffers. Documents undergo zero-disk parsing using <code>pypdf</code> and <code>python-docx</code>, extracting textual tokens with zero file-system latency.</p>'
-        '</div>'
-        '<div class="flow-step">'
-        '<div class="flow-num">Stage 02 • Context Orchestration & Memory Slicing</div>'
-        '<div class="flow-name">Sliding-Window Token Manager</div>'
-        '<p class="flow-text">To eliminate context window bloat and reduce TTFT, the context layer maintains a sliding window of recent conversation turns. It injects structured system directives while preventing prompt size from inflating gateway transfer times.</p>'
-        '</div>'
-        '<div class="flow-step">'
-        '<div class="flow-num">Stage 03 • Neural Gateway & SSE Streaming</div>'
-        '<div class="flow-name">Azure OpenAI GPT-4o / GPT-5 Foundry</div>'
-        '<p class="flow-text">A singleton HTTP connection pool with keep-alive socket reuse dispatches requests to Azure OpenAI. Tokens are received via Server-Sent Events (SSE) and streamed to the UI in real-time with automatic parameter resilience (<code>max_completion_tokens</code> / <code>max_tokens</code>).</p>'
-        '</div>'
-        '<div class="flow-step">'
-        '<div class="flow-num">Stage 04 • Asynchronous Audit Logging</div>'
-        '<div class="flow-name">Non-Blocking Worker Thread Persistence</div>'
-        '<p class="flow-text">While tokens render in the UI, logging tasks are submitted to a background <code>ThreadPoolExecutor</code>. Writes to Supabase PostgreSQL (chat logs, word counts, summaries) run in detached worker threads without freezing the rendering thread.</p>'
-        '</div>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
+    # Row 2: 4 Core Modules in Uniform 2x2 Grid
+    c1, c2 = st.columns(2)
 
-    # Section 2: Detailed 4-Tier Deep Dive
-    a1, a2 = st.columns(2)
-
-    with a1:
+    with c1:
         st.markdown(
             '<div class="arch-card">'
             '<div class="arch-title">📥 1. Ingestion Engine</div>'
             '<p class="arch-desc">'
-            '• <b>PDF Extraction:</b> Stream-oriented page-by-page token traversal via <code>pypdf.PdfReader</code>.<br>'
-            '• <b>Word Processing:</b> XML DOM paragraph extraction with <code>docx.Document</code>.<br>'
-            '• <b>Markdown / Text:</b> UTF-8 stream normalization with non-destructive character fallback.<br>'
-            '• <b>Zero-Disk I/O:</b> Uploaded payloads are processed strictly in RAM (BytesIO) for maximum throughput.'
+            '• <b>PDF Processing:</b> Stream-oriented page-by-page traversal using <code>pypdf.PdfReader</code>.<br>'
+            '• <b>Word Extraction:</b> XML DOM paragraph extraction via <code>docx.Document</code>.<br>'
+            '• <b>Text Normalization:</b> UTF-8 sanitization with non-destructive fallback.<br>'
+            '• <b>Zero-Disk I/O:</b> Entire ingestion cycle runs in RAM buffers (BytesIO).'
             '</p>'
-            '<div style="margin-top:12px;">'
+            '<div style="margin-top:auto; padding-top:12px;">'
             '<span class="tech-chip">pypdf</span>'
             '<span class="tech-chip">python-docx</span>'
             '<span class="tech-chip">In-Memory BytesIO</span>'
@@ -859,50 +795,59 @@ else:
             unsafe_allow_html=True,
         )
 
+    with c2:
         st.markdown(
             '<div class="arch-card">'
-            '<div class="arch-title">🧠 2. Context & Latency Tuning</div>'
+            '<div class="arch-title">🧠 2. Context & Memory Manager</div>'
             '<p class="arch-desc">'
-            '• <b>Sliding-Window Memory:</b> Constrains prompt history to recent high-relevance turns, preserving conversational continuity while saving tokens.<br>'
-            '• <b>Connection Pooling:</b> Pre-warmed TLS sockets eliminate TCP handshake delays on subsequent prompts.<br>'
-            '• <b>Sub-150ms TTFT:</b> Chunked generator streaming renders first words almost instantaneously.'
+            '• <b>Sliding-Window Memory:</b> Preserves conversational context while capping prompt token overhead.<br>'
+            '• <b>Connection Pooling:</b> Reusable keep-alive HTTP/2 sockets avoid TCP handshakes.<br>'
+            '• <b>Latency Optimization:</b> Direct token streaming for sub-second visual responsiveness.<br>'
+            '• <b>Direct Injection:</b> Clean system directives for concise reasoning.'
             '</p>'
-            '<div style="margin-top:12px;">'
-            '<span class="tech-chip">HTTP/2 Keep-Alive</span>'
-            '<span class="tech-chip">Token Truncation</span>'
+            '<div style="margin-top:auto; padding-top:12px;">'
             '<span class="tech-chip">Sliding Window</span>'
+            '<span class="tech-chip">TCP Keep-Alive</span>'
+            '<span class="tech-chip">Stream Pipeline</span>'
             '</div>'
             '</div>',
             unsafe_allow_html=True,
         )
 
-    with a2:
+    st.write("")
+
+    c3, c4 = st.columns(2)
+
+    with c3:
         st.markdown(
             '<div class="arch-card">'
             '<div class="arch-title">⚡ 3. Dual-Mode Neural Foundry</div>'
             '<p class="arch-desc">'
-            '• <b>Cloud Mode (Online):</b> High-throughput Azure OpenAI GPT-4o / GPT-5 deployment with auto-detect parameter fallback.<br>'
-            '• <b>Heuristic Mode (Offline):</b> Fallback TF-IDF word-frequency sentence scoring and key-point ranking when cloud credentials are unavailable.<br>'
-            '• <b>Error Resilience:</b> Zero-crash guarantees against gateway timeouts or parameter mismatches.'
+            '• <b>Cloud Model:</b> High-throughput Azure OpenAI (GPT-4o / GPT-5) streaming endpoints.<br>'
+            '• <b>Parameter Resilience:</b> Adaptive fallbacks between <code>max_completion_tokens</code> and <code>max_tokens</code>.<br>'
+            '• <b>Offline Heuristics:</b> Deterministic TF-IDF sentence frequency graph scoring.<br>'
+            '• <b>High Availability:</b> 100% platform uptime even without API keys.'
             '</p>'
-            '<div style="margin-top:12px;">'
+            '<div style="margin-top:auto; padding-top:12px;">'
             '<span class="tech-chip">Azure OpenAI</span>'
-            '<span class="tech-chip">TF-IDF Fallback</span>'
+            '<span class="tech-chip">TF-IDF Scoring</span>'
             '<span class="tech-chip">Auto-Resilience</span>'
             '</div>'
             '</div>',
             unsafe_allow_html=True,
         )
 
+    with c4:
         st.markdown(
             '<div class="arch-card">'
             '<div class="arch-title">🔒 4. Asynchronous Audit Layer</div>'
             '<p class="arch-desc">'
-            '• <b>Database:</b> Supabase PostgreSQL managing <code>student_chat_logs</code> and <code>student_uploaded_docs</code>.<br>'
-            '• <b>Threading Model:</b> Non-blocking <code>ThreadPoolExecutor(max_workers=4)</code> offloads network I/O.<br>'
-            '• <b>Audit Trail:</b> Full session tracking including question queries, AI answers, original word counts, and compression ratios.'
+            '• <b>Database Storage:</b> Supabase PostgreSQL managing chat queries and document summaries.<br>'
+            '• <b>Worker Thread Pool:</b> Non-blocking <code>ThreadPoolExecutor</code> offloads all database I/O.<br>'
+            '• <b>Zero-Lag Logging:</b> Database transactions never stall live token rendering.<br>'
+            '• <b>Complete Auditability:</b> Captures word counts, compression stats, and timestamps.'
             '</p>'
-            '<div style="margin-top:12px;">'
+            '<div style="margin-top:auto; padding-top:12px;">'
             '<span class="tech-chip">Supabase PostgreSQL</span>'
             '<span class="tech-chip">ThreadPool Daemon</span>'
             '<span class="tech-chip">Audit Logs</span>'
@@ -910,49 +855,3 @@ else:
             '</div>',
             unsafe_allow_html=True,
         )
-
-    # Section 3: Performance Benchmark Table
-    st.markdown(
-        '<div class="solid-card">'
-        '<div class="arch-title">📊 System Performance & Benchmark Specifications</div>'
-        '<div style="overflow-x:auto;">'
-        '<table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.92rem; color:#0F172A;">'
-        '<thead>'
-        '<tr style="border-bottom:2px solid #E2E8F0; background:#F8FAFC;">'
-        '<th style="padding:12px 16px;">Component / Pipeline Metric</th>'
-        '<th style="padding:12px 16px;">Cloud AI Mode</th>'
-        '<th style="padding:12px 16px;">Offline Heuristic Mode</th>'
-        '<th style="padding:12px 16px;">Architectural Purpose</th>'
-        '</tr>'
-        '</thead>'
-        '<tbody>'
-        '<tr style="border-bottom:1px solid #E2E8F0;">'
-        '<td style="padding:12px 16px; font-weight:700;">Time To First Token (TTFT)</td>'
-        '<td style="padding:12px 16px; color:#166534; font-weight:700;">&lt; 140 ms</td>'
-        '<td style="padding:12px 16px; color:#166534; font-weight:700;">&lt; 15 ms (Instant)</td>'
-        '<td style="padding:12px 16px; color:#475569;">Eliminates perceived user waiting lag</td>'
-        '</tr>'
-        '<tr style="border-bottom:1px solid #E2E8F0;">'
-        '<td style="padding:12px 16px; font-weight:700;">Document Parsing Speed</td>'
-        '<td style="padding:12px 16px;">~50 pages / sec</td>'
-        '<td style="padding:12px 16px;">~50 pages / sec</td>'
-        '<td style="padding:12px 16px; color:#475569;">In-memory stream processing without disk caching</td>'
-        '</tr>'
-        '<tr style="border-bottom:1px solid #E2E8F0;">'
-        '<td style="padding:12px 16px; font-weight:700;">Database Write Overhead</td>'
-        '<td style="padding:12px 16px; color:#166534; font-weight:700;">0.0 ms (Async Thread)</td>'
-        '<td style="padding:12px 16px; color:#166534; font-weight:700;">0.0 ms (Async Thread)</td>'
-        '<td style="padding:12px 16px; color:#475569;">Prevents database network I/O from stalling the UI</td>'
-        '</tr>'
-        '<tr>'
-        '<td style="padding:12px 16px; font-weight:700;">Crash Resilience & Fallback</td>'
-        '<td style="padding:12px 16px;">Auto-failover to Heuristics</td>'
-        '<td style="padding:12px 16px;">Deterministic Extraction</td>'
-        '<td style="padding:12px 16px; color:#475569;">Guarantees uninterrupted platform uptime</td>'
-        '</tr>'
-        '</tbody>'
-        '</table>'
-        '</div>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
