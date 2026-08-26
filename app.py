@@ -58,17 +58,15 @@ except Exception:
 # ============================================================
 # ASYNC AUDIT & HISTORY LOGGERS
 # ============================================================
-def _async_save_chat_message(student_id: str, session_id: str, role: str, content: str):
+def _async_save_chat_message(session_id: str, role: str, content: str):
     if supabase_client:
         try:
             supabase_client.table("student_chat_logs").insert({
-                "student_id": student_id,
                 "session_id": session_id,
                 "role": role,
                 "message": content
             }).execute()
         except Exception:
-            # Fallback table if custom table is not created
             try:
                 supabase_client.table("chat_history").insert({
                     "session_id": session_id,
@@ -78,14 +76,13 @@ def _async_save_chat_message(student_id: str, session_id: str, role: str, conten
             except Exception:
                 pass
 
-def save_chat_message(student_id: str, session_id: str, role: str, content: str):
-    _DB_EXECUTOR.submit(_async_save_chat_message, student_id, session_id, role, content)
+def save_chat_message(session_id: str, role: str, content: str):
+    _DB_EXECUTOR.submit(_async_save_chat_message, session_id, role, content)
 
-def _async_save_doc_summary(student_id: str, session_id: str, filename: str, file_type: str, raw_text: str, summary: str):
+def _async_save_doc_summary(session_id: str, filename: str, file_type: str, raw_text: str, summary: str):
     if supabase_client:
         try:
             supabase_client.table("student_uploaded_docs").insert({
-                "student_id": student_id,
                 "session_id": session_id,
                 "filename": filename,
                 "file_type": file_type,
@@ -95,7 +92,6 @@ def _async_save_doc_summary(student_id: str, session_id: str, filename: str, fil
                 "summary_word_count": len(summary.split()),
             }).execute()
         except Exception:
-            # Fallback table
             try:
                 supabase_client.table("document_summaries").insert({
                     "filename": filename,
@@ -106,8 +102,8 @@ def _async_save_doc_summary(student_id: str, session_id: str, filename: str, fil
             except Exception:
                 pass
 
-def save_summary_to_db(student_id: str, session_id: str, filename: str, file_type: str, raw_text: str, summary: str):
-    _DB_EXECUTOR.submit(_async_save_doc_summary, student_id, session_id, filename, file_type, raw_text, summary)
+def save_summary_to_db(session_id: str, filename: str, file_type: str, raw_text: str, summary: str):
+    _DB_EXECUTOR.submit(_async_save_doc_summary, session_id, filename, file_type, raw_text, summary)
 
 # ============================================================
 # CSS DESIGN & CONTRAST POLISH
@@ -324,8 +320,6 @@ st.markdown(PREMIUM_EFFECTS_CSS, unsafe_allow_html=True)
 # State initialization
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
-if "student_id" not in st.session_state:
-    st.session_state.student_id = "student_01"
 if "page" not in st.session_state:
     st.session_state.page = "chat"
 if "chat_history" not in st.session_state:
@@ -350,10 +344,7 @@ status_html = (
 st.markdown(
     f'<div class="nav-container">'
     f'<div class="brand-logo">⚡ LexieLingua Pro</div>'
-    f'<div style="display:flex; align-items:center; gap:12px;">'
-    f'<span style="font-size:0.82rem; font-weight:700; background:#F1F5F9; padding:4px 10px; border-radius:8px; border:1px solid #E2E8F0;">👤 ID: {st.session_state.student_id}</span>'
-    f'{status_html}'
-    f'</div>'
+    f'<div>{status_html}</div>'
     f'</div>',
     unsafe_allow_html=True,
 )
@@ -367,7 +358,7 @@ with nav_cols[1]:
     if st.button("📄 Document Synthesizer", use_container_width=True, type="primary" if st.session_state.page == "summarizer" else "secondary"):
         navigate("summarizer")
 with nav_cols[2]:
-    if st.button("📊 Student History", use_container_width=True, type="primary" if st.session_state.page == "history" else "secondary"):
+    if st.button("📊 History Logs", use_container_width=True, type="primary" if st.session_state.page == "history" else "secondary"):
         navigate("history")
 with nav_cols[3]:
     if st.button("⚙️ Architecture", use_container_width=True, type="primary" if st.session_state.page == "about" else "secondary"):
@@ -429,7 +420,7 @@ if st.session_state.page == "chat":
                 unsafe_allow_html=True,
             )
             # Log question to database
-            save_chat_message(st.session_state.student_id, st.session_state.session_id, "user", user_input)
+            save_chat_message(st.session_state.session_id, "user", user_input)
 
             st.markdown('<div style="font-size:0.78rem; color:#4F46E5; margin:12px 0 4px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
             stream_gen = stream_answer(user_input, st.session_state.chat_history)
@@ -438,7 +429,7 @@ if st.session_state.page == "chat":
             # Update session state & log AI response to database
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
-            save_chat_message(st.session_state.student_id, st.session_state.session_id, "assistant", full_ai_response)
+            save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
 
         if st.session_state.chat_history:
             st.write("")
@@ -525,7 +516,6 @@ elif st.session_state.page == "summarizer":
 
                 # Save asynchronously to Supabase
                 save_summary_to_db(
-                    student_id=st.session_state.student_id,
                     session_id=st.session_state.session_id,
                     filename=doc_file.name,
                     file_type=doc_file.name.split(".")[-1],
@@ -534,27 +524,16 @@ elif st.session_state.page == "summarizer":
                 )
 
 # ============================================================
-# VIEW 3: STUDENT HISTORY & AUDIT LOG
+# VIEW 3: HISTORY & AUDIT LOG
 # ============================================================
 elif st.session_state.page == "history":
     st.markdown(
         '<div class="hero-card">'
-        '<div class="hero-title">Student History & Activity Logs</div>'
+        '<div class="hero-title">Activity & History Logs</div>'
         '<p style="color:#64748B; font-size:0.92rem; margin:0;">Complete audit trail of questions asked, AI answers, uploaded documents, and generated summaries.</p>'
         '</div>',
         unsafe_allow_html=True,
     )
-
-    # Student ID Switcher
-    st.markdown('<div class="ui-card" style="padding:14px 20px;">', unsafe_allow_html=True)
-    id_c1, id_c2 = st.columns([2, 1])
-    with id_c1:
-        new_sid = st.text_input("Active Student ID / Email", value=st.session_state.student_id, label_visibility="collapsed")
-    with id_c2:
-        if st.button("Update Student ID", type="secondary", use_container_width=True):
-            st.session_state.student_id = new_sid.strip()
-            st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
     h_col1, h_col2 = st.columns(2)
 
@@ -570,7 +549,6 @@ elif st.session_state.page == "history":
             try:
                 res = supabase_client.table("student_chat_logs")\
                     .select("role, message, created_at")\
-                    .eq("student_id", st.session_state.student_id)\
                     .order("created_at", desc=True)\
                     .limit(25)\
                     .execute()
@@ -590,7 +568,7 @@ elif st.session_state.page == "history":
                 with st.expander(f"{role_label} (Current Session)"):
                     st.write(item.get("content", ""))
         else:
-            st.info("No recorded chat inquiries for this student yet.")
+            st.info("No recorded chat inquiries yet.")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with h_col2:
@@ -605,7 +583,6 @@ elif st.session_state.page == "history":
             try:
                 res = supabase_client.table("student_uploaded_docs")\
                     .select("filename, file_type, summary, original_word_count, uploaded_at")\
-                    .eq("student_id", st.session_state.student_id)\
                     .order("uploaded_at", desc=True)\
                     .limit(20)\
                     .execute()
@@ -623,7 +600,7 @@ elif st.session_state.page == "history":
                     st.markdown("**Generated Summary:**")
                     st.write(doc.get("summary", "No summary available."))
         else:
-            st.info("No uploaded documents or summaries found for this student.")
+            st.info("No uploaded documents or summaries found.")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
