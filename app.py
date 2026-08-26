@@ -1,5 +1,5 @@
 """
-LexieLingua - Next-Gen AI Student Support & Document Intelligence Platform
+LexieLingua AI - Next-Gen Student Support & Document Intelligence Platform
 """
 
 import os
@@ -35,8 +35,8 @@ from utils import extract_text
 load_dotenv()
 
 st.set_page_config(
-    page_title="LexieLingua AI | Instant Copilot",
-    page_icon="⚡",
+    page_title="LexieLingua AI | Intelligent Copilot",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -232,6 +232,32 @@ code:not(pre code) {
     -webkit-text-fill-color: transparent;
 }
 
+.about-banner {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.06) 0%, rgba(217, 70, 239, 0.05) 100%);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+    border-radius: 18px;
+    padding: 16px 22px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #4F46E5;
+    background: #FFFFFF;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    border: 1px solid #E2E8F0;
+    margin-right: 6px;
+    margin-top: 4px;
+}
+
 div[data-testid="stButton"] > button {
     border-radius: 12px !important;
     font-weight: 700 !important;
@@ -343,7 +369,7 @@ status_html = (
 
 st.markdown(
     f'<div class="nav-container">'
-    f'<div class="brand-logo">⚡ LexieLingua Pro</div>'
+    f'<div class="brand-logo">✨ LexieLingua AI</div>'
     f'<div>{status_html}</div>'
     f'</div>',
     unsafe_allow_html=True,
@@ -370,6 +396,27 @@ st.write("")
 # VIEW 1: CONVERSATIONAL AI
 # ============================================================
 if st.session_state.page == "chat":
+    # Application Intro Banner
+    st.markdown(
+        '<div class="about-banner">'
+        '<div style="font-size: 2rem;">🚀</div>'
+        '<div>'
+        '<div style="font-weight: 800; font-size: 1.05rem; color: #1E293B; margin-bottom: 2px;">Welcome to LexieLingua AI</div>'
+        '<div style="color: #475569; font-size: 0.88rem; line-height: 1.45;">'
+        'LexieLingua AI is an intelligent student copilot designed for <b>instant query resolution</b>, '
+        '<b>code synthesis</b>, and <b>real-time document analysis</b>. Ask any academic or programming question below to get started.'
+        '</div>'
+        '<div style="margin-top: 6px;">'
+        '<span class="feature-tag">⚡ Sub-Second Streaming</span>'
+        '<span class="feature-tag">💻 Code & Algorithm Help</span>'
+        '<span class="feature-tag">📄 PDF & Document Synthesis</span>'
+        '<span class="feature-tag">🔒 Background Audit Logs</span>'
+        '</div>'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
     left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
@@ -385,7 +432,7 @@ if st.session_state.page == "chat":
         with chat_container:
             if not st.session_state.chat_history:
                 st.markdown(
-                    '<div class="chat-ai">👋 <b>Welcome! I am LexieLingua.</b><br>Ask any coding, math, or study question for an instant answer.</div>',
+                    '<div class="chat-ai">👋 <b>Welcome! I am LexieLingua AI.</b><br>Ask any coding, math, or study question for an instant answer.</div>',
                     unsafe_allow_html=True,
                 )
 
@@ -406,7 +453,7 @@ if st.session_state.page == "chat":
                         )
                         st.markdown(turn["content"])
 
-        user_input = st.chat_input("Ask anything...")
+        user_input = st.chat_input("Ask LexieLingua AI anything...")
         if st.session_state.pending_prompt:
             user_input = st.session_state.pending_prompt
             st.session_state.pending_prompt = None
@@ -466,7 +513,7 @@ elif st.session_state.page == "summarizer":
     st.markdown(
         '<div class="hero-card">'
         '<div class="hero-title">Live Document Synthesizer</div>'
-        '<p style="color:#64748B; font-size:0.92rem; margin:0;">Instant, streamed analysis of PDF, DOCX, TXT, or Markdown documents.</p>'
+        '<p style="color:#64748B; font-size:0.92rem; margin:0;">Upload lecture slides, textbooks, or research papers (PDF, DOCX, TXT, MD) for instant executive summaries.</p>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -604,13 +651,16 @@ elif st.session_state.page == "history":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# VIEW 4: ARCHITECTURE
+# VIEW 4: ARCHITECTURE & ABOUT
 # ============================================================
 else:
     st.markdown(
         '<div class="hero-card">'
-        '<div class="hero-title">Ultra-Low-Latency Architecture</div>'
-        '<p style="color:#64748B; font-size:0.92rem; margin:0;">LexieLingua employs non-blocking asynchronous threads and persistent connection pooling for instant token delivery.</p>'
+        '<div class="hero-title">About LexieLingua AI</div>'
+        '<p style="color:#64748B; font-size:0.95rem; line-height:1.6; margin:0;">'
+        '<b>LexieLingua AI</b> is a high-performance, ultra-low-latency platform designed to assist students and educators with instant answers, code debugging, and document synthesis. '
+        'It combines real-time streaming LLM engines with persistent connection pooling and asynchronous database logging.'
+        '</p>'
         '</div>',
         unsafe_allow_html=True,
     )
