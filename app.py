@@ -208,7 +208,16 @@ html, body, [class*="css"] {
     line-height: 1.5;
 }
 
-/* Solid White Cards */
+/* One-line Description Card */
+.one-line-box {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 18px !important;
+    padding: 16px 22px !important;
+    margin-bottom: 18px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
 .solid-card {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0 !important;
@@ -216,15 +225,6 @@ html, body, [class*="css"] {
     padding: 20px 24px !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
     margin-bottom: 16px;
-}
-
-.one-line-box {
-    background: #FFFFFF !important;
-    border: 1px solid #E2E8F0 !important;
-    border-radius: 18px !important;
-    padding: 16px 22px !important;
-    margin-bottom: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Buttons */
@@ -288,23 +288,37 @@ div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
 .chat-ai {
     background: #FFFFFF !important;
     color: #0F172A !important;
-    padding: 18px 24px;
+    padding: 20px 24px;
     border-radius: 22px 22px 22px 4px;
-    margin: 12px 0;
-    max-width: 92%;
+    margin: 14px 0;
+    max-width: 95%;
     border: 1px solid #E2E8F0;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     font-size: 0.96rem;
     line-height: 1.65;
 }
 .chat-ai * { color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; }
 
-/* File Uploader */
+/* INLINE CODE FIX - No More Black Rectangles */
+code:not(pre code) {
+    background: #EEF2FF !important;
+    color: #3730A3 !important;
+    -webkit-text-fill-color: #3730A3 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    font-size: 0.9em !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    border: 1px solid #C7D2FE !important;
+}
+
+/* File Uploader Light Polish */
 div[data-testid="stFileUploader"] {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0 !important;
     border-radius: 22px !important;
-    padding: 18px !important;
+    padding: 16px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] {
@@ -359,7 +373,7 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
     -webkit-text-fill-color: #0F172A !important;
 }
 
-/* Architecture Uniform Box System */
+/* Architecture Cards */
 .arch-card {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0;
@@ -487,12 +501,6 @@ if st.session_state.page == "chat":
         
         chat_container = st.container()
         with chat_container:
-            if not st.session_state.chat_history:
-                st.markdown(
-                    '<div class="chat-ai">👋 <b>Welcome to LexieLingua AI.</b><br>Ask me any coding question, algorithm derivation, or exam problem for an instant streamed response.</div>',
-                    unsafe_allow_html=True,
-                )
-
             for turn in st.session_state.chat_history:
                 if turn["role"] == "user":
                     st.markdown(
@@ -529,7 +537,7 @@ if st.session_state.page == "chat":
             # Stream into solid AI chat card
             with st.container():
                 st.markdown(
-                    '<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:22px; padding:18px 24px; margin:12px 0; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">'
+                    '<div class="chat-ai">'
                     '<div style="font-size:0.8rem; color:#0284C7; font-weight:800; margin-bottom:8px;">✨ LexieLingua AI</div>',
                     unsafe_allow_html=True,
                 )
@@ -584,7 +592,7 @@ elif st.session_state.page == "summarizer":
         unsafe_allow_html=True,
     )
 
-    # One-line app description box for document synthesizer
+    # One-line app description box
     st.markdown(
         '<div class="one-line-box">'
         '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
@@ -594,7 +602,6 @@ elif st.session_state.page == "summarizer":
         unsafe_allow_html=True,
     )
 
-    st.markdown('<div class="solid-card">', unsafe_allow_html=True)
     up_col, opt_col = st.columns([2.2, 1])
     with up_col:
         doc_file = st.file_uploader("Upload document", type=["pdf", "docx", "txt", "md"], label_visibility="collapsed")
@@ -611,7 +618,7 @@ elif st.session_state.page == "summarizer":
                 st.error("❌ No readable text found in document.")
             else:
                 st.markdown(
-                    f'<div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:20px; padding:22px; margin-top:18px;">'
+                    f'<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:22px; padding:24px; margin-top:18px; box-shadow:0 10px 30px rgba(0,0,0,0.12);">'
                     f'<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
                     f'<h3 style="margin:0 0 12px; font-weight:800; font-size:1.2rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
                     unsafe_allow_html=True,
@@ -644,7 +651,6 @@ elif st.session_state.page == "summarizer":
                     raw_text=raw_text,
                     summary=full_summary
                 )
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
 # VIEW 3: HISTORY & AUDIT LOG
