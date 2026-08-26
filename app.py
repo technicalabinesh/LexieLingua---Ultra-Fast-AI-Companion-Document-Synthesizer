@@ -36,7 +36,7 @@ load_dotenv()
 
 st.set_page_config(
     page_title="LexieLingua AI | Intelligent Copilot",
-    page_icon="✨",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -143,11 +143,30 @@ html, body, [class*="css"] {
 
 .top-brand {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 800;
     letter-spacing: 0.04em;
     color: #0F172A !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
+
+/* Traffic Light macOS Dots */
+.window-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot-red { background: #FF5F56; box-shadow: 0 0 6px rgba(255, 95, 86, 0.5); }
+.dot-yellow { background: #FFBD2E; box-shadow: 0 0 6px rgba(255, 189, 46, 0.5); }
+.dot-green { background: #27C93F; box-shadow: 0 0 6px rgba(39, 201, 63, 0.5); }
 
 .top-pill {
     display: inline-flex;
@@ -214,8 +233,10 @@ html, body, [class*="css"] {
     border: 1px solid #E2E8F0 !important;
     border-radius: 18px !important;
     padding: 16px 22px !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 16px !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+    display: flex;
+    align-items: center;
 }
 
 .solid-card {
@@ -258,20 +279,33 @@ div[data-testid="stButton"] > button[kind="primary"] {
     box-shadow: 0 8px 25px rgba(15, 23, 42, 0.4) !important;
 }
 
-/* Chat Input Bar */
+/* Crisp & Clear Chat Input Bar */
+div[data-testid="stChatInput"] {
+    padding-top: 10px !important;
+}
+
 div[data-testid="stChatInput"] > div {
     background: #FFFFFF !important;
-    border: 2px solid #CBD5E1 !important;
+    border: 2px solid #94A3B8 !important;
     border-radius: 9999px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
-    padding: 6px 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    padding: 6px 14px !important;
 }
 
-div[data-testid="stChatInput"] input, div[data-testid="stChatInput"] textarea {
+div[data-testid="stChatInput"] textarea {
     color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
+    font-size: 0.96rem !important;
+    font-weight: 600 !important;
 }
 
-/* Native Chat Messages Styled to High-Contrast Solid Cards */
+div[data-testid="stChatInput"] textarea::placeholder {
+    color: #64748B !important;
+    -webkit-text-fill-color: #64748B !important;
+    font-weight: 500 !important;
+}
+
+/* Chat Messages */
 div[data-testid="stChatMessage"] {
     background: #FFFFFF !important;
     border: 1px solid #E2E8F0 !important;
@@ -285,7 +319,6 @@ div[data-testid="stChatMessage"] * {
     color: #0F172A !important;
 }
 
-/* Code Syntax Blocks */
 div[data-testid="stChatMessage"] pre {
     background: #0F172A !important;
     border-radius: 12px !important;
@@ -296,7 +329,7 @@ div[data-testid="stChatMessage"] pre code * {
     color: #F8FAFC !important;
 }
 
-/* INLINE CODE FIX - Clean Light Badge */
+/* Inline Code Badges */
 code:not(pre code) {
     background: #EEF2FF !important;
     color: #3730A3 !important;
@@ -350,11 +383,6 @@ div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summa
     font-weight: 800 !important;
     font-size: 0.95rem !important;
     opacity: 1 !important;
-}
-
-div[data-testid="stExpander"] summary svg, details[data-testid="stExpander"] summary svg {
-    fill: #0F172A !important;
-    stroke: #0F172A !important;
 }
 
 div[data-testid="stExpanderDetails"], details[data-testid="stExpander"] > div {
@@ -435,7 +463,7 @@ def navigate(page: str):
     st.session_state.page = page
     st.rerun()
 
-# Top Header Bar
+# Top Header Bar with 3 macOS Traffic Dots
 ai_connected = chat_ai_available()
 status_html = (
     '<div class="top-pill"><span class="pulse-dot"></span>Sub-150ms Live Neural Engine</div>'
@@ -445,7 +473,10 @@ status_html = (
 
 st.markdown(
     f'<div class="top-header">'
-    f'<div class="top-brand">✨ LexieLingua AI</div>'
+    f'<div class="top-brand">'
+    f'<span class="window-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></span>'
+    f'<span>LexieLingua AI</span>'
+    f'</div>'
     f'{status_html}'
     f'</div>',
     unsafe_allow_html=True,
@@ -486,11 +517,12 @@ if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
-        # Clear one-line app description box
+        # Clear description card with 3 macOS traffic dots
         st.markdown(
             '<div class="one-line-box">'
+            '<div class="window-dots" style="margin-right:12px;"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
             '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
-            '✨ <b>LexieLingua AI:</b> An ultra-fast conversational copilot designed for instant coding synthesis, academic problem-solving, and real-time student support.'
+            '<b>LexieLingua AI:</b> An ultra-fast conversational copilot designed for instant coding synthesis, academic problem-solving, and real-time student support.'
             '</p>'
             '</div>',
             unsafe_allow_html=True,
@@ -502,7 +534,7 @@ if st.session_state.page == "chat":
             with st.chat_message(role):
                 st.markdown(turn["content"])
 
-        user_input = st.chat_input("Ask LexieLingua AI anything...")
+        user_input = st.chat_input("Type your question or request code here...")
         if st.session_state.pending_prompt:
             user_input = st.session_state.pending_prompt
             st.session_state.pending_prompt = None
@@ -563,11 +595,12 @@ elif st.session_state.page == "summarizer":
         unsafe_allow_html=True,
     )
 
-    # One-line app description box
+    # One-line app description box with 3 macOS traffic dots
     st.markdown(
         '<div class="one-line-box">'
+        '<div class="window-dots" style="margin-right:12px;"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
         '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
-        '📄 <b>Document Synthesizer:</b> Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights in seconds.'
+        '<b>Document Synthesizer:</b> Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights in seconds.'
         '</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -578,7 +611,7 @@ elif st.session_state.page == "summarizer":
         doc_file = st.file_uploader("Upload document", type=["pdf", "docx", "txt", "md"], label_visibility="collapsed")
     with opt_col:
         summary_len = st.select_slider("Target Detail Level", options=["Short", "Medium", "Long"], value="Medium")
-        run_sum = st.button("✨ Distill Document", type="primary", use_container_width=True)
+        run_sum = st.button("⚡ Distill Document", type="primary", use_container_width=True)
 
     if run_sum:
         if not doc_file:
@@ -661,13 +694,13 @@ elif st.session_state.page == "history":
 
         if db_chat_logs:
             for item in db_chat_logs:
-                role_label = "👤 Question" if item["role"] == "user" else "✨ LexieLingua Answer"
+                role_label = "👤 Question" if item["role"] == "user" else "⚡ LexieLingua Answer"
                 created = item.get("created_at", "")[:16].replace("T", " ")
                 with st.expander(f"{role_label} ({created})", expanded=False):
                     st.write(item.get("message", ""))
         elif st.session_state.chat_history:
             for item in reversed(st.session_state.chat_history):
-                role_label = "👤 Question" if item["role"] == "user" else "✨ LexieLingua Answer"
+                role_label = "👤 Question" if item["role"] == "user" else "⚡ LexieLingua Answer"
                 with st.expander(f"{role_label} (Current Session)", expanded=False):
                     st.write(item.get("content", ""))
         else:
