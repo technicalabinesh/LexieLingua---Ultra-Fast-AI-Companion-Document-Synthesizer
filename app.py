@@ -112,11 +112,12 @@ PIXSO_SAAS_CSS = """
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    --primary-gradient: linear-gradient(135deg, #FF2E93 0%, #7928CA 50%, #4F46E5 100%);
-    --sunset-gradient: linear-gradient(135deg, #FF5B79 0%, #903AFF 50%, #20E3B2 100%);
-    --card-bg: rgba(255, 255, 255, 0.92);
-    --card-border: rgba(255, 255, 255, 0.6);
-    --glow-shadow: 0 20px 50px -15px rgba(255, 46, 147, 0.25), 0 10px 30px -10px rgba(79, 70, 229, 0.2);
+    --primary-pink: #FF1361;
+    --primary-purple: #903AFF;
+    --primary-gradient: linear-gradient(135deg, #FF1361 0%, #903AFF 100%);
+    --card-bg: rgba(255, 255, 255, 0.88);
+    --card-border: rgba(255, 255, 255, 0.95);
+    --glow-shadow: 0 20px 45px -15px rgba(255, 19, 97, 0.18), 0 10px 30px -10px rgba(144, 58, 255, 0.15);
 }
 
 html, body, [class*="css"] {
@@ -126,9 +127,9 @@ html, body, [class*="css"] {
 /* Pixso Sunset Mesh Gradient Canvas */
 .stApp {
     background: 
-        radial-gradient(circle at 10% 20%, rgba(255, 46, 147, 0.45) 0%, transparent 45%),
-        radial-gradient(circle at 85% 15%, rgba(144, 58, 255, 0.40) 0%, transparent 50%),
-        radial-gradient(circle at 50% 85%, rgba(251, 146, 60, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 12% 18%, rgba(255, 46, 147, 0.38) 0%, transparent 45%),
+        radial-gradient(circle at 88% 12%, rgba(144, 58, 255, 0.35) 0%, transparent 50%),
+        radial-gradient(circle at 50% 88%, rgba(251, 146, 60, 0.28) 0%, transparent 45%),
         linear-gradient(145deg, #FDF2F8 0%, #F5F3FF 40%, #FFF7ED 100%) !important;
     background-attachment: fixed;
 }
@@ -140,14 +141,14 @@ html, body, [class*="css"] {
 
 /* Header Frosted Navbar */
 .nav-container {
-    background: rgba(255, 255, 255, 0.78) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.95);
     border-radius: 9999px;
     padding: 12px 28px;
-    box-shadow: 0 10px 35px -5px rgba(15, 23, 42, 0.05);
-    margin-bottom: 24px;
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -186,10 +187,9 @@ html, body, [class*="css"] {
     box-shadow: 0 0 10px #22C55E;
 }
 
-/* Hero Section (Pixso Aesthetic) */
+/* Hero Section */
 .hero-wrapper {
-    padding: 10px 0 24px;
-    text-align: left;
+    padding: 8px 0 20px;
 }
 
 .hero-badge {
@@ -201,10 +201,10 @@ html, body, [class*="css"] {
     font-size: 0.82rem;
     font-weight: 800;
     color: #FF1361;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 19, 97, 0.2);
     box-shadow: 0 4px 12px rgba(255, 19, 97, 0.08);
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .hero-main-title {
@@ -213,7 +213,7 @@ html, body, [class*="css"] {
     line-height: 1.15;
     letter-spacing: -0.04em;
     color: #0F172A;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .hero-gradient-text {
@@ -223,23 +223,23 @@ html, body, [class*="css"] {
 }
 
 .hero-desc {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     color: #475569;
     line-height: 1.6;
     max-width: 720px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
-/* Floating Glassmorphic App Mockup Window */
+/* Floating Glassmorphic App Window */
 .mockup-window {
     background: var(--card-bg) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     border: 1.5px solid var(--card-border) !important;
     border-radius: 28px !important;
-    box-shadow: var(--glow-shadow), 0 25px 50px -12px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: var(--glow-shadow), 0 25px 50px -12px rgba(0, 0, 0, 0.06) !important;
     padding: 24px 28px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .window-header {
@@ -261,28 +261,29 @@ html, body, [class*="css"] {
 .dot-green { background: #27C93F; }
 
 .ui-card {
-    background: #FFFFFF !important;
-    border: 1px solid rgba(226, 232, 240, 0.9) !important;
-    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.95) !important;
+    border-radius: 24px;
     padding: 22px;
-    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
     margin-bottom: 16px;
 }
 
-/* Buttons */
+/* Nav & Action Buttons */
 div[data-testid="stButton"] > button {
     border-radius: 9999px !important;
     font-weight: 800 !important;
-    font-size: 0.92rem !important;
+    font-size: 0.9rem !important;
     min-height: 44px !important;
     transition: all 0.25s ease !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
-    background: rgba(255, 255, 255, 0.9) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     color: #1E293B !important;
-    border: 1.5px solid rgba(226, 232, 240, 0.9) !important;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
+    border: 1.5px solid #E2E8F0 !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
@@ -290,25 +291,25 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     border-color: #FF1361 !important;
     color: #FF1361 !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 19, 97, 0.15) !important;
+    box-shadow: 0 8px 20px rgba(255, 19, 97, 0.12) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"] {
     background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
     color: #FFFFFF !important;
     border: none !important;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2) !important;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.3) !important;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.25) !important;
 }
 
 /* Chat Input Bar */
 div[data-testid="stChatInput"] > div {
     background: #FFFFFF !important;
-    border: 1.5px solid rgba(203, 213, 225, 0.8) !important;
+    border: 1.5px solid #CBD5E1 !important;
     border-radius: 9999px !important;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08) !important;
     padding: 4px 8px !important;
@@ -334,16 +335,36 @@ div[data-testid="stChatInput"] > div {
     border-radius: 24px 24px 24px 4px;
     margin: 12px 0;
     max-width: 90%;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04);
     font-size: 0.96rem;
     line-height: 1.65;
 }
 
-.metric-box {
+/* Beautiful Frosted File Uploader (No Dark Box) */
+div[data-testid="stFileUploader"] {
     background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.95) !important;
+    border-radius: 24px !important;
+    padding: 16px !important;
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04) !important;
+}
+
+div[data-testid="stFileUploaderDropzone"] {
+    background: #FAFAFC !important;
+    border: 2px dashed #CBD5E1 !important;
+    border-radius: 18px !important;
+    padding: 24px 16px !important;
+}
+
+div[data-testid="stFileUploaderDropzone"] * {
+    color: #334155 !important;
+}
+
+.metric-box {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 22px;
     padding: 18px;
     text-align: center;
     box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04);
