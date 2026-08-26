@@ -41,7 +41,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-_DB_EXECUTOR = ThreadPoolExecutor(max_workers=3)
+# Background executor for zero-latency non-blocking DB writes
+_DB_EXECUTOR = ThreadPoolExecutor(max_workers=4)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
@@ -54,36 +55,63 @@ try:
 except Exception:
     supabase_client = None
 
-def _async_save_chat_message(session_id: str, role: str, content: str):
+# ============================================================
+# ASYNC AUDIT & HISTORY LOGGERS
+# ============================================================
+def _async_save_chat_message(student_id: str, session_id: str, role: str, content: str):
     if supabase_client:
         try:
-            supabase_client.table("chat_history").insert({
+            supabase_client.table("student_chat_logs").insert({
+                "student_id": student_id,
                 "session_id": session_id,
                 "role": role,
-                "content": content
+                "message": content
             }).execute()
         except Exception:
-            pass
+            # Fallback table if custom table is not created
+            try:
+                supabase_client.table("chat_history").insert({
+                    "session_id": session_id,
+                    "role": role,
+                    "content": content
+                }).execute()
+            except Exception:
+                pass
 
-def save_chat_message(session_id: str, role: str, content: str):
-    _DB_EXECUTOR.submit(_async_save_chat_message, session_id, role, content)
+def save_chat_message(student_id: str, session_id: str, role: str, content: str):
+    _DB_EXECUTOR.submit(_async_save_chat_message, student_id, session_id, role, content)
 
-def _async_save_summary(summary_data: dict):
+def _async_save_doc_summary(student_id: str, session_id: str, filename: str, file_type: str, raw_text: str, summary: str):
     if supabase_client:
         try:
-            supabase_client.table("document_summaries").insert({
-                "filename": summary_data.get("filename"),
-                "summary": summary_data.get("summary"),
-                "key_points": summary_data.get("key_points", []),
-                "original_words": summary_data.get("original_words", 0),
-                "summary_words": summary_data.get("summary_words", 0),
+            supabase_client.table("student_uploaded_docs").insert({
+                "student_id": student_id,
+                "session_id": session_id,
+                "filename": filename,
+                "file_type": file_type,
+                "extracted_text_preview": raw_text[:2000],
+                "summary": summary,
+                "original_word_count": len(raw_text.split()),
+                "summary_word_count": len(summary.split()),
             }).execute()
         except Exception:
-            pass
+            # Fallback table
+            try:
+                supabase_client.table("document_summaries").insert({
+                    "filename": filename,
+                    "summary": summary,
+                    "original_words": len(raw_text.split()),
+                    "summary_words": len(summary.split()),
+                }).execute()
+            except Exception:
+                pass
 
-def save_summary_to_db(summary_data: dict):
-    _DB_EXECUTOR.submit(_async_save_summary, summary_data)
+def save_summary_to_db(student_id: str, session_id: str, filename: str, file_type: str, raw_text: str, summary: str):
+    _DB_EXECUTOR.submit(_async_save_doc_summary, student_id, session_id, filename, file_type, raw_text, summary)
 
+# ============================================================
+# CSS DESIGN & CONTRAST POLISH
+# ============================================================
 PREMIUM_EFFECTS_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -95,13 +123,11 @@ PREMIUM_EFFECTS_CSS = """
     --glass-shadow: 0 14px 34px -10px rgba(99, 102, 241, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
 }
 
-/* Global Typography & High Contrast Fixes */
 html, body, p, h1, h2, h3, h4, h5, h6, span, label, div {
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
     color: #0F172A;
 }
 
-/* Bullet Points & Lists Visibility Fix */
 ul, ol {
     margin-left: 20px !important;
     padding-left: 10px !important;
@@ -119,7 +145,6 @@ li::marker {
     font-weight: bold !important;
 }
 
-/* Inline Code Badges */
 code:not(pre code) {
     background: #EEF2FF !important;
     color: #4338CA !important;
@@ -150,7 +175,7 @@ code:not(pre code) {
     border-radius: 18px;
     padding: 14px 26px;
     box-shadow: var(--glass-shadow);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -211,7 +236,6 @@ code:not(pre code) {
     -webkit-text-fill-color: transparent;
 }
 
-/* Crisp Clean Buttons */
 div[data-testid="stButton"] > button {
     border-radius: 12px !important;
     font-weight: 700 !important;
@@ -297,12 +321,17 @@ div[data-testid="stChatInput"] > div {
 """
 st.markdown(PREMIUM_EFFECTS_CSS, unsafe_allow_html=True)
 
+# State initialization
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
+if "student_id" not in st.session_state:
+    st.session_state.student_id = "student_01"
 if "page" not in st.session_state:
     st.session_state.page = "chat"
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
+if "local_doc_history" not in st.session_state:
+    st.session_state.local_doc_history = []
 if "pending_prompt" not in st.session_state:
     st.session_state.pending_prompt = None
 
@@ -310,6 +339,7 @@ def navigate(page: str):
     st.session_state.page = page
     st.rerun()
 
+# Top Navbar
 ai_connected = chat_ai_available()
 status_html = (
     '<span class="status-pill status-online"><span class="status-dot"></span>Low-Latency Engine Active</span>'
@@ -320,12 +350,16 @@ status_html = (
 st.markdown(
     f'<div class="nav-container">'
     f'<div class="brand-logo">⚡ LexieLingua Pro</div>'
-    f'<div>{status_html}</div>'
+    f'<div style="display:flex; align-items:center; gap:12px;">'
+    f'<span style="font-size:0.82rem; font-weight:700; background:#F1F5F9; padding:4px 10px; border-radius:8px; border:1px solid #E2E8F0;">👤 ID: {st.session_state.student_id}</span>'
+    f'{status_html}'
+    f'</div>'
     f'</div>',
     unsafe_allow_html=True,
 )
 
-nav_cols = st.columns(3)
+# 4 Navigation Tabs
+nav_cols = st.columns(4)
 with nav_cols[0]:
     if st.button("💬 Conversational AI", use_container_width=True, type="primary" if st.session_state.page == "chat" else "secondary"):
         navigate("chat")
@@ -333,7 +367,10 @@ with nav_cols[1]:
     if st.button("📄 Document Synthesizer", use_container_width=True, type="primary" if st.session_state.page == "summarizer" else "secondary"):
         navigate("summarizer")
 with nav_cols[2]:
-    if st.button("⚙️ Neural Architecture", use_container_width=True, type="primary" if st.session_state.page == "about" else "secondary"):
+    if st.button("📊 Student History", use_container_width=True, type="primary" if st.session_state.page == "history" else "secondary"):
+        navigate("history")
+with nav_cols[3]:
+    if st.button("⚙️ Architecture", use_container_width=True, type="primary" if st.session_state.page == "about" else "secondary"):
         navigate("about")
 
 st.write("")
@@ -391,15 +428,17 @@ if st.session_state.page == "chat":
                 f'</div>',
                 unsafe_allow_html=True,
             )
-            save_chat_message(st.session_state.session_id, "user", user_input)
+            # Log question to database
+            save_chat_message(st.session_state.student_id, st.session_state.session_id, "user", user_input)
 
             st.markdown('<div style="font-size:0.78rem; color:#4F46E5; margin:12px 0 4px; font-weight:800;">✨ LexieLingua AI</div>', unsafe_allow_html=True)
             stream_gen = stream_answer(user_input, st.session_state.chat_history)
             full_ai_response = st.write_stream(stream_gen)
 
+            # Update session state & log AI response to database
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             st.session_state.chat_history.append({"role": "assistant", "content": full_ai_response})
-            save_chat_message(st.session_state.session_id, "assistant", full_ai_response)
+            save_chat_message(st.session_state.student_id, st.session_state.session_id, "assistant", full_ai_response)
 
         if st.session_state.chat_history:
             st.write("")
@@ -473,17 +512,122 @@ elif st.session_state.page == "summarizer":
 
                 st.markdown('</div>', unsafe_allow_html=True)
 
-                summary_payload = {
+                # Store locally in session
+                doc_record = {
                     "filename": doc_file.name,
+                    "file_type": doc_file.name.split(".")[-1].upper(),
                     "summary": full_summary,
-                    "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "uploaded_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
                     "original_words": len(raw_text.split()),
                     "summary_words": len(full_summary.split()),
                 }
-                save_summary_to_db(summary_payload)
+                st.session_state.local_doc_history.insert(0, doc_record)
+
+                # Save asynchronously to Supabase
+                save_summary_to_db(
+                    student_id=st.session_state.student_id,
+                    session_id=st.session_state.session_id,
+                    filename=doc_file.name,
+                    file_type=doc_file.name.split(".")[-1],
+                    raw_text=raw_text,
+                    summary=full_summary
+                )
 
 # ============================================================
-# VIEW 3: ARCHITECTURE
+# VIEW 3: STUDENT HISTORY & AUDIT LOG
+# ============================================================
+elif st.session_state.page == "history":
+    st.markdown(
+        '<div class="hero-card">'
+        '<div class="hero-title">Student History & Activity Logs</div>'
+        '<p style="color:#64748B; font-size:0.92rem; margin:0;">Complete audit trail of questions asked, AI answers, uploaded documents, and generated summaries.</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # Student ID Switcher
+    st.markdown('<div class="ui-card" style="padding:14px 20px;">', unsafe_allow_html=True)
+    id_c1, id_c2 = st.columns([2, 1])
+    with id_c1:
+        new_sid = st.text_input("Active Student ID / Email", value=st.session_state.student_id, label_visibility="collapsed")
+    with id_c2:
+        if st.button("Update Student ID", type="secondary", use_container_width=True):
+            st.session_state.student_id = new_sid.strip()
+            st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    h_col1, h_col2 = st.columns(2)
+
+    with h_col1:
+        st.markdown(
+            '<div class="ui-card">'
+            '<h3 style="margin:0 0 12px; font-weight:800; font-size:1.1rem;">💬 Questions & Chat History</h3>',
+            unsafe_allow_html=True,
+        )
+
+        db_chat_logs = []
+        if supabase_client:
+            try:
+                res = supabase_client.table("student_chat_logs")\
+                    .select("role, message, created_at")\
+                    .eq("student_id", st.session_state.student_id)\
+                    .order("created_at", desc=True)\
+                    .limit(25)\
+                    .execute()
+                db_chat_logs = res.data or []
+            except Exception:
+                db_chat_logs = []
+
+        if db_chat_logs:
+            for item in db_chat_logs:
+                role_label = "👤 Question" if item["role"] == "user" else "✨ LexieLingua Answer"
+                created = item.get("created_at", "")[:16].replace("T", " ")
+                with st.expander(f"{role_label} ({created})"):
+                    st.write(item.get("message", ""))
+        elif st.session_state.chat_history:
+            for item in reversed(st.session_state.chat_history):
+                role_label = "👤 Question" if item["role"] == "user" else "✨ LexieLingua Answer"
+                with st.expander(f"{role_label} (Current Session)"):
+                    st.write(item.get("content", ""))
+        else:
+            st.info("No recorded chat inquiries for this student yet.")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with h_col2:
+        st.markdown(
+            '<div class="ui-card">'
+            '<h3 style="margin:0 0 12px; font-weight:800; font-size:1.1rem;">📁 Uploaded Documents & Summaries</h3>',
+            unsafe_allow_html=True,
+        )
+
+        db_doc_logs = []
+        if supabase_client:
+            try:
+                res = supabase_client.table("student_uploaded_docs")\
+                    .select("filename, file_type, summary, original_word_count, uploaded_at")\
+                    .eq("student_id", st.session_state.student_id)\
+                    .order("uploaded_at", desc=True)\
+                    .limit(20)\
+                    .execute()
+                db_doc_logs = res.data or []
+            except Exception:
+                db_doc_logs = []
+
+        combined_docs = db_doc_logs if db_doc_logs else st.session_state.local_doc_history
+
+        if combined_docs:
+            for doc in combined_docs:
+                uploaded = doc.get("uploaded_at", "")[:16].replace("T", " ")
+                orig_words = doc.get("original_word_count", doc.get("original_words", 0))
+                with st.expander(f"📄 {doc.get('filename')} • {orig_words} words ({uploaded})"):
+                    st.markdown("**Generated Summary:**")
+                    st.write(doc.get("summary", "No summary available."))
+        else:
+            st.info("No uploaded documents or summaries found for this student.")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# ============================================================
+# VIEW 4: ARCHITECTURE
 # ============================================================
 else:
     st.markdown(
