@@ -105,9 +105,9 @@ def save_summary_to_db(session_id: str, filename: str, file_type: str, raw_text:
     _DB_EXECUTOR.submit(_async_save_doc_summary, session_id, filename, file_type, raw_text, summary)
 
 # ============================================================
-# CINEMATIC DARK FROSTED GLASS CSS (NO SOLID WHITE)
+# HIGH CONTRAST SOLID & GLASS DESIGN CSS
 # ============================================================
-CINEMATIC_GLASS_CSS = """
+EDITORIAL_NATURE_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
@@ -115,10 +115,9 @@ html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
 }
 
-/* Background with Cinematic Deep Nature Tint */
 .stApp {
     background: 
-        linear-gradient(180deg, rgba(8, 14, 26, 0.70) 0%, rgba(8, 14, 26, 0.50) 45%, rgba(8, 14, 26, 0.85) 100%),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.45) 45%, rgba(15, 23, 42, 0.75) 100%),
         url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop") no-repeat center center fixed !important;
     background-size: cover !important;
     background-attachment: fixed !important;
@@ -129,19 +128,17 @@ html, body, [class*="css"] {
     padding: 1.2rem 2rem 4.5rem;
 }
 
-/* Header Navbar - Dark Frosted Glass */
+/* Header Navbar */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(15, 23, 42, 0.75) !important;
-    backdrop-filter: blur(28px) !important;
-    -webkit-backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.95);
     border-radius: 9999px;
     padding: 12px 28px;
     margin-bottom: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .top-brand {
@@ -149,7 +146,7 @@ html, body, [class*="css"] {
     font-size: 1.25rem;
     font-weight: 800;
     letter-spacing: 0.04em;
-    color: #FFFFFF !important;
+    color: #0F172A !important;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -167,9 +164,9 @@ html, body, [class*="css"] {
     border-radius: 50%;
     display: inline-block;
 }
-.dot-red { background: #FF5F56; box-shadow: 0 0 8px rgba(255, 95, 86, 0.7); }
-.dot-yellow { background: #FFBD2E; box-shadow: 0 0 8px rgba(255, 189, 46, 0.7); }
-.dot-green { background: #27C93F; box-shadow: 0 0 8px rgba(39, 201, 63, 0.7); }
+.dot-red { background: #FF5F56; box-shadow: 0 0 6px rgba(255, 95, 86, 0.5); }
+.dot-yellow { background: #FFBD2E; box-shadow: 0 0 6px rgba(255, 189, 46, 0.5); }
+.dot-green { background: #27C93F; box-shadow: 0 0 6px rgba(39, 201, 63, 0.5); }
 
 .top-pill {
     display: inline-flex;
@@ -179,9 +176,9 @@ html, body, [class*="css"] {
     border-radius: 9999px;
     font-size: 0.82rem;
     font-weight: 800;
-    background: rgba(34, 197, 94, 0.15) !important;
-    color: #4ADE80 !important;
-    border: 1px solid rgba(74, 222, 128, 0.3);
+    background: #F0FDF4 !important;
+    color: #166534 !important;
+    border: 1px solid #BBF7D0;
 }
 .pulse-dot {
     width: 8px;
@@ -203,7 +200,7 @@ html, body, [class*="css"] {
     line-height: 1.08;
     letter-spacing: -0.04em;
     color: #FFFFFF !important;
-    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     text-transform: uppercase;
     margin-bottom: 8px;
 }
@@ -214,7 +211,7 @@ html, body, [class*="css"] {
     border-radius: 10px;
     font-weight: 800;
     font-size: 0.9rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     vertical-align: middle;
     margin: 0 6px;
 }
@@ -223,45 +220,35 @@ html, body, [class*="css"] {
 
 .sub-editorial {
     font-size: 1.05rem;
-    color: #E2E8F0 !important;
+    color: #F1F5F9 !important;
     font-weight: 600;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
     max-width: 720px;
     line-height: 1.5;
 }
 
-/* Frosted Glass One-line Description Card */
+/* One-line Description Card */
 .one-line-box {
-    background: rgba(15, 23, 42, 0.75) !important;
-    backdrop-filter: blur(28px) !important;
-    -webkit-backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-radius: 20px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 18px !important;
     padding: 16px 22px !important;
     margin-bottom: 16px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
     display: flex;
     align-items: center;
 }
-.one-line-box * {
-    color: #F8FAFC !important;
-}
 
 .solid-card {
-    background: rgba(15, 23, 42, 0.78) !important;
-    backdrop-filter: blur(28px) !important;
-    -webkit-backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-radius: 24px !important;
-    padding: 22px 26px !important;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35) !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 22px !important;
+    padding: 20px 24px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
     margin-bottom: 16px;
 }
-.solid-card * {
-    color: #F8FAFC !important;
-}
 
-/* Nav & Action Buttons */
+/* Buttons */
 div[data-testid="stButton"] > button {
     border-radius: 9999px !important;
     font-weight: 800 !important;
@@ -271,75 +258,71 @@ div[data-testid="stButton"] > button {
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
-    background: rgba(15, 23, 42, 0.65) !important;
-    backdrop-filter: blur(20px) !important;
-    color: #F8FAFC !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1.5px solid #E2E8F0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    background: rgba(30, 41, 59, 0.9) !important;
-    border-color: #38BDF8 !important;
-    color: #38BDF8 !important;
+    background: #F8FAFC !important;
+    border-color: #0284C7 !important;
+    color: #0284C7 !important;
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.25) !important;
+    box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"] {
-    background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%) !important;
+    background: #0F172A !important;
     color: #FFFFFF !important;
     border: none !important;
-    box-shadow: 0 8px 25px rgba(2, 132, 199, 0.4) !important;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.4) !important;
 }
 
-/* Chat Input Bar */
+/* Crisp & Clear Chat Input Bar */
 div[data-testid="stChatInput"] {
     padding-top: 10px !important;
 }
 
 div[data-testid="stChatInput"] > div {
-    background: rgba(15, 23, 42, 0.85) !important;
-    backdrop-filter: blur(28px) !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+    background: #FFFFFF !important;
+    border: 2px solid #94A3B8 !important;
     border-radius: 9999px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
     padding: 6px 14px !important;
 }
 
 div[data-testid="stChatInput"] textarea {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
     font-size: 0.96rem !important;
     font-weight: 600 !important;
 }
 
 div[data-testid="stChatInput"] textarea::placeholder {
-    color: #94A3B8 !important;
-    -webkit-text-fill-color: #94A3B8 !important;
+    color: #64748B !important;
+    -webkit-text-fill-color: #64748B !important;
+    font-weight: 500 !important;
 }
 
-/* Chat Bubbles - Deep Translucent Frosted Glass */
+/* Chat Messages */
 div[data-testid="stChatMessage"] {
-    background: rgba(15, 23, 42, 0.78) !important;
-    backdrop-filter: blur(28px) !important;
-    -webkit-backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
-    border-radius: 24px !important;
-    padding: 20px 24px !important;
-    margin-bottom: 14px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35) !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 20px !important;
+    padding: 16px 20px !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
 }
 
 div[data-testid="stChatMessage"] * {
-    color: #F8FAFC !important;
+    color: #0F172A !important;
 }
 
 div[data-testid="stChatMessage"] pre {
-    background: #020617 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 14px !important;
-    padding: 16px !important;
+    background: #0F172A !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
 }
 
 div[data-testid="stChatMessage"] pre code * {
@@ -348,97 +331,90 @@ div[data-testid="stChatMessage"] pre code * {
 
 /* Inline Code Badges */
 code:not(pre code) {
-    background: rgba(56, 189, 248, 0.18) !important;
-    color: #38BDF8 !important;
-    -webkit-text-fill-color: #38BDF8 !important;
+    background: #EEF2FF !important;
+    color: #3730A3 !important;
+    -webkit-text-fill-color: #3730A3 !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-weight: 700 !important;
     font-size: 0.9em !important;
     padding: 3px 8px !important;
     border-radius: 6px !important;
-    border: 1px solid rgba(56, 189, 248, 0.3) !important;
+    border: 1px solid #C7D2FE !important;
 }
 
-/* File Uploader Frosted Style */
+/* File Uploader Light Polish */
 div[data-testid="stFileUploader"] {
-    background: rgba(15, 23, 42, 0.75) !important;
-    backdrop-filter: blur(24px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    border-radius: 24px !important;
-    padding: 18px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 22px !important;
+    padding: 16px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] {
-    background: rgba(2, 6, 23, 0.5) !important;
-    border: 2px dashed rgba(255, 255, 255, 0.25) !important;
-    border-radius: 18px !important;
+    background: #F8FAFC !important;
+    border: 2px dashed #94A3B8 !important;
+    border-radius: 16px !important;
     padding: 24px 16px !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] * {
-    color: #F8FAFC !important;
+    color: #0F172A !important;
 }
 
-/* Expander Dark Glass Style */
+/* Expander Contrast Fix */
 div[data-testid="stExpander"], details[data-testid="stExpander"] {
-    background: rgba(15, 23, 42, 0.75) !important;
-    backdrop-filter: blur(24px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
-    border-radius: 18px !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid #CBD5E1 !important;
+    border-radius: 16px !important;
     margin-bottom: 12px !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
 }
 
 div[data-testid="stExpander"] summary, details[data-testid="stExpander"] summary {
-    background: transparent !important;
-    border-radius: 18px !important;
-    padding: 14px 20px !important;
+    background: #FFFFFF !important;
+    border-radius: 16px !important;
+    padding: 12px 18px !important;
 }
 
 div[data-testid="stExpander"] summary *, details[data-testid="stExpander"] summary * {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
     font-weight: 800 !important;
     font-size: 0.95rem !important;
-}
-
-div[data-testid="stExpander"] summary svg, details[data-testid="stExpander"] summary svg {
-    fill: #38BDF8 !important;
-    stroke: #38BDF8 !important;
+    opacity: 1 !important;
 }
 
 div[data-testid="stExpanderDetails"], details[data-testid="stExpander"] > div {
-    background: rgba(2, 6, 23, 0.4) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: #F8FAFC !important;
+    border-top: 1px solid #E2E8F0 !important;
     padding: 16px 20px !important;
-    border-bottom-left-radius: 18px !important;
-    border-bottom-right-radius: 18px !important;
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
 }
 
 div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div * {
-    color: #E2E8F0 !important;
-    -webkit-text-fill-color: #E2E8F0 !important;
+    color: #0F172A !important;
+    -webkit-text-fill-color: #0F172A !important;
 }
 
-/* Architecture Uniform Dark Glass Cards */
+/* Architecture Cards */
 .arch-card {
-    background: rgba(15, 23, 42, 0.78) !important;
-    backdrop-filter: blur(28px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 24px;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0;
+    border-radius: 22px;
     padding: 24px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 .arch-title {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.18rem;
     font-weight: 800;
-    color: #FFFFFF;
+    color: #0F172A;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -446,7 +422,7 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
 }
 .arch-desc {
     font-size: 0.92rem;
-    color: #CBD5E1;
+    color: #334155;
     line-height: 1.6;
     margin: 0;
 }
@@ -455,9 +431,9 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(56, 189, 248, 0.15);
-    color: #38BDF8;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: #EEF2FF;
+    color: #3730A3;
+    border: 1px solid #C7D2FE;
     border-radius: 9999px;
     padding: 4px 12px;
     font-size: 0.76rem;
@@ -469,7 +445,7 @@ div[data-testid="stExpanderDetails"] *, details[data-testid="stExpander"] > div 
 #MainMenu, footer, header { visibility: hidden; }
 </style>
 """
-st.markdown(CINEMATIC_GLASS_CSS, unsafe_allow_html=True)
+st.markdown(EDITORIAL_NATURE_CSS, unsafe_allow_html=True)
 
 # State initialization
 if "session_id" not in st.session_state:
@@ -492,7 +468,7 @@ ai_connected = chat_ai_available()
 status_html = (
     '<div class="top-pill"><span class="pulse-dot"></span>Sub-150ms Live Neural Engine</div>'
     if ai_connected
-    else '<div class="top-pill" style="background:rgba(245,158,11,0.15); color:#FBBF24; border-color:rgba(245,158,11,0.3);">● Offline Mode</div>'
+    else '<div class="top-pill" style="background:#FFFBEB; color:#B45309; border-color:#FDE68A;">● Offline Mode</div>'
 )
 
 st.markdown(
@@ -541,18 +517,18 @@ if st.session_state.page == "chat":
     left_col, right_col = st.columns([2.6, 1.1])
 
     with left_col:
-        # One-line description in frosted dark glass
+        # Clear description card with 3 macOS traffic dots
         st.markdown(
             '<div class="one-line-box">'
             '<div class="window-dots" style="margin-right:12px;"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
-            '<p style="margin:0; font-weight:600; font-size:0.95rem; line-height:1.5;">'
+            '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
             '<b>LexieLingua AI:</b> An ultra-fast conversational copilot designed for instant coding synthesis, academic problem-solving, and real-time student support.'
             '</p>'
             '</div>',
             unsafe_allow_html=True,
         )
         
-        # Render clean dark-glass chat messages
+        # Render clean chat history
         for turn in st.session_state.chat_history:
             role = turn["role"]
             with st.chat_message(role):
@@ -586,8 +562,8 @@ if st.session_state.page == "chat":
     with right_col:
         st.markdown(
             '<div class="solid-card">'
-            '<div style="font-size:0.8rem; font-weight:800; color:#38BDF8; text-transform:uppercase; margin-bottom:4px;">Quick Actions</div>'
-            '<h4 style="margin:0 0 14px; font-weight:800; font-size:1.1rem; font-family:\'Space Grotesk\', sans-serif;">⚡ Instant Prompts</h4>',
+            '<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:4px;">Quick Actions</div>'
+            '<h4 style="margin:0 0 14px; font-weight:800; font-size:1.1rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">⚡ Instant Prompts</h4>',
             unsafe_allow_html=True,
         )
         
@@ -619,10 +595,11 @@ elif st.session_state.page == "summarizer":
         unsafe_allow_html=True,
     )
 
+    # One-line app description box with 3 macOS traffic dots
     st.markdown(
         '<div class="one-line-box">'
         '<div class="window-dots" style="margin-right:12px;"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>'
-        '<p style="margin:0; font-weight:600; font-size:0.95rem; line-height:1.5;">'
+        '<p style="margin:0; font-weight:600; font-size:0.95rem; color:#0F172A; line-height:1.5;">'
         '<b>Document Synthesizer:</b> Ingest PDF, DOCX, TXT, or Markdown documents to distill high-density summaries, actionable takeaways, and critical insights in seconds.'
         '</p>'
         '</div>',
@@ -645,9 +622,9 @@ elif st.session_state.page == "summarizer":
                 st.error("❌ No readable text found in document.")
             else:
                 st.markdown(
-                    f'<div class="solid-card" style="margin-top:18px;">'
-                    f'<div style="font-size:0.8rem; font-weight:800; color:#38BDF8; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
-                    f'<h3 style="margin:0 0 12px; font-weight:800; font-size:1.2rem; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
+                    f'<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:22px; padding:24px; margin-top:18px; box-shadow:0 10px 30px rgba(0,0,0,0.12);">'
+                    f'<div style="font-size:0.8rem; font-weight:800; color:#0284C7; text-transform:uppercase; margin-bottom:6px;">Synthesized Overview</div>'
+                    f'<h3 style="margin:0 0 12px; font-weight:800; font-size:1.2rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📝 Executive Summary</h3>',
                     unsafe_allow_html=True,
                 )
 
@@ -699,7 +676,7 @@ elif st.session_state.page == "history":
     with h_col1:
         st.markdown(
             '<div class="solid-card">'
-            '<h3 style="margin:0 0 16px; font-weight:800; font-size:1.15rem; font-family:\'Space Grotesk\', sans-serif;">💬 Questions & Chat History</h3>',
+            '<h3 style="margin:0 0 16px; font-weight:800; font-size:1.15rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">💬 Questions & Chat History</h3>',
             unsafe_allow_html=True,
         )
 
@@ -733,7 +710,7 @@ elif st.session_state.page == "history":
     with h_col2:
         st.markdown(
             '<div class="solid-card">'
-            '<h3 style="margin:0 0 16px; font-weight:800; font-size:1.15rem; font-family:\'Space Grotesk\', sans-serif;">📁 Uploaded Documents & Summaries</h3>',
+            '<h3 style="margin:0 0 16px; font-weight:800; font-size:1.15rem; color:#0F172A; font-family:\'Space Grotesk\', sans-serif;">📁 Uploaded Documents & Summaries</h3>',
             unsafe_allow_html=True,
         )
 
@@ -763,7 +740,7 @@ elif st.session_state.page == "history":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# VIEW 4: ARCHITECTURE (UNIFORM DARK GLASS GRID)
+# VIEW 4: ARCHITECTURE (UNIFORM STRUCTURED GRID)
 # ============================================================
 else:
     st.markdown(
@@ -782,24 +759,24 @@ else:
     with m1:
         st.markdown(
             '<div class="arch-card" style="text-align:center;">'
-            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#38BDF8;">&lt; 150 ms</div>'
-            '<div style="font-size:0.78rem; color:#94A3B8; font-weight:800; text-transform:uppercase; margin-top:4px;">Time To First Token (TTFT)</div>'
+            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#0F172A;">&lt; 150 ms</div>'
+            '<div style="font-size:0.78rem; color:#475569; font-weight:800; text-transform:uppercase; margin-top:4px;">Time To First Token (TTFT)</div>'
             '</div>',
             unsafe_allow_html=True,
         )
     with m2:
         st.markdown(
             '<div class="arch-card" style="text-align:center;">'
-            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#38BDF8;">Non-Blocking</div>'
-            '<div style="font-size:0.78rem; color:#94A3B8; font-weight:800; text-transform:uppercase; margin-top:4px;">Async Daemon Database I/O</div>'
+            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#0F172A;">Non-Blocking</div>'
+            '<div style="font-size:0.78rem; color:#475569; font-weight:800; text-transform:uppercase; margin-top:4px;">Async Daemon Database I/O</div>'
             '</div>',
             unsafe_allow_html=True,
         )
     with m3:
         st.markdown(
             '<div class="arch-card" style="text-align:center;">'
-            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#38BDF8;">Pooled HTTP/2</div>'
-            '<div style="font-size:0.78rem; color:#94A3B8; font-weight:800; text-transform:uppercase; margin-top:4px;">Persistent Socket Connection</div>'
+            '<div style="font-family:\'Space Grotesk\', sans-serif; font-size:2rem; font-weight:900; color:#0F172A;">Pooled HTTP/2</div>'
+            '<div style="font-size:0.78rem; color:#475569; font-weight:800; text-transform:uppercase; margin-top:4px;">Persistent Socket Connection</div>'
             '</div>',
             unsafe_allow_html=True,
         )
